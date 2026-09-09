@@ -1,0 +1,1 @@
+{"name":"@jab/curriculum","version":"0.1.0","private":true,"type":"module","exports":{"./704":"./problems/704/index.ts","./704/model":"./problems/704/model.ts","./206":"./problems/206/index.ts","./206/model":"./problems/206/model.ts","./bridge":"./bridge/index.ts"},"dependencies":{"@jab/contracts":"0.1.0"}}

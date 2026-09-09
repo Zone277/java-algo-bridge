@@ -1,0 +1,42 @@
+{
+  "name": "java-algo-bridge",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=24.20.0 <25",
+    "npm": ">=11 <12"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "doctor": "tsx scripts/doctor.ts",
+    "runner:build": "tsx scripts/runner-build.ts",
+    "dev": "tsx scripts/dev.ts",
+    "typecheck": "tsc --noEmit",
+    "build": "vite build --config apps/web/vite.config.ts && tsup apps/api/src/main.ts --format esm --platform node --target node24 --out-dir apps/api/dist --no-splitting"
+  },
+  "dependencies": {
+    "fastify": "5.12.3",
+    "monaco-editor": "0.56.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.3",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.7",
+    "@vitejs/plugin-react": "6.1.1",
+    "tsup": "8.5.1",
+    "tsx": "4.23.13",
+    "typescript": "5.9.3",
+    "vite": "8.2.2"
+  },
+  "overrides": {
+    "dompurify": "3.4.15",
+    "esbuild": "0.28.2"
+  }
+}

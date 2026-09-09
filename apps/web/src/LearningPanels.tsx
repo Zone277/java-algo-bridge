@@ -1,0 +1,43 @@
+import { useEffect, useState } from 'react';
+import type { LessonRuntime } from './registry.js';
+import { ReferencePlayer } from '@jab/visualizer';
+import { REFERENCE_LABEL, type Progress, type ReferenceTrace } from '@jab/contracts';
+import { markHintUsed, markSolutionViewed, updatePrediction } from './progress.js';
+
+export type Section = 'route' | 'syntax' | 'understanding' | 'reference' | 'guided' | 'independent' | 'summary';
+export const sections: { id: Exclude<Section, 'route'>; title: string }[] = [{ id: 'syntax', title: '必要语法' }, { id: 'understanding', title: '读题与推导' }, { id: 'reference', title: '预测与演示' }, { id: 'guided', title: '引导编写' }, { id: 'independent', title: '独立挑战' }, { id: 'summary', title: '学习总结' }];
+type Props = { runtime: LessonRuntime; section: Section; progress: Progress; update: (fn: (p: Progress) => Progress) => void; navigate: (s: Section) => void; loadScaffold: (source: string) => void; };
+export default function LearningPanels({ runtime, section, progress, update, navigate, loadScaffold }: Props) {
+  const { lesson: lesson, demoInputs, buildTrace: buildReferenceTrace, predictionAt } = runtime;
+  const TEST_SUITE_VERSION = lesson.testSuite.version;
+  const [answer, setAnswer] = useState('');
+  const [feedback, setFeedback] = useState('');
+  const [demoId, setDemoId] = useState(demoInputs[0]!.id);
+  const [trace, setTrace] = useState<ReferenceTrace | null>(null);
+  const [traceError, setTraceError] = useState('');
+  const [stage, setStage] = useState(0);
+  const [confirmScaffold, setConfirmScaffold] = useState(false);
+  const [solutionOpen, setSolutionOpen] = useState(false);
+  const [openHints, setOpenHints] = useState<string[]>([]);
+  useEffect(() => {
+    let active = true;
+    setTrace(null);
+    setTraceError('');
+    const demo = demoInputs.find(d => d.id === demoId)!;
+    buildReferenceTrace(demo.input, demo.id).then(t => { if (active) setTrace(t); }).catch(e => { if (active) setTraceError(String(e)); });
+    return () => { active = false; };
+  }, [demoId, buildReferenceTrace, demoInputs]);
+  function markStep(id: string) { update(p => p.completedStepIds.includes(id) ? p : { ...p, completedStepIds: [...p.completedStepIds, id], updatedAt: new Date().toISOString() }); }
+  if (section === 'route') return <section className="learning-panel panel"><p className="eyebrow">YOUR FIRST ALGORITHM</p><h2>从 C 的经验，走到 Java 的{lesson.title}</h2><p>先补齐本题所需的 Java 知识，再预测算法状态，最后亲手编写并运行 Java。访问页面不会自动记录通过。</p><ul>{lesson.objectives.map(x => <li key={x}>{x}</li>)}</ul><button className="primary" data-testid={`lesson-${lesson.id}`} onClick={() => navigate('syntax')}>进入 {lesson.id} · {lesson.title}</button></section>;
+  if (section === 'syntax') return <section className="learning-panel panel"><h2>写算法前，先补齐这几句 Java</h2>{lesson.steps.filter(s => s.kind === 'syntax').map(s => <article key={s.id}><h3>{s.title}</h3><p className="lesson-body">{s.body}</p></article>)}<div className="practice-box"><h3>先预测，再核对</h3><p>{runtime.syntaxCheck.prompt}</p><label>你的预测 <input data-testid="syntax-answer" value={answer} onChange={e => setAnswer(e.target.value)} /></label><button data-testid="syntax-check" onClick={() => { const expected = runtime.syntaxCheck.answer; if (!answer.trim() || (typeof expected === 'number' && (!/^-?\d+$/.test(answer.trim()) || !Number.isSafeInteger(Number(answer))))) { setFeedback('请先填写有效预测，再提交。'); return; } const correct = typeof expected === 'number' ? Number(answer) === expected : answer.trim() === expected; setFeedback((correct ? '正确：' : '再想一想：') + runtime.syntaxCheck.explanation + '这是静态学习检查，并未编译 Java。'); update(p => updatePrediction(p, { checkpointId: lesson.id === '704' ? '704-v1:syntax:length-index' : lesson.lessonVersion + ':syntax:check', answer: typeof expected === 'number' ? { kind: 'int', value: Number(answer) } : { kind: 'text', value: answer.trim() }, correct })); if (correct) markStep('syntax-practice'); }}>提交预测</button><p data-testid="syntax-feedback" role="status">{feedback}</p></div><button onClick={() => navigate('understanding')}>继续读题与推导 →</button></section>;
+  if (section === 'understanding') return <section className="learning-panel panel"><h2>{lesson.id === '704' ? '从逐个寻找，到排除一半' : '读懂任务，推导算法'}</h2>{lesson.steps.filter(s => s.kind === 'understanding' || s.kind === 'derivation').map(s => <article key={s.id}><h3>{s.title}</h3><p className="lesson-body">{s.body}</p></article>)}<button onClick={() => { markStep('understanding-reviewed'); navigate('reference'); }}>我已完成手算，开始预测 →</button></section>;
+  if (section === 'reference') return <section className="learning-panel panel"><h2>先预测，再揭示状态</h2><p className="muted">演示最多 30 项；{lesson.siteLimits.description}</p><p>{REFERENCE_LABEL}</p><label>演示输入 <select data-testid="demo-input" value={demoId} onChange={e => setDemoId(e.target.value)}>{demoInputs.map(d => <option value={d.id} key={d.id}>{d.title}</option>)}</select></label>{traceError && <p role="alert">{traceError}</p>}{trace ? <ReferencePlayer key={`${trace.inputHash}:${trace.algorithmVersion}`} trace={trace} source={lesson.reference.source} predictionAt={index => predictionAt(trace, index)} predictionResults={progress.predictionResults} onPrediction={record => update(p => updatePrediction(p, record))} onViewSolution={() => update(markSolutionViewed)} /> : !traceError && <p>正在生成参考状态…</p>}<button onClick={() => navigate('guided')}>转到引导编写 →</button></section>;
+  function passLabel(mode: 'guided' | 'independent') {
+    const record = mode === 'guided' ? progress.guidedPassed : progress.independentLocalPassed;
+    if (!record) return '尚未通过本站测试';
+    const label = mode === 'guided' ? '引导通过本站测试' : '独立模式通过本站测试';
+    return label + (record.lessonVersion !== progress.lessonVersion ? '（旧课程记录，需重新提交）' : record.testSuiteVersion !== TEST_SUITE_VERSION ? '（旧测试集记录，需重新提交）' : record.sourceHash !== progress.drafts[mode].sourceHash ? '（历史源码，当前草稿已变化）' : '') + (record.viewedSolutionBeforePass ? '（已查看答案）' : record.hintIdsBeforePass.length ? '（使用过提示）' : '');
+  }
+  if (section === 'summary') return <section className="learning-panel panel" data-testid="progress-summary"><h2>我的学习记录</h2><p>学习检查：{progress.predictionResults.length} 处作答，{progress.predictionResults.filter(p => p.correct).length} 处最近答对。</p><p>引导编写：{passLabel('guided')}</p><p>独立编写：{passLabel('independent')}</p><p>答案查看：{progress.viewedSolution ? '已查看（包含展开演示参考代码）' : '未查看'}；提示使用：{progress.hintsUsed.length} 层。</p><p>通过记录只属于对应源码。修改后的当前代码需要重新提交验证；这些记录不代表已经独立掌握。</p>{lesson.steps.filter(s => s.kind === 'summary').map(s => <p className="lesson-body" key={s.id}>{s.body}</p>)}<button onClick={() => navigate('independent')}>回到独立编写</button></section>;
+  return <section className="learning-panel panel"><h2>{section === 'guided' ? '分三步，把思路写成 Java' : '独立挑战：从方法骨架开始'}</h2>{section === 'guided' && <><div className="stage-tabs">{lesson.guided.stages.map((s, i) => <button key={s.id} data-testid={`guided-stage-${i}`} aria-pressed={stage === i} onClick={() => { setStage(i); setConfirmScaffold(false); }}>{i + 1}. 阶段 {i + 1}</button>)}</div><p className="lesson-body">{lesson.guided.stages[stage]!.instruction}</p><p className="muted">阶段切换保留草稿。需要练习支架时明确载入；支架与自检不产生通过记录。</p><button data-testid="guided-load-scaffold" onClick={() => setConfirmScaffold(true)}>载入本阶段支架</button>{confirmScaffold && <div role="alert"><p>将替换引导草稿，独立草稿保持单独保存。</p><button data-testid="guided-confirm-scaffold" onClick={() => { loadScaffold(lesson.guided.stages[stage]!.scaffoldSource); setConfirmScaffold(false); }}>确认载入支架</button><button onClick={() => setConfirmScaffold(false)}>取消</button></div>}<button onClick={() => markStep(lesson.guided.stages[stage]!.id)}>记录本阶段自检完成</button><p>最终请在下方提交完整 Solution 类，由真实 Java 执行器检查。</p></>}{section === 'independent' && <p>独立草稿与引导草稿分开保存。运行只检查当前输入；提交才检查整套本站测试。</p>}<div className="hints"><h3>需要一点帮助？</h3>{lesson.hints.map(h => <div key={h.id}><button data-testid={`hint-${h.level}`} onClick={() => { update(p => markHintUsed(p, h.id)); setOpenHints(old => old.includes(h.id) ? old.filter(x => x !== h.id) : [...old, h.id]); }}>第 {h.level} 层提示</button>{openHints.includes(h.id) && <p className="lesson-body">{h.body}</p>}</div>)}</div><button data-testid="view-solution" onClick={() => { if (!solutionOpen) update(markSolutionViewed); setSolutionOpen(!solutionOpen); }}>{solutionOpen ? '折叠完整答案' : '查看完整答案（会记录）'}</button>{solutionOpen && <pre>{lesson.reference.source}</pre>}<details><summary>常见错误与反例</summary>{lesson.commonErrors.map(e => <article key={e.id}><h3>{e.description}</h3><p>{e.explanation}</p><p>反例：{JSON.stringify(lesson.testSuite.cases.find(c => c.id === e.counterexampleInputId)?.input ?? demoInputs.find(d => d.id === e.counterexampleInputId)?.input ?? e.counterexampleInputId)}</p></article>)}</details></section>;
+}
