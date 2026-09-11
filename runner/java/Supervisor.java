@@ -67,7 +67,7 @@ public final class Supervisor {
       if(args.length>0 && args[0].equals("--probe")) {System.out.println("{\"available\":true}");return;}
       JsonArray inputs=JsonParser.parseString(Files.readString(Path.of("/input/inputs.json"))).getAsJsonArray();
       String problemId=Files.readString(Path.of("/input/problem.txt")).trim();
-      if(!Set.of("704","206").contains(problemId)) throw new IllegalArgumentException("Unregistered problem");
+      if(!Set.of("704","283","977","1","20","206","21","104","70","3").contains(problemId)) throw new IllegalArgumentException("Unregistered problem");
       String compile=run(List.of("javac","-J-Xmx192m","-J-XX:ActiveProcessorCount=1","-proc:none","-implicit:none","-encoding","UTF-8","-cp","/opt/bridge","-sourcepath","/input","-d","/work","/input/Solution.java"),15000);
       response.addProperty("compileMs",(System.nanoTime()-compileStart)/1000000.0);
       response.addProperty("phase","compile");
@@ -75,7 +75,7 @@ public final class Supervisor {
       if(compile.equals("OK")) {
         // Runtime classpath puts immutable platform classes first; remove any student
         // output with reserved names too. Student helper classes cannot replace them.
-        for(String reserved:List.of("ListNode.class","Adapter.class","Supervisor.class")) Files.deleteIfExists(Path.of("/work",reserved));
+        for(String reserved:List.of("ListNode.class","TreeNode.class","Adapter.class","Supervisor.class")) Files.deleteIfExists(Path.of("/work",reserved));
         response.addProperty("phase","execute");
         for(JsonElement input:inputs) {
           String id=UUID.randomUUID().toString();
@@ -90,8 +90,7 @@ public final class Supervisor {
             else { JsonObject actual=JsonParser.parseString(Files.readString(resultFile)).getAsJsonObject();
               state=actual.get("status").getAsString();
               if(state.equals("OK")||state.equals("WRONG_ANSWER")) {
-                if(actual.has("value")) item.add("value",actual.get("value"));
-                if(actual.has("graph")) item.add("graph",actual.get("graph"));
+                if(actual.has("output")) item.add("output",actual.get("output"));
                 if(actual.has("reason")) item.add("reason",actual.get("reason"));
               } }
           }

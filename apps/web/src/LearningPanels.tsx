@@ -1,14 +1,51 @@
 import { useEffect, useState } from 'react';
 import type { LessonRuntime } from './registry.js';
 import { ReferencePlayer } from '@jab/visualizer';
-import { REFERENCE_LABEL, type Progress, type ReferenceTrace } from '@jab/contracts';
+import { AnswerSchema, REFERENCE_LABEL, type Answer, type Progress, type ReferenceTrace } from '@jab/contracts';
 import { markHintUsed, markSolutionViewed, updatePrediction } from './progress.js';
 
 export type Section = 'route' | 'syntax' | 'understanding' | 'reference' | 'guided' | 'independent' | 'summary';
 export const sections: { id: Exclude<Section, 'route'>; title: string }[] = [{ id: 'syntax', title: '必要语法' }, { id: 'understanding', title: '读题与推导' }, { id: 'reference', title: '预测与演示' }, { id: 'guided', title: '引导编写' }, { id: 'independent', title: '独立挑战' }, { id: 'summary', title: '学习总结' }];
 type Props = { runtime: LessonRuntime; section: Section; progress: Progress; update: (fn: (p: Progress) => Progress) => void; navigate: (s: Section) => void; loadScaffold: (source: string) => void; };
+
+type SyntaxCheck = {
+  checkpointId?: string;
+  prompt: string;
+  answer: unknown;
+  explanation: string;
+  options?: readonly { id: string; label: string }[];
+};
+
+function normalizeSyntaxAnswer(value: unknown): Answer | null {
+  const parsed = AnswerSchema.safeParse(value);
+  if (parsed.success) return parsed.data;
+  if (typeof value === 'number' && Number.isSafeInteger(value)) return { kind: 'int', value };
+  if (typeof value === 'string') return { kind: 'text', value };
+  return null;
+}
+
+function enteredSyntaxAnswer(expected: Answer, raw: string): Answer | null {
+  const value = raw.trim();
+  if (!value) return null;
+  if (expected.kind === 'int') {
+    const number = Number(value);
+    return /^-?\d+$/.test(value) && Number.isSafeInteger(number) ? { kind: 'int', value: number } : null;
+  }
+  return expected.kind === 'choice' ? { kind: 'choice', optionId: value } : { kind: 'text', value };
+}
+
+function sameAnswer(actual: Answer, expected: Answer): boolean {
+  if (actual.kind !== expected.kind) return false;
+  if (actual.kind === 'int' && expected.kind === 'int') return actual.value === expected.value;
+  if (actual.kind === 'text' && expected.kind === 'text') return actual.value === expected.value;
+  return actual.kind === 'choice' && expected.kind === 'choice' && actual.optionId === expected.optionId;
+}
+
 export default function LearningPanels({ runtime, section, progress, update, navigate, loadScaffold }: Props) {
   const { lesson: lesson, demoInputs, buildTrace: buildReferenceTrace, predictionAt } = runtime;
+  const syntaxCheck = runtime.syntaxCheck as unknown as SyntaxCheck;
+  const expectedSyntaxAnswer = normalizeSyntaxAnswer(syntaxCheck.answer);
+  const syntaxCheckpointId = syntaxCheck.checkpointId ?? (lesson.id === '704' ? '704-v1:syntax:length-index' : `${lesson.lessonVersion}:syntax:check`);
   const TEST_SUITE_VERSION = lesson.testSuite.version;
   const [answer, setAnswer] = useState('');
   const [feedback, setFeedback] = useState('');
@@ -28,9 +65,9 @@ export default function LearningPanels({ runtime, section, progress, update, nav
     return () => { active = false; };
   }, [demoId, buildReferenceTrace, demoInputs]);
   function markStep(id: string) { update(p => p.completedStepIds.includes(id) ? p : { ...p, completedStepIds: [...p.completedStepIds, id], updatedAt: new Date().toISOString() }); }
-  if (section === 'route') return <section className="learning-panel panel"><p className="eyebrow">YOUR FIRST ALGORITHM</p><h2>从 C 的经验，走到 Java 的{lesson.title}</h2><p>先补齐本题所需的 Java 知识，再预测算法状态，最后亲手编写并运行 Java。访问页面不会自动记录通过。</p><ul>{lesson.objectives.map(x => <li key={x}>{x}</li>)}</ul><button className="primary" data-testid={`lesson-${lesson.id}`} onClick={() => navigate('syntax')}>进入 {lesson.id} · {lesson.title}</button></section>;
-  if (section === 'syntax') return <section className="learning-panel panel"><h2>写算法前，先补齐这几句 Java</h2>{lesson.steps.filter(s => s.kind === 'syntax').map(s => <article key={s.id}><h3>{s.title}</h3><p className="lesson-body">{s.body}</p></article>)}<div className="practice-box"><h3>先预测，再核对</h3><p>{runtime.syntaxCheck.prompt}</p><label>你的预测 <input data-testid="syntax-answer" value={answer} onChange={e => setAnswer(e.target.value)} /></label><button data-testid="syntax-check" onClick={() => { const expected = runtime.syntaxCheck.answer; if (!answer.trim() || (typeof expected === 'number' && (!/^-?\d+$/.test(answer.trim()) || !Number.isSafeInteger(Number(answer))))) { setFeedback('请先填写有效预测，再提交。'); return; } const correct = typeof expected === 'number' ? Number(answer) === expected : answer.trim() === expected; setFeedback((correct ? '正确：' : '再想一想：') + runtime.syntaxCheck.explanation + '这是静态学习检查，并未编译 Java。'); update(p => updatePrediction(p, { checkpointId: lesson.id === '704' ? '704-v1:syntax:length-index' : lesson.lessonVersion + ':syntax:check', answer: typeof expected === 'number' ? { kind: 'int', value: Number(answer) } : { kind: 'text', value: answer.trim() }, correct })); if (correct) markStep('syntax-practice'); }}>提交预测</button><p data-testid="syntax-feedback" role="status">{feedback}</p></div><button onClick={() => navigate('understanding')}>继续读题与推导 →</button></section>;
-  if (section === 'understanding') return <section className="learning-panel panel"><h2>{lesson.id === '704' ? '从逐个寻找，到排除一半' : '读懂任务，推导算法'}</h2>{lesson.steps.filter(s => s.kind === 'understanding' || s.kind === 'derivation').map(s => <article key={s.id}><h3>{s.title}</h3><p className="lesson-body">{s.body}</p></article>)}<button onClick={() => { markStep('understanding-reviewed'); navigate('reference'); }}>我已完成手算，开始预测 →</button></section>;
+  if (section === 'route') return <section className="learning-panel panel"><p className="eyebrow">LESSON {String(lesson.order).padStart(2, '0')} / 10</p><h2>从 C 的经验，走到 Java 的{lesson.title}</h2><p>先补齐本题所需的 Java 知识，再预测算法状态，最后亲手编写并运行 Java。访问页面不会自动记录通过。</p><ul>{lesson.objectives.map(x => <li key={x}>{x}</li>)}</ul><button className="primary" data-testid={`lesson-${lesson.id}`} onClick={() => navigate('syntax')}>进入 {lesson.id} · {lesson.title}</button></section>;
+  if (section === 'syntax') return <section className="learning-panel panel"><h2>写算法前，先补齐这几句 Java</h2>{lesson.steps.filter(s => s.kind === 'syntax').map(s => <article key={s.id}><h3>{s.title}</h3><p className="lesson-body">{s.body}</p></article>)}<div className="practice-box"><h3>先预测，再核对</h3><p>{syntaxCheck.prompt}</p>{expectedSyntaxAnswer?.kind === 'choice' && syntaxCheck.options?.length ? <label>你的预测 <select data-testid="syntax-answer" value={answer} onChange={e => setAnswer(e.target.value)}><option value="">请选择</option>{syntaxCheck.options.map(option => <option key={option.id} value={option.id}>{option.label}</option>)}</select></label> : <label>你的预测 <input data-testid="syntax-answer" inputMode={expectedSyntaxAnswer?.kind === 'int' ? 'numeric' : 'text'} value={answer} onChange={e => setAnswer(e.target.value)} /></label>}<button data-testid="syntax-check" onClick={() => { if (!expectedSyntaxAnswer) { setFeedback('课程静态检查配置无效，未记录作答。'); return; } const entered = enteredSyntaxAnswer(expectedSyntaxAnswer, answer); if (!entered) { setFeedback('请先填写有效预测，再提交。'); return; } const correct = sameAnswer(entered, expectedSyntaxAnswer); setFeedback(`${correct ? '正确：' : '再想一想：'}${syntaxCheck.explanation} 这是静态学习检查，并未编译 Java。`); update(p => updatePrediction(p, { checkpointId: syntaxCheckpointId, answer: entered, correct })); if (correct) markStep('syntax-practice'); }}>提交预测</button><p data-testid="syntax-feedback" role="status">{feedback}</p></div><button onClick={() => navigate('understanding')}>继续读题与推导 →</button></section>;
+  if (section === 'understanding') return <section className="learning-panel panel"><h2>{lesson.id === '704' ? '从逐个寻找，到排除一半' : `读懂任务，推导${lesson.title}`}</h2>{lesson.steps.filter(s => s.kind === 'understanding' || s.kind === 'derivation').map(s => <article key={s.id}><h3>{s.title}</h3><p className="lesson-body">{s.body}</p></article>)}<button onClick={() => { markStep('understanding-reviewed'); navigate('reference'); }}>我已完成手算，开始预测 →</button></section>;
   if (section === 'reference') return <section className="learning-panel panel"><h2>先预测，再揭示状态</h2><p className="muted">演示最多 30 项；{lesson.siteLimits.description}</p><p>{REFERENCE_LABEL}</p><label>演示输入 <select data-testid="demo-input" value={demoId} onChange={e => setDemoId(e.target.value)}>{demoInputs.map(d => <option value={d.id} key={d.id}>{d.title}</option>)}</select></label>{traceError && <p role="alert">{traceError}</p>}{trace ? <ReferencePlayer key={`${trace.inputHash}:${trace.algorithmVersion}`} trace={trace} source={lesson.reference.source} predictionAt={index => predictionAt(trace, index)} predictionResults={progress.predictionResults} onPrediction={record => update(p => updatePrediction(p, record))} onViewSolution={() => update(markSolutionViewed)} /> : !traceError && <p>正在生成参考状态…</p>}<button onClick={() => navigate('guided')}>转到引导编写 →</button></section>;
   function passLabel(mode: 'guided' | 'independent') {
     const record = mode === 'guided' ? progress.guidedPassed : progress.independentLocalPassed;

@@ -61,5 +61,5 @@ export function predictionAt(trace: ReferenceTrace, index: number): ReferencePre
   if (!list || list.kind !== 'list') throw new Error('缺少链表状态');
   const curr = list.bindings.find(b => b.name === 'curr')?.objectId;
   const answer = snapshot.stepId === 'reverse-next' ? list.nodes.find(n => n.id === curr)!.nextId : list.bindings.find(b => b.name === (snapshot.stepId === 'save-next' ? 'next' : snapshot.stepId === 'init-prev' ? 'prev' : '返回值'))!.objectId;
-  return { checkpointId: snapshot.checkpointId, prompt: snapshot.stepId === 'reverse-next' ? `先预测：改链后 ${curr}.next 指向谁？填写节点 ID 或 null。` : `先预测：${snapshot.stepId === 'save-next' ? 'next' : snapshot.stepId === 'init-prev' ? 'prev' : '返回值'} 将引用谁？填写节点 ID 或 null。`, answer: answer ?? 'null', explanation: snapshot.explanation };
+  return { checkpointId: snapshot.checkpointId, prompt: snapshot.stepId === 'reverse-next' ? `先预测：改链后 ${curr}.next 指向谁？填写节点 ID 或 null。` : `先预测：${snapshot.stepId === 'save-next' ? 'next' : snapshot.stepId === 'init-prev' ? 'prev' : '返回值'} 将引用谁？填写节点 ID 或 null。`, answer: { kind: 'text', value: answer ?? 'null' }, explanation: snapshot.explanation };
 }

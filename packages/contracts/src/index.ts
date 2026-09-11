@@ -1,6 +1,7 @@
 import { z } from 'zod';
-import { LinkedListInputSchema, LINKED_LESSON_VERSION, ListGraphSchema } from './linked-list.js';
+import { PROBLEM_META, PROBLEM_ORDER, ProblemIdSchema, ProblemInputSchemas, OutputSchema } from './problems.js';
 export * from './linked-list.js';
+export * from './problems.js';
 export * from './learning.js';
 
 export const LESSON_VERSION = '704-v1';
@@ -13,29 +14,17 @@ export const STARTER_SOURCE = `class Solution {
     }
 }
 `;
-export const ProblemIdSchema = z.enum(['704', '283', '977', '1', '20', '206', '21', '104', '70', '3']);
 export const HashSchema = z.string().regex(/^[a-f0-9]{64}$/);
-export const BinarySearchInputSchema = z.strictObject({
-  nums: z.array(z.number().int().min(-9999).max(9999)).min(1).max(10000),
-  target: z.number().int().min(-9999).max(9999),
-}).refine(({ nums }) => nums.every((n, i) => i === 0 || n > nums[i - 1]!), { message: 'nums 必须严格升序且不重复' });
 const sourceSchema = z.string().min(1).refine(s => new TextEncoder().encode(s).length <= 65536, '源码不得超过 64 KiB');
-const requestBase = { problemId: z.literal('704'), lessonVersion: z.literal(LESSON_VERSION), source: sourceSchema };
-const run704 = z.discriminatedUnion('mode', [
-  z.strictObject({ ...requestBase, mode: z.literal('run'), input: BinarySearchInputSchema }),
-  z.strictObject({ ...requestBase, mode: z.literal('submit') }),
+const requestFor = <I extends (typeof PROBLEM_ORDER)[number]>(problemId: I) => z.discriminatedUnion('mode', [
+  z.strictObject({ problemId: z.literal(problemId), lessonVersion: z.literal(PROBLEM_META[problemId].lessonVersion), source: sourceSchema, mode: z.literal('run'), input: ProblemInputSchemas[problemId] }),
+  z.strictObject({ problemId: z.literal(problemId), lessonVersion: z.literal(PROBLEM_META[problemId].lessonVersion), source: sourceSchema, mode: z.literal('submit') }),
 ]);
-export const RunRequestSchema = z.union([run704, z.discriminatedUnion('mode', [
-  z.strictObject({ problemId: z.literal('206'), lessonVersion: z.literal(LINKED_LESSON_VERSION), source: sourceSchema, mode: z.literal('run'), input: LinkedListInputSchema }),
-  z.strictObject({ problemId: z.literal('206'), lessonVersion: z.literal(LINKED_LESSON_VERSION), source: sourceSchema, mode: z.literal('submit') }),
-])]);
+export const RunRequestSchema = z.union([
+  requestFor('704'), requestFor('283'), requestFor('977'), requestFor('1'), requestFor('20'),
+  requestFor('206'), requestFor('21'), requestFor('104'), requestFor('70'), requestFor('3'),
+]);
 export const RunStatusSchema = z.enum(['PASSED_LOCAL_TESTS', 'WRONG_ANSWER', 'COMPILE_ERROR', 'RUNTIME_ERROR', 'TIME_LIMIT', 'RESOURCE_LIMIT', 'OUTPUT_LIMIT', 'RUNNER_UNAVAILABLE', 'INVALID_INPUT', 'SYSTEM_ERROR', 'CANCELLED']);
-export const OutputSchema = z.discriminatedUnion('kind', [
-  z.strictObject({ kind: z.literal('int'), value: z.number().int().min(-2147483648).max(2147483647) }),
-  z.strictObject({ kind: z.literal('boolean'), value: z.boolean() }),
-  z.strictObject({ kind: z.literal('int-array'), values: z.array(z.number().int()) }),
-  ListGraphSchema,
-]);
 const ms = z.number().nonnegative();
 const count = z.number().int().nonnegative();
 export const DiagnosticSchema = z.strictObject({ fileName: z.string(), severity: z.enum(['error', 'warning', 'note']), message: z.string(), line: z.number().int().positive().nullable(), column: z.number().int().positive().nullable(), belongsToStudentSource: z.boolean() });
@@ -55,9 +44,7 @@ export const ApiErrorSchema = z.strictObject({ requestId: z.string(), status: z.
 export type RunRequest = z.infer<typeof RunRequestSchema>;
 export type RunResult = z.infer<typeof RunResultSchema>;
 export type RunStatus = z.infer<typeof RunStatusSchema>;
-export type BinarySearchInput = z.infer<typeof BinarySearchInputSchema>;
 export type Diagnostic = z.infer<typeof DiagnosticSchema>;
 export type CaseResult = z.infer<typeof CaseResultSchema>;
-export type Output = z.infer<typeof OutputSchema>;
 export const HealthSchema = z.strictObject({ status: z.literal('ok'), runner: z.strictObject({ available: z.boolean(), reason: z.string().nullable() }) });
 export const SessionSchema = z.strictObject({ token: z.string().min(32) });

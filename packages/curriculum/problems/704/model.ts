@@ -93,5 +93,5 @@ export function predictionAt(trace: ReferenceTrace, index: number): ReferencePre
   const name = snapshot.stepId === 'compute-mid' ? 'mid' : snapshot.stepId === 'move-left' ? 'left' : snapshot.stepId === 'move-right' ? 'right' : '返回值';
   const variable = snapshot.variables.find(v => v.name === name);
   if (variable?.value.kind !== 'int') throw new Error('预测检查点没有整数状态');
-  return { checkpointId: snapshot.checkpointId, prompt: `先预测，再揭示：执行下一步后，${name} 是多少？`, answer: variable.value.value, explanation: snapshot.explanation };
+  return { checkpointId: snapshot.checkpointId, prompt: `先预测，再揭示：执行下一步后，${name} 是多少？`, answer: { kind: 'int', value: variable.value.value }, explanation: snapshot.explanation };
 }

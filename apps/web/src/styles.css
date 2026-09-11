@@ -27,9 +27,12 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 240px; overflo
 .route-panel h2 { font-size: 19px; margin-bottom: 8px; }
 .muted { color: #738077; }
 .small { font-size: 11px; }
-.lesson-active { display: flex; align-items: center; gap: 12px; text-decoration: none; background: #e3ecdc; border: 1px solid #c8d8c1; border-radius: 9px; padding: 15px 13px; margin: 24px 0 16px; }
+.lesson-list { display: grid; gap: 7px; margin: 20px 0 16px; }
+.lesson-active { display: flex; width: 100%; align-items: center; gap: 12px; text-align: left; text-decoration: none; background: #fff; border: 1px solid #d6dfd2; border-radius: 9px; padding: 10px 12px; margin: 0; }
+.lesson-active[aria-current="page"] { background: #e3ecdc; border-color: #9eb497; box-shadow: inset 3px 0 #315e4e; }
 .lesson-active > span { font-size: 12px; color: #74856b; }
 .lesson-active strong { font-size: 13px; }
+.lesson-active strong > span { color: #74856b; font-size: 10px; }
 .lesson-active small { display: block; font-size: 10px; color: #6d8063; font-weight: 400; margin-top: 3px; }
 .future-lessons { font-size: 12px; color: #7b857d; }
 summary { cursor: pointer; font-size: 12px; }
@@ -112,5 +115,5 @@ th { color: #718267; background: #f5f7ef; white-space: nowrap; }
 .hints p { padding: 12px; background: #f6f7ef; border-radius: 5px; }
 @media (min-width: 1550px) { .java-editor { height: 390px; } }
 @media (max-width: 1120px) { .workspace { grid-template-columns: 185px minmax(0, 1fr); padding: 25px 22px; gap: 22px; } .workbench-grid { grid-template-columns: minmax(210px, .75fr) minmax(340px, 1.35fr); gap: 14px; } }
-@media (max-width: 900px) { .workspace { display: block; } .route-panel { margin-bottom: 25px; } .route-panel > .muted, .route-note, .route-panel > .eyebrow { display: none; } .lesson-active { margin: 10px 0; padding: 9px 12px; } .future-lessons { margin-top: 8px; } .workbench-grid { grid-template-columns: minmax(230px, .8fr) minmax(340px, 1.3fr); } }
+@media (max-width: 900px) { .workspace { display: block; } .route-panel { margin-bottom: 25px; } .route-panel > .muted, .route-note, .route-panel > .eyebrow { display: none; } .lesson-list { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); margin: 10px 0; } .lesson-active { padding: 9px 12px; } .workbench-grid { grid-template-columns: minmax(230px, .8fr) minmax(340px, 1.3fr); } }
 @media (max-width: 650px) { .topbar { padding: 15px 18px; } .brand { font-size: 15px; } .brand small { font-size: 9px; } .local-badge { font-size: 9px; padding: 4px 8px; } .workspace { padding: 20px 14px; } .workbench-grid { display: flex; flex-direction: column; } .problem-panel, .editor-panel { width: 100%; } .java-editor { height: 340px; } .panel-heading span { font-size: 9px; } .page-footer { padding: 15px; } }

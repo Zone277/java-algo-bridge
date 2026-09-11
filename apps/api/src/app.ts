@@ -1,7 +1,7 @@
 import Fastify, { type FastifyInstance } from 'fastify';
 import { randomBytes, timingSafeEqual } from 'node:crypto';
-import { LESSON_VERSION, LINKED_LESSON_VERSION, BinarySearchInputSchema, LinkedListInputSchema, ProblemIdSchema, RunRequestSchema } from '@jab/contracts';
-import { JavaRunner } from './runner.js';
+import { PROBLEM_META, ProblemIdSchema, ProblemInputSchemas, RunRequestSchema } from '@jab/contracts';
+import { JavaRunner, isProblemReady } from './runner.js';
 
 export type AppOptions={runner?:JavaRunner;allowedOrigins?:string[];allowedHosts?:string[]};
 export async function buildApp(options:AppOptions={}):Promise<FastifyInstance> {
@@ -30,13 +30,15 @@ export async function buildApp(options:AppOptions={}):Promise<FastifyInstance> {
     if(!parsed.success){
       const body=request.body;let reason='INVALID_REQUEST';
       if(typeof body==='object'&&body!==null) {
-        if('problemId' in body && ProblemIdSchema.safeParse(body.problemId).success && body.problemId!=='704'&&body.problemId!=='206')reason='PROBLEM_NOT_READY';
-        else if('lessonVersion' in body&&'problemId' in body&&body.lessonVersion!==(body.problemId==='206'?LINKED_LESSON_VERSION:LESSON_VERSION))reason='LESSON_VERSION_MISMATCH';
+        const problem=ProblemIdSchema.safeParse('problemId' in body?body.problemId:undefined);
+        if(problem.success&&!isProblemReady(problem.data))reason='PROBLEM_NOT_READY';
+        else if(problem.success&&'lessonVersion' in body&&body.lessonVersion!==PROBLEM_META[problem.data].lessonVersion)reason='LESSON_VERSION_MISMATCH';
         else if('source' in body&&typeof body.source==='string'&&Buffer.byteLength(body.source)>65536)reason='SOURCE_TOO_LARGE';
-        else if('mode' in body&&body.mode==='run'&&'problemId' in body&&'input' in body&&!(body.problemId==='206'?LinkedListInputSchema:BinarySearchInputSchema).safeParse(body.input).success)reason='SITE_LIMIT';
+        else if(problem.success&&'mode' in body&&body.mode==='run'&&'input' in body&&!ProblemInputSchemas[problem.data].safeParse(body.input).success)reason='SITE_LIMIT';
       }
       return reply.code(400).send({requestId:request.id,status:'INVALID_INPUT',reason,message:parsed.error.issues.map(i=>i.message).join('; ').slice(0,1000)});
     }
+    if(!isProblemReady(parsed.data.problemId))return reply.code(400).send({requestId:request.id,status:'INVALID_INPUT',reason:'PROBLEM_NOT_READY',message:`题目 ${parsed.data.problemId} 的课程尚未注册`});
     const controller=new AbortController();
     const cancel=()=>{if(!reply.raw.writableEnded)controller.abort();};reply.raw.on('close',cancel);
     try {
