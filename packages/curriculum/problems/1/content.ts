@@ -56,7 +56,7 @@ class Solution {
 
 export const lesson1 = {
   schemaVersion: 1, id: '1', slug: 'two-sum', title: '两数之和', order: 4,
-  lessonVersion: PROBLEM_META['1'].lessonVersion, prerequisites: ['J1', 'J2', 'J5', 'J8'],
+  lessonVersion: PROBLEM_META['1'].lessonVersion, prerequisites: ['J1', 'J2', 'J3', 'J5', 'J8'],
   objectives: ['读写返回 int[] 的 Java 方法。', '用补数 Map 把双循环推导为一次扫描。', '解释先查后存为何保证两个下标不同，并用真实用例修正错误。'],
   source: { platform: 'LeetCode', number: 1, url: 'https://leetcode.com/problems/two-sum/' },
   taskSemantics: '给定一个无序整数数组 nums 和 target，返回两个不同下标，使对应元素之和等于 target。本站有效输入恰有一个无序下标对；返回 [i,j] 或 [j,i] 都正确。题意参考 LeetCode 1，文字、例子、图形与代码均为本站原创，与原平台无官方关联。',

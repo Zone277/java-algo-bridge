@@ -35,12 +35,12 @@ export async function buildReferenceTrace(raw: TwoSumInput, inputId: string): Pr
     );
     const structures: State['structures'][number][] = [
       { kind: 'array', id: 'nums', values: [...input.nums], indices: index === undefined ? [] : [{ name: 'i', index }] },
-      { kind: 'map', id: 'seen', entries: [...seen].map(([key, value]) => ({ key: { kind: 'int', value: key }, value: { kind: 'int', value } })) },
     ];
+    if (mapInitialized) structures.push({ kind: 'map', id: 'seen', entries: [...seen].map(([key, value]) => ({ key: { kind: 'int', value: key }, value: { kind: 'int', value } })) });
     if (result) structures.push({ kind: 'array', id: 'result', values: [...result], indices: [] });
     return { variables, structures, explanation };
   };
-  const initialState: State = { snapshotId: 'initial', ...state('方法收到 nums 与 target；HashMap 尚未创建，演示区中的 Map 为空。') };
+  const initialState: State = { snapshotId: 'initial', ...state('方法收到 nums 与 target；HashMap 尚未创建，因此此时没有 seen 对象。') };
   const append = (stepId: string, explanation: string, checkpointId?: string) => {
     if (snapshots.length >= 2000) throw new Error('参考模型超过 2000 快照上限，未生成完整轨迹');
     snapshots.push({ snapshotId: `${stepId}-${snapshots.length}`, stepId, codeRange: codeRange(REFERENCE_STEP_MAP, stepId), ...state(explanation), ...(checkpointId ? { checkpointId } : {}) });

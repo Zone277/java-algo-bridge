@@ -14,10 +14,10 @@ const unit = (id: BridgeId, title: string, objective: string, cComparison: strin
 export const bridgeUnits: BridgeUnit[] = [
   unit('J1', '方法：从 C 函数到 Solution', '把输入、参数、返回值对应起来。', 'C 函数可以写在文件中；Java 本题方法放在类中，由平台创建对象调用。',
     'class Solution {\n    public int add(int a, int b) {\n        return a + b;\n    }\n}',
-    'public int add(int a, int b) 中 int 是返回类型。return 结束方法并交回值。只读调用示意：new Solution().add(2, 5)。本站真实调用器按题调用 search 或 reverseList，因此题目编辑器无需 main。打印文字不等于返回答案。', '调用 add(2, 5) 返回多少？', 7, 'a 与 b 接收整数值，return a + b 返回 7。'),
-  unit('J2', '基本类型、数组下标与循环', '区分 int 和 boolean，读懂 length 与边界。', 'Java 的 while 条件必须是 boolean，不能用 C 风格 while(1)；变量要先初始化。',
+    'public int add(int a, int b) 中 int 是返回类型。return 结束方法并交回值。只读调用示意：new Solution().add(2, 5)。本站真实调用器按当前题目调用规定的方法，因此题目编辑器无需 main。打印文字不等于返回答案。', '调用 add(2, 5) 返回多少？', 7, 'a 与 b 接收整数值，return a + b 返回 7。'),
+  unit('J2', '基本类型、数组下标与循环', '区分 int 和 boolean，读懂 length 与边界。', 'Java 的 while 条件必须是 boolean，不能用 C 风格 while(1)；局部变量读取前必须明确赋值。',
     'class Basics {\n    int last() {\n        int[] nums = {2, 6, 10};\n        int i = 0;\n        while (i < nums.length - 1) i++;\n        return nums[i];\n    }\n}',
-    'int 是基本类型，boolean 表示真假，char 是一个 UTF-16 代码单元。数组有 length 字段而非 length()；合法下标 0 到 length - 1。== 比较，= 赋值。Java 整数除法舍去小数部分。', 'last() 返回哪个整数？', 10, 'i 依次为 0、1、2，最后读取 nums[2]，返回 10。'),
+    'int 是基本类型，boolean 表示真假，char 是一个 UTF-16 代码单元。局部变量读取前必须明确赋值；对象字段与数组元素则由 Java 提供默认值。数组有 length 字段而非 length()；合法下标 0 到 length - 1。== 对基本类型比较值、对引用类型比较引用值是否相同；String 内容比较用 equals。= 是赋值。Java 整数除法舍去小数部分。', 'last() 返回哪个整数？', 10, 'i 依次为 0、1、2，最后读取 nums[2]，返回 10。'),
   unit('J3', '数组对象、引用值与按值传参', '区分修改对象和重新绑定变量。', '可用 C 指针别名帮助理解，但 Java 引用不是可做地址运算的裸指针。',
     'class Aliases {\n    int sample() {\n        int[] a = {2, 4};\n        int[] b = a;\n        b[0] = 9;\n        b = new int[]{7};\n        return a[0];\n    }\n}',
     '数组是对象；a 和 b 是保存引用值的变量。b = a 复制引用值，不复制数组。b[0] 修改共享对象；b = new int[]{7} 只改变 b 的绑定。Java 参数始终按值传递；传入引用值时，方法可改共享对象，却不能通过参数重新绑定调用方变量。本图解不承诺物理布局。', 'sample() 最后返回 a[0] 的什么值？', 9, '共享旧数组先被改成 [9,4]；b 后来指向新数组不会把 a 改回去。'),

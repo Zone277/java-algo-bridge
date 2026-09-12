@@ -67,7 +67,7 @@ export async function buildReferenceTrace(raw: TreeInput, inputId: string): Prom
   const state = (explanation: string): Omit<State, 'snapshotId'> => {
     const active = frames.at(-1);
     const variables: State['variables'][number][] = [
-      { name: 'root', value: { kind: 'reference', objectId: parsed.rootId } },
+      { name: 'root', value: { kind: 'reference', objectId: active ? active.nodeId : parsed.rootId } },
     ];
     if (active) {
       variables.push(

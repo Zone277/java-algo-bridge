@@ -50,12 +50,12 @@ export async function buildReferenceTrace(raw: ValidParenthesesInput, inputId: s
     if (result !== undefined) variables.push({ name: '返回值', value: { kind: 'boolean', value: result } });
     return {
       variables,
-      structures: [{
+      structures: initialized ? [{
         kind: 'stack',
         id: 'unmatched-opens',
         items: stack.map(value => ({ kind: 'char' as const, value })),
         topIndex: stack.length === 0 ? null : stack.length - 1,
-      }],
+      }] : [],
       explanation,
     };
   };
