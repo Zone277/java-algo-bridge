@@ -1,5 +1,7 @@
 # Java Algo Bridge
 
+[简体中文](README.md) | [English](README.en.md)
+
 一款在 Windows 本机运行的中文 Java 算法学习工具，帮助具备少量 C 和数据结构基础的学习者，把已有知识平稳迁移到 Java 编程与算法实践。
 
 ## 核心特点
