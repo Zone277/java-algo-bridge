@@ -15,8 +15,14 @@
     "doctor": "tsx scripts/doctor.ts",
     "runner:build": "tsx scripts/runner-build.ts",
     "dev": "tsx scripts/dev.ts",
+    "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "build": "vite build --config apps/web/vite.config.ts && tsup apps/api/src/main.ts --format esm --platform node --target node24 --out-dir apps/api/dist --no-splitting"
+    "build": "vite build --config apps/web/vite.config.ts && tsup apps/api/src/main.ts --format esm --platform node --target node24 --out-dir apps/api/dist --no-splitting",
+    "check": "npm run lint && npm run typecheck && vitest run --config vitest.config.ts",
+    "test:runner": "tsx scripts/test-runner.ts",
+    "test:e2e": "playwright test",
+    "test:shutdown": "tsx scripts/smoke-shutdown.ts",
+    "verify": "tsx scripts/verify.ts"
   },
   "dependencies": {
     "fastify": "5.12.3",
@@ -26,13 +32,18 @@
     "zod": "4.5.4"
   },
   "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "1.63.0",
     "@types/node": "24.13.3",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.7",
     "@vitejs/plugin-react": "6.1.1",
+    "eslint": "10.10.0",
     "tsup": "8.5.1",
     "tsx": "4.23.13",
     "typescript": "5.9.3",
+    "typescript-eslint": "8.70.0",
+    "vitest": "5.0.0",
     "vite": "8.2.2"
   },
   "overrides": {

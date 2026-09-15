@@ -1,0 +1,51 @@
+# 当前状态
+
+完成日期：2026-09-15。阶段 00—05 已完成；本轮只执行阶段 05，现已停止在阶段边界。三个独立审查、修复、真实 Java runner、十题浏览器流程、退出清理及最终 verify 全部完成。
+
+## 本轮结果
+
+- 104 递归快照的 `root` 绑定活动栈帧；题 1 Map 和题 20 栈只在对应 `new` 执行后出现。
+- J2 准确区分局部变量明确赋值、字段/数组默认值、基本值、引用值与 `==`；J1 不再只列 704/206；题 1 补 J3 前置。
+- runner 使用固定补丁镜像 `java-algo-bridge-runner:21.0.12`，探针与任务均 `--pull=never`。Docker info 必须明确返回 Linux；stale 恢复可周期重试；取消和绝对截止覆盖前置 Docker 命令；关闭清理失败明确报告。
+- 新运行会清除旧结果；可信结果仍匹配题目、课程、模式和 sourceHash。run 显示“本次输入通过”，submit 才显示“通过本站测试”；网络错误提供中文行动提示。
+- ≤650px 工作台提供题面、编辑、结果 ARIA 选项卡及方向键/Home/End；窄屏选题后聚焦工作台；关键文字字号和对比度提高。
+- 根清单恢复 `lint/check/test:runner/test:e2e/test:shutdown/verify` 及精确测试依赖，锁文件可从干净 `npm ci` 重建。仓库私有 exclude 不再隐藏规则、文档、测试和验收配置。
+
+公开 Lesson、RunRequest/RunResult、ReferenceTrace 与 Progress 契约版本未变；参考 trace 与学生 `student-java` 真实执行通道仍分开。没有增加题目、框架或 AI API。
+
+## 验收
+
+| 检查 | 状态 | 实际结果 |
+|---|---|---|
+| `npm ci --ignore-scripts` | PASS | 从 lock 安装 237 packages；npm audit 0 vulnerabilities |
+| `npm run check` | PASS | ESLint、TypeScript、33 文件 / 206 项 Vitest |
+| 固定种子参考模型审计 | PASS | 300 条十题轨迹 / 11,531 快照；终态、预测点、步骤映射和新增不变量无分叉 |
+| `npm run build` | PASS | web 与 API 构建通过；Monaco 3.18 MB 大块警告为已知限制 |
+| stage05 固定镜像 | PASS | linux/amd64；ID `sha256:2e21b5062179c6fde7d2ff77b75f1f13348ca8651f258ac2ae20947d19124ff7` |
+| `npm run test:runner` | PASS | 8 文件 / 64 项真实容器测试；覆盖正确/错误、编译错误、异常、超时、大输出、结构判定、限制与清理 |
+| 704、206、3 完整真实 Java E2E | PASS | 课程→预测/演示→引导/独立→真实失败→修正→通过→刷新恢复 |
+| 其余七题真实运行 | PASS | 实际执行强于要求的冒烟：七题完整浏览器失败/通过/恢复路径均通过 |
+| 窄屏与旧结果专项 | PASS | 390px 键盘选项卡、聚焦、字号/对比度；真实运行后网络失败不会保留旧成功结果 |
+| `npm run test:shutdown` | PASS | dev 实际启动；在途任务取消，容器清理，5173/3001 关闭 |
+| 最终 `npm run verify` | PASS | doctor、206 项非 Docker、build、64 项 runner、19 项 E2E、shutdown；0 skipped |
+| 最终残留检查 | PASS | 无项目标签容器、无 `jab-run-*` 临时目录、5173/3001 无监听 |
+| Git 集成 | PASS | 保留用户新增的中英文 README 提交；规则、文档、测试、验收配置和本轮修复纳入本地阶段 05 提交；未推送 |
+
+WSL 起初为 2.7.13，Docker Desktop 报告 `WSL update required`。用户明确授权后更新到 2.7.14，Docker Engine 29.7.2 恢复为 linux/amd64、cgroup v2。未关闭安全保护，未使用宿主机 Java。
+
+## 实际协作
+
+原生 subagent 可用。主 agent 确认四个 agent 共享同一 checkout，没有隔离 worktree，因此先给三项审查只读范围，收到具体缺陷后再按互不重叠路径修复。
+
+- `/root/audit_teaching05`：A 教学与算法只读审查；随后仅修复 bridge、题 1/20/104 内容/模型/测试。
+- `/root/audit_runner05`：B runner、安全和清理只读审查；随后仅修复 API runner、镜像脚本、runner README 和 runner resilience 测试。
+- `/root/audit_frontend05`：C 前端和真实浏览器只读审查；随后仅修复 App、样式和 stage05 前端 E2E。
+- 主 agent：读取需求与契约、恢复根脚本/依赖/lock、标准安全扫描、独立 diff 复核、统一回归、WSL/Docker 恢复、真实验收与文档。
+
+完整问题、复现、预期、实际和处理见 [REVIEW.md](REVIEW.md)。Codex Security 标准扫描在 Docker 恢复前完成，没有可报告漏洞且静态报告覆盖为 partial；动态缺口已由真实 runner/E2E/shutdown 补验，原始报告见 [stage05-codex-security-report.md](evidence/stage05-codex-security-report.md)。
+
+## 遗留与下一入口
+
+PID/tmpfs 命中被学生代码捕获时的精确 `RESOURCE_LIMIT` 归类尚没有独立事件基线测试。本轮已验证既有 CPU/内存/PID/tmpfs 参数、OOM/超时/输出分类和清理，但不宣称未实现的 cgroup/tmpfs 事件归类已完成。Monaco 约 3.18 MB 包体是已知性能限制。
+
+阶段 06 入口为 [prompts/06-local-acceptance.md](../prompts/06-local-acceptance.md)。只有用户另行明确指定后才执行；阶段 05 到此停止。
