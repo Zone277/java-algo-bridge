@@ -19,6 +19,8 @@ npm run dev
 
 Docker必须运行Linux容器并支持CPU、内存、PID、只读根与tmpfs等限制。本轮基础镜像固定为`eclipse-temurin:21.0.12_8-jdk-noble`的digest `sha256:6b104fa1f9278a75c252729cab9d230ce782b828f2269d05c187ea3fddc70adf`；项目镜像为`java-algo-bridge-runner:21.0.12`，构建文件保留不可漂移的基础digest。运行时使用 `--pull=never`，所以必须先显式执行 `npm run runner:build`，缺镜像不会后台联网拉取。阶段 05 证据见 REVIEW 和 STATUS。
 
+本项目从检查、构建、受限探针、观察、精确清理到排障的 Docker 命令见 [DOCKER_COMMANDS.md](DOCKER_COMMANDS.md)。不要执行全局 prune。
+
 Java JSON库Gson 2.14.0由主agent从Maven Central获取并核对.sha256，本地包含于runner/java/lib，无学生容器联网下载；SHA256 `2cbd119bf1961c28788310963dc80ba65f58cdeec1dd139c8bdb1240faa2c36f`。它用于标准JSON编解码，不用手写split解析。参考[Gson发布记录](https://github.com/google/gson/releases)与[Temurin官方镜像标签](https://hub.docker.com/_/eclipse-temurin/tags?name=21.0.12_8-jdk-noble)。
 
 ## 使用和停止

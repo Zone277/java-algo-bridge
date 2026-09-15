@@ -49,3 +49,7 @@ WSL 起初为 2.7.13，Docker Desktop 报告 `WSL update required`。用户明�
 PID/tmpfs 命中被学生代码捕获时的精确 `RESOURCE_LIMIT` 归类尚没有独立事件基线测试。本轮已验证既有 CPU/内存/PID/tmpfs 参数、OOM/超时/输出分类和清理，但不宣称未实现的 cgroup/tmpfs 事件归类已完成。Monaco 约 3.18 MB 包体是已知性能限制。
 
 阶段 06 入口为 [prompts/06-local-acceptance.md](../prompts/06-local-acceptance.md)。只有用户另行明确指定后才执行；阶段 05 到此停止。
+
+## 阶段后 Docker 维护
+
+2026-09-15 按用户要求核对本机镜像和容器，只删除 Java Algo Bridge 的三个旧阶段镜像 `21.0.12-stage01`、`21.0.12-stage03`、`21.0.12-stage04`，以及唯一引用 stage01 的已退出、无挂载容器 `447a81e7d905`。当前仅保留正式 runner `java-algo-bridge-runner:21.0.12` 和用于固定版本重建的基础镜像 `eclipse-temurin:21.0.12_8-jdk-noble`；无容器残留。未执行全局 prune，未处理其他项目资源。完整项目 Docker 命令见 [DOCKER_COMMANDS.md](DOCKER_COMMANDS.md)。
