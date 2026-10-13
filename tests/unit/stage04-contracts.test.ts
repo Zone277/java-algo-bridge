@@ -4,15 +4,18 @@ import {
   expectedOutput, judgeProblemOutput, type MergeListsInput, type Output,
 } from '@jab/contracts';
 
-describe('stage 04 shared problem contracts', () => {
-  it('keeps the fixed ten-problem order and accepts every registered request shape', () => {
-    expect(PROBLEM_ORDER).toEqual(['704', '283', '977', '1', '20', '206', '21', '104', '70', '3']);
+describe('shared problem contracts', () => {
+  it('keeps the registered problem order and accepts every request shape', () => {
+    expect(PROBLEM_ORDER).toEqual(['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217']);
     const requests = [
       ['704', '704-v1', { nums: [1], target: 1 }], ['283', '283-v1', { nums: [0] }],
       ['977', '977-v1', { nums: [-1, 2] }], ['1', '1-v1', { nums: [2, 7], target: 9 }],
       ['20', '20-v1', { s: '()' }], ['206', '206-v1', { head: [] }],
       ['21', '21-v1', { list1: [], list2: [] }], ['104', '104-v1', { root: [] }],
       ['70', '70-v1', { n: 1 }], ['3', '3-v1', { s: '' }],
+      ['35', '35-v1', { nums: [1, 3, 5], target: 4 }],
+      ['121', '121-v1', { prices: [7, 1, 5, 3, 6, 4] }],
+      ['217', '217-v1', { nums: [1, 2, 1] }],
     ] as const;
     for (const [problemId, lessonVersion, input] of requests) expect(RunRequestSchema.safeParse({ problemId, lessonVersion, source: 'class Solution {}', mode: 'run', input }).success).toBe(true);
   });
@@ -46,5 +49,14 @@ describe('stage 04 shared problem contracts', () => {
     expect(expectedOutput('283', { nums: [0, 2, 0, 1] })).toEqual({ kind: 'int-array', values: [2, 1, 0, 0] });
     expect(expectedOutput('3', { s: 'pwwkew' })).toEqual({ kind: 'int', value: 3 });
     expect(expectedOutput('3', { s: 'abba' })).toEqual({ kind: 'int', value: 2 });
+  });
+
+  it('derives the three extension results from their input semantics', () => {
+    expect(expectedOutput('35', { nums: [1, 3, 5, 6], target: 2 })).toEqual({ kind: 'int', value: 1 });
+    expect(expectedOutput('35', { nums: [1, 3, 5, 6], target: 7 })).toEqual({ kind: 'int', value: 4 });
+    expect(expectedOutput('121', { prices: [7, 1, 5, 3, 6, 4] })).toEqual({ kind: 'int', value: 5 });
+    expect(expectedOutput('121', { prices: [7, 6, 4, 3, 1] })).toEqual({ kind: 'int', value: 0 });
+    expect(expectedOutput('217', { nums: [1, 2, 3, 1] })).toEqual({ kind: 'boolean', value: true });
+    expect(expectedOutput('217', { nums: [1, 2, 3, 4] })).toEqual({ kind: 'boolean', value: false });
   });
 });

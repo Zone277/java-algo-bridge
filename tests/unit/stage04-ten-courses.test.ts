@@ -4,7 +4,7 @@ import { LessonSchema, OutputSchema, PROBLEM_ORDER, judgeProblemOutput, type Pro
 import { lessonRuntimes } from '../../apps/web/src/registry.js';
 import { READY_PROBLEM_IDS } from '../../apps/api/src/runner.js';
 
-describe('stage04 complete ten-course registry', () => {
+describe('complete course registry', () => {
   it('registers the same fixed order in the browser and real runner', () => {
     expect(lessonRuntimes.map(runtime => runtime.lesson.id)).toEqual(PROBLEM_ORDER);
     expect(READY_PROBLEM_IDS).toEqual(PROBLEM_ORDER);

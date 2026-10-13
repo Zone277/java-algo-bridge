@@ -53,5 +53,8 @@ Docker run、资源限制与安全说明：限制需要实际配置与环境验�
 104：`https://leetcode.com/problems/maximum-depth-of-binary-tree/`
 70：`https://leetcode.com/problems/climbing-stairs/`
 3：`https://leetcode.com/problems/longest-substring-without-repeating-characters/`
+35：`https://leetcode.com/problems/search-insert-position/`
+121：`https://leetcode.com/problems/best-time-to-buy-and-sell-stock/`
+217：`https://leetcode.com/problems/contains-duplicate/`
 
 只用上述公开题目的任务信息作为算法原型范围；不复制付费题解或图形。本站原型不代表官方产品，不声明复现官方隐藏用例、时限或复杂度验证。

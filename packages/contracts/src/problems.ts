@@ -6,9 +6,9 @@ export const JAVA_INT_MAX = 2147483647;
 const javaInt = z.number().int().min(JAVA_INT_MIN).max(JAVA_INT_MAX);
 const sorted = (values: readonly number[]) => values.every((value, index) => index === 0 || value >= values[index - 1]!);
 
-export const ProblemIdSchema = z.enum(['704', '283', '977', '1', '20', '206', '21', '104', '70', '3']);
+export const ProblemIdSchema = z.enum(['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217']);
 export type ProblemId = z.infer<typeof ProblemIdSchema>;
-export const PROBLEM_ORDER = ['704', '283', '977', '1', '20', '206', '21', '104', '70', '3'] as const satisfies readonly ProblemId[];
+export const PROBLEM_ORDER = ['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217'] as const satisfies readonly ProblemId[];
 export const PROBLEM_META = Object.freeze({
   '704': { order: 1, number: 704, lessonVersion: '704-v1', testSuiteVersion: '704-tests-v2', title: '二分查找', methodSignature: 'public int search(int[] nums, int target)' },
   '283': { order: 2, number: 283, lessonVersion: '283-v1', testSuiteVersion: '283-tests-v1', title: '移动零', methodSignature: 'public void moveZeroes(int[] nums)' },
@@ -20,6 +20,9 @@ export const PROBLEM_META = Object.freeze({
   '104': { order: 8, number: 104, lessonVersion: '104-v1', testSuiteVersion: '104-tests-v1', title: '二叉树的最大深度', methodSignature: 'public int maxDepth(TreeNode root)' },
   '70': { order: 9, number: 70, lessonVersion: '70-v1', testSuiteVersion: '70-tests-v1', title: '爬楼梯', methodSignature: 'public int climbStairs(int n)' },
   '3': { order: 10, number: 3, lessonVersion: '3-v1', testSuiteVersion: '3-tests-v1', title: '无重复字符的最长子串', methodSignature: 'public int lengthOfLongestSubstring(String s)' },
+  '35': { order: 11, number: 35, lessonVersion: '35-v1', testSuiteVersion: '35-tests-v1', title: '搜索插入位置', methodSignature: 'public int searchInsert(int[] nums, int target)' },
+  '121': { order: 12, number: 121, lessonVersion: '121-v1', testSuiteVersion: '121-tests-v1', title: '买卖股票的最佳时机', methodSignature: 'public int maxProfit(int[] prices)' },
+  '217': { order: 13, number: 217, lessonVersion: '217-v1', testSuiteVersion: '217-tests-v1', title: '存在重复元素', methodSignature: 'public boolean containsDuplicate(int[] nums)' },
 } satisfies Record<ProblemId, { order: number; number: number; lessonVersion: string; testSuiteVersion: string; title: string; methodSignature: string }>);
 
 export const BinarySearchInputSchema = z.strictObject({
@@ -72,13 +75,17 @@ export const TreeInputSchema = z.strictObject({ root: z.array(z.union([z.number(
   });
 export const ClimbStairsInputSchema = z.strictObject({ n: z.number().int().min(1).max(45) });
 export const LongestSubstringInputSchema = z.strictObject({ s: z.string().max(10000).refine(value => [...value].every(char => char.codePointAt(0)! >= 0x20 && char.codePointAt(0)! <= 0x7e), 's 只能包含 U+0020—U+007E 的可打印 ASCII 字符') });
+export const SearchInsertInputSchema = BinarySearchInputSchema;
+export const MaxProfitInputSchema = z.strictObject({ prices: z.array(z.number().int().min(0).max(10000)).min(1).max(10000) });
+export const ContainsDuplicateInputSchema = z.strictObject({ nums: z.array(javaInt).min(1).max(10000) });
 
 export const ProblemInputSchemas = Object.freeze({
   '704': BinarySearchInputSchema, '283': MoveZeroesInputSchema, '977': SortedSquaresInputSchema, '1': TwoSumInputSchema,
   '20': ValidParenthesesInputSchema, '206': LinkedListInputSchema, '21': MergeListsInputSchema, '104': TreeInputSchema,
-  '70': ClimbStairsInputSchema, '3': LongestSubstringInputSchema,
+  '70': ClimbStairsInputSchema, '3': LongestSubstringInputSchema, '35': SearchInsertInputSchema,
+  '121': MaxProfitInputSchema, '217': ContainsDuplicateInputSchema,
 });
-export const ProblemInputSchema = z.union([BinarySearchInputSchema, MoveZeroesInputSchema, SortedSquaresInputSchema, TwoSumInputSchema, ValidParenthesesInputSchema, LinkedListInputSchema, MergeListsInputSchema, TreeInputSchema, ClimbStairsInputSchema, LongestSubstringInputSchema]);
+export const ProblemInputSchema = z.union([BinarySearchInputSchema, MoveZeroesInputSchema, SortedSquaresInputSchema, TwoSumInputSchema, ValidParenthesesInputSchema, LinkedListInputSchema, MergeListsInputSchema, TreeInputSchema, ClimbStairsInputSchema, LongestSubstringInputSchema, MaxProfitInputSchema]);
 export type BinarySearchInput = z.infer<typeof BinarySearchInputSchema>;
 export type MoveZeroesInput = z.infer<typeof MoveZeroesInputSchema>;
 export type SortedSquaresInput = z.infer<typeof SortedSquaresInputSchema>;
@@ -88,10 +95,14 @@ export type MergeListsInput = z.infer<typeof MergeListsInputSchema>;
 export type TreeInput = z.infer<typeof TreeInputSchema>;
 export type ClimbStairsInput = z.infer<typeof ClimbStairsInputSchema>;
 export type LongestSubstringInput = z.infer<typeof LongestSubstringInputSchema>;
+export type SearchInsertInput = z.infer<typeof SearchInsertInputSchema>;
+export type MaxProfitInput = z.infer<typeof MaxProfitInputSchema>;
+export type ContainsDuplicateInput = z.infer<typeof ContainsDuplicateInputSchema>;
 export type ProblemInputMap = {
   '704': BinarySearchInput; '283': MoveZeroesInput; '977': SortedSquaresInput; '1': TwoSumInput;
   '20': ValidParenthesesInput; '206': z.infer<typeof LinkedListInputSchema>; '21': MergeListsInput; '104': TreeInput;
-  '70': ClimbStairsInput; '3': LongestSubstringInput;
+  '70': ClimbStairsInput; '3': LongestSubstringInput; '35': SearchInsertInput; '121': MaxProfitInput;
+  '217': ContainsDuplicateInput;
 };
 export type ProblemInput = ProblemInputMap[ProblemId];
 
@@ -165,6 +176,20 @@ export function expectedOutput<I extends ProblemId>(problemId: I, rawInput: Prob
       const s = (input as LongestSubstringInput).s; const last = new Map<string, number>(); let left = 0; let best = 0;
       for (let right = 0; right < s.length; right++) { left = Math.max(left, (last.get(s[right]!) ?? -1) + 1); last.set(s[right]!, right); best = Math.max(best, right - left + 1); }
       return { kind: 'int', value: best };
+    }
+    case '35': {
+      const item = input as SearchInsertInput; let left = 0; let right = item.nums.length;
+      while (left < right) { const mid = left + Math.floor((right - left) / 2); if (item.nums[mid]! < item.target) left = mid + 1; else right = mid; }
+      return { kind: 'int', value: left };
+    }
+    case '121': {
+      const prices = (input as MaxProfitInput).prices; let minimum = prices[0]!; let best = 0;
+      for (let day = 1; day < prices.length; day++) { best = Math.max(best, prices[day]! - minimum); minimum = Math.min(minimum, prices[day]!); }
+      return { kind: 'int', value: best };
+    }
+    case '217': {
+      const nums = (input as ContainsDuplicateInput).nums;
+      return { kind: 'boolean', value: new Set(nums).size !== nums.length };
     }
   }
 }

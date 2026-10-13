@@ -78,3 +78,11 @@
 - 每次新运行先清除旧结果。可信 RunResult 仍须匹配 problem、lesson、mode 和 sourceHash；run 与 submit 使用不同成功标题。≤650px 的引导/独立工作台使用题面、编辑、结果三个 ARIA 选项卡。
 - 恢复阶段 01—04 实际依赖的 ESLint、Vitest、Playwright 声明及验收脚本，不增加业务依赖。仓库私有 `.git/info/exclude` 不再隐藏规则、文档、测试和配置；这些资产由阶段 05 统一纳入本地交付。
 - Codex Security 标准扫描对基线提交没有验证出可报告漏洞；Docker 因宿主 WSL 更新要求无法启动，真实运行覆盖保持 partial。PID/tmpfs 被学生捕获时的精确事件归类需要真实 cgroup/tmpfs 证据，暂不做无证据实现。
+
+## 三题扩展决策（2026-10-13）
+
+- 用户明确要求继续扩展新题并推送远程，但没有指定题号。选择 35、121、217 作为一个可完整验收的小批次：分别复用现有二分、数组扫描和 HashSet 教学能力，同时只需扩展已有 int/boolean 结构化输出，不引入新框架或新依赖。
+- 原十题版本、判定和学习记录不变；新题按顺序 11—13 追加。公共契约、package exports、前端/API registry、bridge 映射、Java Adapter 和全局测试由主 agent 串行修改。
+- 三个原生工作 agent 共享同一 checkout，各自只写 `packages/curriculum/problems/35/**`、`121/**`、`217/**`。每题交付完整课程、参考源码、状态模型和局部测试；主 agent 负责真实 runner、E2E、文档、Git 合并和推送。
+- 35 使用半开区间 lower_bound；121 使用前缀最低价和最大非负利润；217 使用先检查后加入的 HashSet。三者的演示仍是参考模型，不伪装成学生 Java 轨迹，最终 submit 必须经过真实 Docker/JDK runner。
+- 2026-10 新公告使原锁文件出现依赖漏洞；显式将 Fastify 升到同主版本补丁 5.12.7、DOMPurify override 升到 3.4.17、source-map-js override 升到 1.2.2，并由无 `--force` 的 `npm audit fix` 将 fast-uri 更新到其各自主版本安全补丁。更新后 `npm audit` 为 0，完整类型、构建、runner 和 E2E 回归通过。

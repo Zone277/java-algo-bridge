@@ -33,7 +33,7 @@ list-graph输出形状为 `{kind:"list-graph",headId:string|null,nodes:{id:strin
 
 ## Lesson
 
-Lesson字段：`schemaVersion:1, id:ProblemId, slug:string, title:string, order:int(1..10), lessonVersion:string, prerequisites:BridgeId[], objectives:string[], source:{platform:"LeetCode",number:int,url:string}, taskSemantics:string, siteLimits:{description:string,inputSchemaId:string}, steps:ContentStep[], starter:{source:string,fileName:"Solution.java"}, reference:ReferenceDefinition, hints:[Hint,Hint,Hint], predictionChecks:PredictionCheck[], guided:GuidedExercise, independent:{initialSource:string}, commonErrors:CommonError[], testSuite:TestSuite, visualization:{modelId:string,modelVersion:string,inputIds:string[],maxItems:30,maxSnapshots:2000,maxTreeDepth:8}`。
+Lesson字段：`schemaVersion:1, id:ProblemId, slug:string, title:string, order:int(1..13), lessonVersion:string, prerequisites:BridgeId[], objectives:string[], source:{platform:"LeetCode",number:int,url:string}, taskSemantics:string, siteLimits:{description:string,inputSchemaId:string}, steps:ContentStep[], starter:{source:string,fileName:"Solution.java"}, reference:ReferenceDefinition, hints:[Hint,Hint,Hint], predictionChecks:PredictionCheck[], guided:GuidedExercise, independent:{initialSource:string}, commonErrors:CommonError[], testSuite:TestSuite, visualization:{modelId:string,modelVersion:string,inputIds:string[],maxItems:30,maxSnapshots:2000,maxTreeDepth:8}`。
 
 - ContentStep = `{id:string,kind:"syntax"|"understanding"|"derivation"|"prediction"|"reference-demo"|"guided-code"|"independent-code"|"summary",title:string,body:string,relatedIds:string[]}`；包含必要语法、输入输出解释、手工模拟、初始办法/目标办法推导、不变量、边界、复杂度。引用ID必须存在，顺序支持学习闭环，不把访问标记通过。
 - ReferenceDefinition = `{source:string,fileName:"Solution.java",sourceHash:Hash,algorithmVersion:string,stepMap:{stepId:string,startLine:int,endLine:int}[]}`；行号1起、闭区间、在该版源码内，映射唯一，参考默认折叠，显式打开记录viewedSolution。演示显示完整参考代码也算看过答案。
@@ -56,7 +56,7 @@ type RunRequest =
   | { problemId: ProblemId; lessonVersion: string; source: string; mode: "submit" };
 ```
 
-lessonVersion必须匹配服务端当前注册课程，错误版本INVALID_INPUT。source非空、UTF-8最多65536字节，总JSON请求体最多131072字节。run要求输入经过题目白名单schema和语义校验；submit拒绝input/expected/tests等字段，使用服务器测试集。未实施但在固定十题内的题目返回INVALID_INPUT / PROBLEM_NOT_READY。请求中不接受sourceHash，以API计算为准。
+lessonVersion必须匹配服务端当前注册课程，错误版本INVALID_INPUT。source非空、UTF-8最多65536字节，总JSON请求体最多131072字节。run要求输入经过题目白名单schema和语义校验；submit拒绝input/expected/tests等字段，使用服务器测试集。未注册题目返回INVALID_INPUT / PROBLEM_NOT_READY。请求中不接受sourceHash，以API计算为准。
 
 示例：`{"problemId":"704","lessonVersion":"704-v1","source":"class Solution { public int search(int[] nums, int target) { return -1; } }","mode":"run","input":{"nums":[-4,2,9],"target":2}}`。相同源码的submit示例去掉input并改mode为submit。
 
@@ -153,3 +153,13 @@ Progress按题+课程版本保存两种草稿；704旧key完全兼容。切题fl
 ReferenceTrace 的 `finalOutput` 使用同一 Output 联合但通道固定为 `reference-model`，不能被送入学生结果通道。结构状态联合已实施 array、map、stack、list、tree、dp、window；同一不可变快照驱动全部显示和代码范围。list 的稳定教学 ID 与真实执行对象 ID 各自属于其通道；tree 的对象图和递归 frame 分开表达。模型达到 display/snapshot 限制时必须显式拒绝，不能截断后给出貌似完整的 finalOutput。70 的当前演示上限为 n<=30，本站真实判题仍覆盖 1..45。
 
 十题当前 Lesson/Test/Algorithm 版本分别为：704 `704-v1/704-tests-v2/704-closed-v1`；283 `283-v1/283-tests-v1/283-stable-compaction-v1`；977 `977-v1/977-tests-v1/977-two-pointers-v1`；1 `1-v1/1-tests-v1/1-complement-map-v1`；20 `20-v1/20-tests-v1/20-unmatched-open-stack-v1`；206 `206-v1/206-tests-v1/206-reverse-v1`；21 `21-v1/21-tests-v1/21-dummy-merge-v1`；104 `104-v1/104-tests-v1/104-recursive-depth-v1`；70 `70-v1/70-tests-v1/70-rolling-dp-v1`；3 `3-v1/3-tests-v1/3-last-seen-window-v1`。
+
+## 三题扩展实施冻结（v1-extension-2026-10-13）
+
+前述阶段 04 的“十题”是历史冻结；当前实现事实来源扩为十三题，原有十题顺序和版本不变，末尾依次增加 35、121、217。`ProblemIdSchema`、`PROBLEM_ORDER`、严格 RunRequest 联合、Lesson 联合、浏览器 registry、API `READY_PROBLEM_IDS` 和可信 Java Adapter 必须保持同序。
+
+- 35：输入 `{nums:int[],target:int}`，`nums` 非空、严格升序且不重复；返回第一个大于等于 target 的位置，允许返回 `nums.length`。版本为 `35-v1/35-tests-v1/35-half-open-lower-bound-v1`。
+- 121：输入 `{prices:int[]}`，非空且价格为 0—10000；只能先买后卖一次，也可不交易；返回最大非负利润。版本为 `121-v1/121-tests-v1/121-one-pass-min-price-v1`。
+- 217：输入 `{nums:int[]}`，非空 Java int 数组；返回是否存在至少两个不同下标值相等。版本为 `217-v1/217-tests-v1/217-hash-set-v1`。
+
+三题继续使用现有 `int | boolean` 输出联合、回环 API、版本化 Progress、不可变 ReferenceTrace 和相同 Docker 资源边界，没有新增输出通道或宿主机执行回退。35/121 使用 array 状态；217 用 array 与 map 结构表达 HashSet 中已见整数。演示上限 30 项，真实判题上限 10000 项，超出演示上限必须明确拒绝而不影响 runner 输入契约。

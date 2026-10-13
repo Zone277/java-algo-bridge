@@ -5,6 +5,8 @@ export const bridgePrerequisites: Record<string, BridgeId[]> = {
   '1': ['J1','J2','J3','J5','J8'], '20': ['J1','J2','J4','J5','J8'], '3': ['J1','J2','J4','J5','J8'],
   '206': ['J1','J2','J3','J6','J8'], '21': ['J1','J2','J3','J6','J8'],
   '104': ['J1','J2','J3','J7','J8'], '70': ['J1','J2','J3','J8'],
+  '35': ['J1','J2','J8'], '121': ['J1','J2','J3','J8'],
+  '217': ['J1','J2','J3','J5','J8'],
 };
 const unit = (id: BridgeId, title: string, objective: string, cComparison: string, javaSource: string, explanation: string, prompt: string, answer: number, feedback: string): BridgeUnit => ({
   id, version: 'bridge-v1', title, objectives: [objective], cComparison, javaSource, explanation,

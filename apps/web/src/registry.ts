@@ -8,6 +8,9 @@ import { lesson21, demoInputs as inputs21 } from '@jab/curriculum/21';
 import { lesson104, demoInputs as inputs104 } from '@jab/curriculum/104';
 import { lesson70, demoInputs as inputs70 } from '@jab/curriculum/70';
 import { lesson3, demoInputs as inputs3 } from '@jab/curriculum/3';
+import { lesson35, demoInputs as inputs35 } from '@jab/curriculum/35';
+import { lesson121, demoInputs as inputs121 } from '@jab/curriculum/121';
+import { lesson217, demoInputs as inputs217 } from '@jab/curriculum/217';
 import { buildReferenceTrace as trace704, predictionAt as predict704 } from '@jab/curriculum/704/model';
 import { buildReferenceTrace as trace283, predictionAt as predict283 } from '@jab/curriculum/283/model';
 import { buildReferenceTrace as trace977, predictionAt as predict977 } from '@jab/curriculum/977/model';
@@ -18,7 +21,10 @@ import { buildReferenceTrace as trace21, predictionAt as predict21 } from '@jab/
 import { buildReferenceTrace as trace104, predictionAt as predict104 } from '@jab/curriculum/104/model';
 import { buildReferenceTrace as trace70, predictionAt as predict70 } from '@jab/curriculum/70/model';
 import { buildReferenceTrace as trace3, predictionAt as predict3 } from '@jab/curriculum/3/model';
-import { BinarySearchInputSchema, ClimbStairsInputSchema, LinkedListInputSchema, LongestSubstringInputSchema, MergeListsInputSchema, MoveZeroesInputSchema, SortedSquaresInputSchema, TreeInputSchema, TwoSumInputSchema, ValidParenthesesInputSchema, type Answer, type Lesson, type LessonInput, type ReferenceTrace, type ReferencePrediction } from '@jab/contracts';
+import { buildReferenceTrace as trace35, predictionAt as predict35 } from '@jab/curriculum/35/model';
+import { buildReferenceTrace as trace121, predictionAt as predict121 } from '@jab/curriculum/121/model';
+import { buildReferenceTrace as trace217, predictionAt as predict217 } from '@jab/curriculum/217/model';
+import { BinarySearchInputSchema, ClimbStairsInputSchema, ContainsDuplicateInputSchema, LinkedListInputSchema, LongestSubstringInputSchema, MaxProfitInputSchema, MergeListsInputSchema, MoveZeroesInputSchema, SearchInsertInputSchema, SortedSquaresInputSchema, TreeInputSchema, TwoSumInputSchema, ValidParenthesesInputSchema, type Answer, type Lesson, type LessonInput, type ReferenceTrace, type ReferencePrediction } from '@jab/contracts';
 
 export type LessonRuntime = {
   lesson: Lesson;
@@ -39,4 +45,7 @@ export const lessonRuntimes: LessonRuntime[] = [
   { lesson: lesson104, demoInputs: inputs104, buildTrace: (input, id) => trace104(TreeInputSchema.parse(input), id), predictionAt: predict104, defaultInput: inputs104[0]!.input, syntaxCheck: { checkpointId: '104-v1:syntax:null-base', prompt: '按节点数定义深度时，maxDepth(null) 应返回多少？', answer: { kind: 'int', value: 0 }, explanation: '空树没有节点，深度是0；非空节点再加1。' } },
   { lesson: lesson70, demoInputs: inputs70, buildTrace: (input, id) => trace70(ClimbStairsInputSchema.parse(input), id), predictionAt: predict70, defaultInput: inputs70[0]!.input, syntaxCheck: { checkpointId: '70-v1:syntax:base-case', prompt: '只有1阶时，按一次走1阶的方法数是多少？', answer: { kind: 'int', value: 1 }, explanation: 'n=1 是第一个基例，只有一种走法。' } },
   { lesson: lesson3, demoInputs: inputs3, buildTrace: (input, id) => trace3(LongestSubstringInputSchema.parse(input), id), predictionAt: predict3, defaultInput: inputs3[0]!.input, syntaxCheck: { checkpointId: '3-v1:syntax:string-length', prompt: 'String s = "a b"; s.length() 的结果是多少？', answer: { kind: 'int', value: 3 }, explanation: '空格也是字符串中的一个字符，length() 返回3。' } },
+  { lesson: lesson35, demoInputs: inputs35, buildTrace: (input, id) => trace35(SearchInsertInputSchema.parse(input), id), predictionAt: predict35, defaultInput: inputs35[0]!.input, syntaxCheck: { checkpointId: '35-v1:syntax:half-open', prompt: 'int[] nums = {1, 3, 5, 6}; 若 right = nums.length，right 的值是多少？', answer: { kind: 'int', value: 4 }, explanation: '半开区间 [left, right) 允许 right 等于 length，表示候选插入到数组末尾。' } },
+  { lesson: lesson121, demoInputs: inputs121, buildTrace: (input, id) => trace121(MaxProfitInputSchema.parse(input), id), predictionAt: predict121, defaultInput: inputs121[0]!.input, syntaxCheck: { checkpointId: '121-v1:syntax:difference', prompt: '昨天最低价为 2，今天价格为 7，表达式 7 - 2 的利润是多少？', answer: { kind: 'int', value: 5 }, explanation: '卖出价减去此前最低买入价得到本次候选利润 5。' } },
+  { lesson: lesson217, demoInputs: inputs217, buildTrace: (input, id) => trace217(ContainsDuplicateInputSchema.parse(input), id), predictionAt: predict217, defaultInput: inputs217[0]!.input, syntaxCheck: { checkpointId: '217-v1:syntax:set-add', prompt: 'HashSet 中已有 4，再执行 seen.add(4) 后，seen.size() 是多少？', answer: { kind: 'int', value: 1 }, explanation: 'Set 不保存重复元素；第二次加入 4 不会增加 size。' } },
 ];

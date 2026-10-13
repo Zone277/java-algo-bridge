@@ -1,5 +1,7 @@
 # 当前状态
 
+更新日期：2026-10-13。已在原十题完整流程上追加 35、121、217，当前共十三题；三题课程、参考模型、浏览器工作台和真实 Java runner 已接通。最终 `npm run verify` 为 PASS：39 文件 / 238 项非 Docker 测试、9 文件 / 75 项真实容器测试、22 项真实浏览器测试及 shutdown 全部通过。详细证据见 [EXTENSION_2026-10-13.md](EXTENSION_2026-10-13.md)。
+
 完成日期：2026-09-15。阶段 00—05 已完成；本轮只执行阶段 05，现已停止在阶段边界。三个独立审查、修复、真实 Java runner、十题浏览器流程、退出清理及最终 verify 全部完成。
 
 ## 本轮结果
@@ -53,3 +55,5 @@ PID/tmpfs 命中被学生代码捕获时的精确 `RESOURCE_LIMIT` 归类尚没�
 ## 阶段后 Docker 维护
 
 2026-09-15 按用户要求核对本机镜像和容器，只删除 Java Algo Bridge 的三个旧阶段镜像 `21.0.12-stage01`、`21.0.12-stage03`、`21.0.12-stage04`，以及唯一引用 stage01 的已退出、无挂载容器 `447a81e7d905`。当前仅保留正式 runner `java-algo-bridge-runner:21.0.12` 和用于固定版本重建的基础镜像 `eclipse-temurin:21.0.12_8-jdk-noble`；无容器残留。未执行全局 prune，未处理其他项目资源。完整项目 Docker 命令见 [DOCKER_COMMANDS.md](DOCKER_COMMANDS.md)。
+
+2026-10-13 重建同一固定标签以加入三种可信方法签名，新镜像 ID 为 `sha256:ded3fb546b93b3c6aa49ffd556c642c383a90a99d4fdb910feb428408733a521`，linux/amd64。最终验收后无项目标签容器、无 `jab-run-*` 临时目录，5173/3001 无监听。Docker Desktop 起初未运行，已通过本机已注册应用启动；没有修改全局 Docker/WSL 配置，也没有删除其他项目的两个镜像和一个已退出容器。

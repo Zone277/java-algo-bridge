@@ -101,3 +101,15 @@ C最终独立审查PASS（仅阶段00文档）：发现合法大输入的结构�
 每份题目交付包含 content/reference/model/index 和两份局部测试；其余路径禁止。主 agent 在 agent 释放路径后才写公共入口和全局测试，维护根/锁/contracts/docs 所有权。批次门禁依次得到 140、170、200 项非 Docker 测试；各批真实 runner 和真实浏览器均回归 704/206，失败修复并重跑后才进入下一批。
 
 独立审查没有复述实现者结论：另跑 60 个新增发布用例的真实 Java/模型严格比较，并构造 283 数组改绑、1 反序/同索引、21 相等值/新节点/环、104 紧凑 null 反例。指出差分测试原先只分别通过语义谓词、批次 E2E 原先只操作第一段支架；主 agent 补为直接等值和三段支架全流程后完成最终 `npm run verify`。详细结果见 [STAGE04_ACCEPTANCE](STAGE04_ACCEPTANCE.md)。阶段04完成后停止，05未执行。
+
+## 三题扩展实际派工（2026-10-13）
+
+客户端提供三个原生工作 agent；平台确认所有 agent 共享当前 checkout。主 agent 先扩 `ProblemId`、输入/输出判定与固定 Java Adapter，再分配互不重叠目录；公共入口、根配置、文档、测试和 Git 均由主 agent 保留。
+
+| 实际任务 | 唯一允许写入路径 | 交付与局部验收 |
+|---|---|---|
+| `/root/problem35` | `packages/curriculum/problems/35/**` | 半开 lower_bound 完整课程；12 例、3 错夹具、2 动态预测；2 文件 / 8 测试 PASS |
+| `/root/problem121` | `packages/curriculum/problems/121/**` | 前缀最低价完整课程；12 例、3 错夹具、2 动态预测；2 文件 / 10 测试 PASS |
+| `/root/problem217` | `packages/curriculum/problems/217/**` | HashSet 查重完整课程；12 例、2 错夹具、2 动态预测；2 文件 / 10 测试 PASS |
+
+工作 agent 均未修改共享文件。主 agent 的集成验收与推送结果记录在 `STATUS.md`。

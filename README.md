@@ -6,7 +6,7 @@ A local-first Java algorithm learning tool for Windows. It helps learners with b
 
 ## Highlights
 
-- Ten progressively structured algorithm problems covering arrays, hashing, stacks, linked lists, binary trees, dynamic programming, and sliding windows.
+- Thirteen progressively structured algorithm problems covering arrays, hashing, stacks, linked lists, binary trees, dynamic programming, and sliding windows.
 - Eight short Java bridge lessons (J1–J8) covering syntax differences, arrays, collections, strings, references, and common data structures.
 - A complete learning path from syntax preparation and problem analysis to guided coding and independent practice.
 - State-based visualizations of built-in reference algorithms, showing how variables and data structures change step by step.
@@ -27,6 +27,9 @@ A local-first Java algorithm learning tool for Windows. It helps learners with b
 | 104 | Maximum Depth of Binary Tree | `TreeNode` and recursion | Depth-first traversal |
 | 70 | Climbing Stairs | Methods, variables, and boundary conditions | Dynamic programming |
 | 3 | Longest Substring Without Repeating Characters | Strings and sets | Sliding window |
+| 35 | Search Insert Position | Half-open array intervals | Lower-bound binary search |
+| 121 | Best Time to Buy and Sell Stock | Array scanning and local variables | Prefix minimum and best profit |
+| 217 | Contains Duplicate | `HashSet<Integer>` | One-pass duplicate detection |
 
 ## Requirements
 
@@ -136,4 +139,4 @@ This project is designed for single-user learning on a local machine and listens
 
 Each student task uses an isolated temporary directory and a disposable container. Containers have networking disabled, run as a non-root user, and limit CPU, memory, process count, output size, and execution time. Do not use global cleanup commands such as `docker system prune` to manage this project.
 
-The current course is limited to the ten problems listed above. Learning data is stored only in the current browser and is not synchronized after switching browsers, clearing site data, or reinstalling the operating system. Algorithm visualizations support only the built-in reference solutions and do not generate execution traces for arbitrary Java programs.
+The current course is limited to the thirteen problems listed above. Learning data is stored only in the current browser and is not synchronized after switching browsers, clearing site data, or reinstalling the operating system. Algorithm visualizations support only the built-in reference solutions and do not generate execution traces for arbitrary Java programs.

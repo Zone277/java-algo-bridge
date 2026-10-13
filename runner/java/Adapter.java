@@ -24,6 +24,9 @@ public final class Adapter {
         case "104" -> run104(solution, instance, input, result);
         case "70" -> run70(solution, instance, input, result);
         case "3" -> run3(solution, instance, input, result);
+        case "35" -> run35(solution, instance, input, result);
+        case "121" -> run121(solution, instance, input, result);
+        case "217" -> run217(solution, instance, input, result);
         default -> throw new IllegalArgumentException("Unregistered problem");
       }
     } catch (Throwable error) {
@@ -102,6 +105,24 @@ public final class Adapter {
   private static void run3(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
     Method method = method(solution, "lengthOfLongestSubstring", int.class, "public int lengthOfLongestSubstring(String s)", String.class);
     ok(result, intOutput((Integer) method.invoke(instance, input.get("s").getAsString())));
+  }
+
+  private static void run35(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    int[] nums = ints(input.getAsJsonArray("nums"));
+    Method method = method(solution, "searchInsert", int.class, "public int searchInsert(int[] nums, int target)", int[].class, int.class);
+    ok(result, intOutput((Integer) method.invoke(instance, nums, input.get("target").getAsInt())));
+  }
+
+  private static void run121(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    int[] prices = ints(input.getAsJsonArray("prices"));
+    Method method = method(solution, "maxProfit", int.class, "public int maxProfit(int[] prices)", int[].class);
+    ok(result, intOutput((Integer) method.invoke(instance, (Object) prices)));
+  }
+
+  private static void run217(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    int[] nums = ints(input.getAsJsonArray("nums"));
+    Method method = method(solution, "containsDuplicate", boolean.class, "public boolean containsDuplicate(int[] nums)", int[].class);
+    ok(result, booleanOutput((Boolean) method.invoke(instance, (Object) nums)));
   }
 
   private static Method method(Class<?> solution, String name, Class<?> returnType, String signature, Class<?>... parameters) throws Exception {

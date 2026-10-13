@@ -3,8 +3,8 @@ import { PROBLEM_ORDER, expectedOutput, type ListGraph } from '@jab/contracts';
 import { buildApp } from '../../apps/api/src/app.js';
 import { JavaRunner, READY_PROBLEM_IDS, inputHash, isProblemReady, judgeListGraph, judgeRuntimeOutput } from '../../apps/api/src/runner.js';
 
-describe('stage04 runtime registry and semantic judges', () => {
-  it('registers exactly the ten complete courses in the fixed order', () => {
+describe('runtime registry and semantic judges', () => {
+  it('registers every complete course in the fixed order', () => {
     expect(READY_PROBLEM_IDS).toEqual(PROBLEM_ORDER);
     for (const problemId of PROBLEM_ORDER) expect(isProblemReady(problemId)).toBe(true);
   });
@@ -54,8 +54,8 @@ beforeAll(async () => {
 });
 afterAll(async () => { await app.close(); });
 
-describe('stage04 HTTP request gate', () => {
-  it('rejects IDs outside the fixed ten before attempting Docker', async () => {
+describe('HTTP request gate', () => {
+  it('rejects unregistered IDs before attempting Docker', async () => {
     const response = await app.inject({
       method: 'POST', url: '/api/runs',
       headers: { host: '127.0.0.1:3001', origin: 'http://127.0.0.1:5173', 'x-java-algo-session': token },
