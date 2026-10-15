@@ -163,3 +163,13 @@ ReferenceTrace 的 `finalOutput` 使用同一 Output 联合但通道固定为 `r
 - 217：输入 `{nums:int[]}`，非空 Java int 数组；返回是否存在至少两个不同下标值相等。版本为 `217-v1/217-tests-v1/217-hash-set-v1`。
 
 三题继续使用现有 `int | boolean` 输出联合、回环 API、版本化 Progress、不可变 ReferenceTrace 和相同 Docker 资源边界，没有新增输出通道或宿主机执行回退。35/121 使用 array 状态；217 用 array 与 map 结构表达 HashSet 中已见整数。演示上限 30 项，真实判题上限 10000 项，超出演示上限必须明确拒绝而不影响 runner 输入契约。
+
+## 三题续扩实施冻结（v1-extension-2026-10-15）
+
+用户再次明确要求新增题目。现有十三题顺序与版本保持不变，末尾增加 53、167、242，固定总数为十六题；`PROBLEM_ORDER`、RunRequest/Lesson 联合、浏览器/API 注册和容器内适配器白名单必须一致。
+
+- 53：`{nums:int[]}`，长度 1—10000，元素 -10000—10000；返回非空**连续**子数组最大和，即使所有元素为负也不能返回 0。版本 `53-v1/53-tests-v1/53-kadane-v1`，Java 方法 `public int maxSubArray(int[] nums)`。可信期望使用前缀和减最小前缀，与参考 Kadane 写法独立。
+- 167：`{numbers:int[],target:int}`，数组非降序、长度 2—10000，元素与 target 均 -1000—1000，恰有一个由不同下标构成的解；返回 `[index1,index2]`，其中 `1 <= index1 < index2 <= length` 且两项之和为 target。版本 `167-v1/167-tests-v1/167-opposing-pointers-v1`，Java 方法 `public int[] twoSum(int[] numbers, int target)`。
+- 242：`{s:string,t:string}`，两者各 1—10000 个小写英文字母；返回字符多重集是否相等，长度不同直接为 false。版本 `242-v1/242-tests-v1/242-frequency-count-v1`，Java 方法 `public boolean isAnagram(String s, String t)`。
+
+三题沿用已有 `int | int-array | boolean` 输出、单次任务隔离和 `reference-model` / `student-java` 两通道。演示输入最多 30 项或字符，真实判题最多 10000 项或字符；超出演示限制明确拒绝生成轨迹，不影响真实 runner。

@@ -7,7 +7,7 @@ export const demoInputs: { id: string; title: string; input: BinarySearchInput }
   { id: 'singleton-hit', title: '边界：只有一个元素', input: { nums: [4], target: 4 } },
 ];
 
-const cases: Lesson['testSuite']['cases'] = [
+const cases: Extract<Lesson, { id: '704' }>['testSuite']['cases'] = [
   { id: 'found', input: demoInputs[0]!.input, expected: { kind: 'int', value: 3 }, coverage: '奇数长度，第一次排除左半边后命中；返回下标而非元素值。' },
   { id: 'missing', input: demoInputs[1]!.input, expected: { kind: 'int', value: -1 }, coverage: '目标位于相邻元素之间，区间交叉后退出。' },
   { id: 'singleton-hit', input: { nums: [4], target: 4 }, expected: { kind: 'int', value: 0 }, coverage: 'left == right 时仍需检查唯一候选。' },

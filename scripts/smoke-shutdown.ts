@@ -40,7 +40,8 @@ try {
   assert.equal(code, 0, 'IPC graceful shutdown exits cleanly');
   const outcome = await pending;
   if ('response' in outcome) assert.equal(outcome.response.status, 'CANCELLED');
-  assert(!(await names()).includes(task), 'shutdown removed actual task container');
+  const remaining = (await names()).filter(name => !before.has(name));
+  assert.deepEqual(remaining, [], `shutdown must remove task and probe containers: ${remaining.join(', ')}`);
   for (const port of [apiPort, webPort]) {
     await assert.rejects(fetch(`http://127.0.0.1:${port}/`), `port ${port} must be closed`);
   }

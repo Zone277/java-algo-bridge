@@ -27,6 +27,9 @@ public final class Adapter {
         case "35" -> run35(solution, instance, input, result);
         case "121" -> run121(solution, instance, input, result);
         case "217" -> run217(solution, instance, input, result);
+        case "53" -> run53(solution, instance, input, result);
+        case "167" -> run167(solution, instance, input, result);
+        case "242" -> run242(solution, instance, input, result);
         default -> throw new IllegalArgumentException("Unregistered problem");
       }
     } catch (Throwable error) {
@@ -123,6 +126,25 @@ public final class Adapter {
     int[] nums = ints(input.getAsJsonArray("nums"));
     Method method = method(solution, "containsDuplicate", boolean.class, "public boolean containsDuplicate(int[] nums)", int[].class);
     ok(result, booleanOutput((Boolean) method.invoke(instance, (Object) nums)));
+  }
+
+  private static void run53(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    int[] nums = ints(input.getAsJsonArray("nums"));
+    Method method = method(solution, "maxSubArray", int.class, "public int maxSubArray(int[] nums)", int[].class);
+    ok(result, intOutput((Integer) method.invoke(instance, (Object) nums)));
+  }
+
+  private static void run167(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    int[] numbers = ints(input.getAsJsonArray("numbers"));
+    Method method = method(solution, "twoSum", int[].class, "public int[] twoSum(int[] numbers, int target)", int[].class, int.class);
+    int[] value = (int[]) method.invoke(instance, numbers, input.get("target").getAsInt());
+    if (value == null || value.length != 2) wrong(result, "必须返回恰好两个 1 起始下标");
+    else ok(result, intArrayOutput(value));
+  }
+
+  private static void run242(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    Method method = method(solution, "isAnagram", boolean.class, "public boolean isAnagram(String s, String t)", String.class, String.class);
+    ok(result, booleanOutput((Boolean) method.invoke(instance, input.get("s").getAsString(), input.get("t").getAsString())));
   }
 
   private static Method method(Class<?> solution, String name, Class<?> returnType, String signature, Class<?>... parameters) throws Exception {

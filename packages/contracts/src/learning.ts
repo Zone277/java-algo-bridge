@@ -1,9 +1,9 @@
 import { z } from 'zod';
 import {
   BinarySearchInputSchema, BooleanOutputSchema, ClimbStairsInputSchema, ContainsDuplicateInputSchema, IntArrayOutputSchema, IntOutputSchema,
-  LongestSubstringInputSchema, MaxProfitInputSchema, MergeListsInputSchema, MoveZeroesInputSchema, OutputSchema, PROBLEM_META, ProblemIdSchema,
+  LongestSubstringInputSchema, MaxProfitInputSchema, MaximumSubarrayInputSchema, MergeListsInputSchema, MoveZeroesInputSchema, OutputSchema, PROBLEM_META, ProblemIdSchema,
   SearchInsertInputSchema,
-  SortedSquaresInputSchema, TreeInputSchema, TwoSumInputSchema, ValidParenthesesInputSchema,
+  SortedSquaresInputSchema, TreeInputSchema, TwoSumInputSchema, TwoSumSortedInputSchema, ValidAnagramInputSchema, ValidParenthesesInputSchema,
   judgeProblemOutput, type ProblemInput,
 } from './problems.js';
 import { LinkedListInputSchema, ListGraphSchema } from './linked-list.js';
@@ -124,6 +124,9 @@ export const LessonSchema = z.discriminatedUnion('id', [
   variant('35', 11, SearchInsertInputSchema, IntOutputSchema),
   variant('121', 12, MaxProfitInputSchema, IntOutputSchema),
   variant('217', 13, ContainsDuplicateInputSchema, BooleanOutputSchema),
+  variant('53', 14, MaximumSubarrayInputSchema, IntOutputSchema),
+  variant('167', 15, TwoSumSortedInputSchema, IntArrayOutputSchema),
+  variant('242', 16, ValidAnagramInputSchema, BooleanOutputSchema),
 ]).superRefine((lesson, ctx) => {
   const issue = (message: string) => ctx.addIssue({ code: 'custom', message });
   const meta = PROBLEM_META[lesson.id];

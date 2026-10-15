@@ -113,3 +113,15 @@ C最终独立审查PASS（仅阶段00文档）：发现合法大输入的结构�
 | `/root/problem217` | `packages/curriculum/problems/217/**` | HashSet 查重完整课程；12 例、2 错夹具、2 动态预测；2 文件 / 10 测试 PASS |
 
 工作 agent 均未修改共享文件。主 agent 的集成验收与推送结果记录在 `STATUS.md`。
+
+## 三题续扩实际派工（2026-10-15）
+
+客户端原生 subagent 可用；平台明确所有 agent 共享当前 checkout，没有隔离 worktree。主 agent 先冻结 53/167/242 公共输入、期望、Lesson/Run 联合及可信 Java 方法签名，再把互不重叠的课程目录分别授权三个工作 agent。公共入口、根清单/锁、测试、文档、Git 和最终验收由主 agent 独占。
+
+| 实际任务 | 唯一允许写入路径 | 课程交付与局部命令 |
+|---|---|---|
+| `/root/problem53` | `packages/curriculum/problems/53/**` | Kadane 完整课程；12 例、3 错夹具、2 动态预测；目录 Vitest 2 文件 / 9 测试 PASS |
+| `/root/problem167` | `packages/curriculum/problems/167/**` | 双指针完整课程；12 例、3 错夹具、至少 2 动态预测；目录 Vitest 2 文件 / 6 测试与 ESLint PASS |
+| `/root/problem242` | `packages/curriculum/problems/242/**` | 字母频次完整课程；12 例、3 错夹具、3 动态预测；目录 Vitest 2 文件 / 9 测试与 ESLint PASS |
+
+三份任务的输入资料为 AGENTS、PRODUCT_SPEC、CONTRACTS、DECISIONS 与相邻题目课程；指定契约版本、写入边界、验收命令和交付格式均在实际派工中明确。工作 agent 均未修改共享注册、契约或根文件。主 agent 处理公共联合扩展导致的 704 测试用例类型窄化，并执行真实容器与浏览器集成验收。

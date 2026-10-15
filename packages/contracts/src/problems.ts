@@ -6,9 +6,9 @@ export const JAVA_INT_MAX = 2147483647;
 const javaInt = z.number().int().min(JAVA_INT_MIN).max(JAVA_INT_MAX);
 const sorted = (values: readonly number[]) => values.every((value, index) => index === 0 || value >= values[index - 1]!);
 
-export const ProblemIdSchema = z.enum(['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217']);
+export const ProblemIdSchema = z.enum(['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242']);
 export type ProblemId = z.infer<typeof ProblemIdSchema>;
-export const PROBLEM_ORDER = ['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217'] as const satisfies readonly ProblemId[];
+export const PROBLEM_ORDER = ['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242'] as const satisfies readonly ProblemId[];
 export const PROBLEM_META = Object.freeze({
   '704': { order: 1, number: 704, lessonVersion: '704-v1', testSuiteVersion: '704-tests-v2', title: '二分查找', methodSignature: 'public int search(int[] nums, int target)' },
   '283': { order: 2, number: 283, lessonVersion: '283-v1', testSuiteVersion: '283-tests-v1', title: '移动零', methodSignature: 'public void moveZeroes(int[] nums)' },
@@ -23,6 +23,9 @@ export const PROBLEM_META = Object.freeze({
   '35': { order: 11, number: 35, lessonVersion: '35-v1', testSuiteVersion: '35-tests-v1', title: '搜索插入位置', methodSignature: 'public int searchInsert(int[] nums, int target)' },
   '121': { order: 12, number: 121, lessonVersion: '121-v1', testSuiteVersion: '121-tests-v1', title: '买卖股票的最佳时机', methodSignature: 'public int maxProfit(int[] prices)' },
   '217': { order: 13, number: 217, lessonVersion: '217-v1', testSuiteVersion: '217-tests-v1', title: '存在重复元素', methodSignature: 'public boolean containsDuplicate(int[] nums)' },
+  '53': { order: 14, number: 53, lessonVersion: '53-v1', testSuiteVersion: '53-tests-v1', title: '最大子数组和', methodSignature: 'public int maxSubArray(int[] nums)' },
+  '167': { order: 15, number: 167, lessonVersion: '167-v1', testSuiteVersion: '167-tests-v1', title: '有序数组两数之和 II', methodSignature: 'public int[] twoSum(int[] numbers, int target)' },
+  '242': { order: 16, number: 242, lessonVersion: '242-v1', testSuiteVersion: '242-tests-v1', title: '有效的字母异位词', methodSignature: 'public boolean isAnagram(String s, String t)' },
 } satisfies Record<ProblemId, { order: number; number: number; lessonVersion: string; testSuiteVersion: string; title: string; methodSignature: string }>);
 
 export const BinarySearchInputSchema = z.strictObject({
@@ -78,14 +81,32 @@ export const LongestSubstringInputSchema = z.strictObject({ s: z.string().max(10
 export const SearchInsertInputSchema = BinarySearchInputSchema;
 export const MaxProfitInputSchema = z.strictObject({ prices: z.array(z.number().int().min(0).max(10000)).min(1).max(10000) });
 export const ContainsDuplicateInputSchema = z.strictObject({ nums: z.array(javaInt).min(1).max(10000) });
+export const MaximumSubarrayInputSchema = z.strictObject({ nums: z.array(z.number().int().min(-10000).max(10000)).min(1).max(10000) });
+export const TwoSumSortedInputSchema = z.strictObject({ numbers: z.array(z.number().int().min(-1000).max(1000)).min(2).max(10000), target: z.number().int().min(-1000).max(1000) })
+  .superRefine(({ numbers, target }, ctx) => {
+    if (!sorted(numbers)) ctx.addIssue({ code: 'custom', message: 'numbers 必须非降序' });
+    const seen = new Map<number, number>();
+    let pairs = 0;
+    for (const value of numbers) {
+      pairs += seen.get(target - value) ?? 0;
+      if (pairs > 1) break;
+      seen.set(value, (seen.get(value) ?? 0) + 1);
+    }
+    if (pairs !== 1) ctx.addIssue({ code: 'custom', message: '本站输入必须恰有一个由不同下标组成的解' });
+  });
+export const ValidAnagramInputSchema = z.strictObject({
+  s: z.string().min(1).max(10000).regex(/^[a-z]+$/, 's 只能包含小写英文字母'),
+  t: z.string().min(1).max(10000).regex(/^[a-z]+$/, 't 只能包含小写英文字母'),
+});
 
 export const ProblemInputSchemas = Object.freeze({
   '704': BinarySearchInputSchema, '283': MoveZeroesInputSchema, '977': SortedSquaresInputSchema, '1': TwoSumInputSchema,
   '20': ValidParenthesesInputSchema, '206': LinkedListInputSchema, '21': MergeListsInputSchema, '104': TreeInputSchema,
   '70': ClimbStairsInputSchema, '3': LongestSubstringInputSchema, '35': SearchInsertInputSchema,
   '121': MaxProfitInputSchema, '217': ContainsDuplicateInputSchema,
+  '53': MaximumSubarrayInputSchema, '167': TwoSumSortedInputSchema, '242': ValidAnagramInputSchema,
 });
-export const ProblemInputSchema = z.union([BinarySearchInputSchema, MoveZeroesInputSchema, SortedSquaresInputSchema, TwoSumInputSchema, ValidParenthesesInputSchema, LinkedListInputSchema, MergeListsInputSchema, TreeInputSchema, ClimbStairsInputSchema, LongestSubstringInputSchema, MaxProfitInputSchema]);
+export const ProblemInputSchema = z.union([BinarySearchInputSchema, MoveZeroesInputSchema, SortedSquaresInputSchema, TwoSumInputSchema, ValidParenthesesInputSchema, LinkedListInputSchema, MergeListsInputSchema, TreeInputSchema, ClimbStairsInputSchema, LongestSubstringInputSchema, MaxProfitInputSchema, MaximumSubarrayInputSchema, TwoSumSortedInputSchema, ValidAnagramInputSchema]);
 export type BinarySearchInput = z.infer<typeof BinarySearchInputSchema>;
 export type MoveZeroesInput = z.infer<typeof MoveZeroesInputSchema>;
 export type SortedSquaresInput = z.infer<typeof SortedSquaresInputSchema>;
@@ -98,11 +119,15 @@ export type LongestSubstringInput = z.infer<typeof LongestSubstringInputSchema>;
 export type SearchInsertInput = z.infer<typeof SearchInsertInputSchema>;
 export type MaxProfitInput = z.infer<typeof MaxProfitInputSchema>;
 export type ContainsDuplicateInput = z.infer<typeof ContainsDuplicateInputSchema>;
+export type MaximumSubarrayInput = z.infer<typeof MaximumSubarrayInputSchema>;
+export type TwoSumSortedInput = z.infer<typeof TwoSumSortedInputSchema>;
+export type ValidAnagramInput = z.infer<typeof ValidAnagramInputSchema>;
 export type ProblemInputMap = {
   '704': BinarySearchInput; '283': MoveZeroesInput; '977': SortedSquaresInput; '1': TwoSumInput;
   '20': ValidParenthesesInput; '206': z.infer<typeof LinkedListInputSchema>; '21': MergeListsInput; '104': TreeInput;
   '70': ClimbStairsInput; '3': LongestSubstringInput; '35': SearchInsertInput; '121': MaxProfitInput;
   '217': ContainsDuplicateInput;
+  '53': MaximumSubarrayInput; '167': TwoSumSortedInput; '242': ValidAnagramInput;
 };
 export type ProblemInput = ProblemInputMap[ProblemId];
 
@@ -191,6 +216,29 @@ export function expectedOutput<I extends ProblemId>(problemId: I, rawInput: Prob
       const nums = (input as ContainsDuplicateInput).nums;
       return { kind: 'boolean', value: new Set(nums).size !== nums.length };
     }
+    case '53': {
+      const nums = (input as MaximumSubarrayInput).nums;
+      let prefix = 0; let minimumPrefix = 0; let best = Number.NEGATIVE_INFINITY;
+      for (const value of nums) { prefix += value; best = Math.max(best, prefix - minimumPrefix); minimumPrefix = Math.min(minimumPrefix, prefix); }
+      return { kind: 'int', value: best };
+    }
+    case '167': {
+      const item = input as TwoSumSortedInput;
+      const seen = new Map<number, number>();
+      for (let index = 0; index < item.numbers.length; index++) {
+        const earlier = seen.get(item.target - item.numbers[index]!);
+        if (earlier !== undefined) return { kind: 'int-array', values: [earlier + 1, index + 1] };
+        seen.set(item.numbers[index]!, index);
+      }
+      throw new Error('TwoSumSortedInput contract promised one pair');
+    }
+    case '242': {
+      const { s, t } = input as ValidAnagramInput;
+      if (s.length !== t.length) return { kind: 'boolean', value: false };
+      const counts = Array<number>(26).fill(0);
+      for (let index = 0; index < s.length; index++) { counts[s.charCodeAt(index) - 97]!++; counts[t.charCodeAt(index) - 97]!--; }
+      return { kind: 'boolean', value: counts.every(count => count === 0) };
+    }
   }
 }
 
@@ -223,6 +271,14 @@ export function judgeProblemOutput<I extends ProblemId>(problemId: I, input: Pro
     const item = input as TwoSumInput;
     const passed = actual.kind === 'int-array' && actual.values.length === 2 && actual.values.every(index => Number.isInteger(index) && index >= 0 && index < item.nums.length) && actual.values[0] !== actual.values[1] && item.nums[actual.values[0]!]! + item.nums[actual.values[1]!]! === item.target;
     return { expected, passed, message: passed ? '返回了两个不同的合法下标；下标顺序不限。' : '必须返回两个不同且范围合法的下标，它们对应元素之和应为 target。' };
+  }
+  if (problemId === '167') {
+    const item = input as TwoSumSortedInput;
+    const passed = actual.kind === 'int-array' && actual.values.length === 2 &&
+      Number.isInteger(actual.values[0]) && Number.isInteger(actual.values[1]) &&
+      actual.values[0]! >= 1 && actual.values[0]! < actual.values[1]! && actual.values[1]! <= item.numbers.length &&
+      item.numbers[actual.values[0]! - 1]! + item.numbers[actual.values[1]! - 1]! === item.target;
+    return { expected, passed, message: passed ? '返回了按升序排列的两个合法 1 起始下标。' : '必须返回 1 起始且 index1 < index2 的两个合法下标，元素之和为 target。' };
   }
   if (problemId === '206' || problemId === '21') { const result = judgeListStructure(problemId, input as never, actual); return { expected, ...result }; }
   const passed = equalOutput(expected, actual);

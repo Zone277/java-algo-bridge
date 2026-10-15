@@ -6,7 +6,7 @@ import {
 
 describe('shared problem contracts', () => {
   it('keeps the registered problem order and accepts every request shape', () => {
-    expect(PROBLEM_ORDER).toEqual(['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217']);
+    expect(PROBLEM_ORDER).toEqual(['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242']);
     const requests = [
       ['704', '704-v1', { nums: [1], target: 1 }], ['283', '283-v1', { nums: [0] }],
       ['977', '977-v1', { nums: [-1, 2] }], ['1', '1-v1', { nums: [2, 7], target: 9 }],
@@ -16,6 +16,9 @@ describe('shared problem contracts', () => {
       ['35', '35-v1', { nums: [1, 3, 5], target: 4 }],
       ['121', '121-v1', { prices: [7, 1, 5, 3, 6, 4] }],
       ['217', '217-v1', { nums: [1, 2, 1] }],
+      ['53', '53-v1', { nums: [-2, 1, -3, 4] }],
+      ['167', '167-v1', { numbers: [2, 7, 11, 15], target: 9 }],
+      ['242', '242-v1', { s: 'listen', t: 'silent' }],
     ] as const;
     for (const [problemId, lessonVersion, input] of requests) expect(RunRequestSchema.safeParse({ problemId, lessonVersion, source: 'class Solution {}', mode: 'run', input }).success).toBe(true);
   });

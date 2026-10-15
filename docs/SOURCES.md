@@ -56,5 +56,8 @@ Docker run、资源限制与安全说明：限制需要实际配置与环境验�
 35：`https://leetcode.com/problems/search-insert-position/`
 121：`https://leetcode.com/problems/best-time-to-buy-and-sell-stock/`
 217：`https://leetcode.com/problems/contains-duplicate/`
+53：`https://leetcode.com/problems/maximum-subarray/`
+167：`https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/`
+242：`https://leetcode.com/problems/valid-anagram/`
 
 只用上述公开题目的任务信息作为算法原型范围；不复制付费题解或图形。本站原型不代表官方产品，不声明复现官方隐藏用例、时限或复杂度验证。

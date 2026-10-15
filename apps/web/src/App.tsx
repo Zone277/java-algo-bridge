@@ -234,11 +234,11 @@ function Workbench({ initial, runtime, onSelect }: { initial: Loaded; runtime: L
   }
 
   return <div className="app-shell">
-    <header className="topbar"><a className="brand" href="#workbench"><span className="brand-mark">J</span><span>Java Algo Bridge<small>从理解，到亲手写出来</small></span></a><span className="local-badge">本机学习 · 十三题课程</span></header>
+    <header className="topbar"><a className="brand" href="#workbench"><span className="brand-mark">J</span><span>Java Algo Bridge<small>从理解，到亲手写出来</small></span></a><span className="local-badge">本机学习 · {PROBLEM_ORDER.length} 题课程</span></header>
     <div className="workspace">
       <aside className="route-panel"><p className="eyebrow">LEARNING PATH</p><h2>算法入门路线</h2><p className="muted">理解、预测、编写、验证。</p><div className="lesson-list">{orderedLessonRuntimes.map(r => <button className="lesson-active" aria-current={r.lesson.id === lesson.id ? 'page' : undefined} key={r.lesson.id} data-testid={r.lesson.id === lesson.id ? 'current-lesson' : 'lesson-' + r.lesson.id} disabled={busy || switching} onClick={() => { if (r.lesson.id === lesson.id) { setBridge(null); navigate('route'); focusWorkbench(); return; } setSwitching(true); void flush().then(p => onSelect(r.lesson.id, { ...initial, progress: p, legacy, note: '已恢复本次会话的草稿。' })).catch(() => { setError('无法保存当前草稿，尚未切换课程。'); setSwitching(false); }); }}><strong><span>{String(r.lesson.order).padStart(2, '0')}</span> · {r.lesson.id} · {r.lesson.title}<small>完整学习闭环 · 已开放</small></strong></button>)}</div><div className="route-note"><strong>一步一步来</strong><p>必要语法 → 理解问题 → 预测状态 → 参考演示 → 引导编写 → 独立编写 → 真实执行反馈</p><p>预测检查与参考演示不会产生真实执行通过记录。</p></div></aside>
       <main id="workbench" tabIndex={-1}>
-        <section className="lesson-heading"><div><p className="eyebrow">{String(lesson.order).padStart(2, '0')} / 10 · JAVA 与算法的桥</p><h1>{lesson.id} · {lesson.title}</h1><p>{lesson.objectives[0]}</p></div><span className="language-chip">Java 21</span></section>
+        <section className="lesson-heading"><div><p className="eyebrow">{String(lesson.order).padStart(2, '0')} / {PROBLEM_ORDER.length} · JAVA 与算法的桥</p><h1>{lesson.id} · {lesson.title}</h1><p>{lesson.objectives[0]}</p></div><span className="language-chip">Java 21</span></section>
         <div className="runner-banner" data-testid="runner-status" role="status">{health}</div>
                 <p className="muted small">{initial.note} {storageNote}</p>
         {legacy !== null && <div className="reset-confirm"><span>发现阶段 01 独立草稿。明确导入会替换当前独立草稿，旧记录保留。</span><button data-testid="import-legacy-draft" onClick={() => { changeSource('independent', legacy); setLegacy(null); }}>导入旧独立草稿</button><button onClick={() => setLegacy(null)}>暂不导入</button></div>}

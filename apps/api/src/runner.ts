@@ -23,6 +23,9 @@ import { lesson3 } from '@jab/curriculum/3';
 import { lesson35 } from '@jab/curriculum/35';
 import { lesson121 } from '@jab/curriculum/121';
 import { lesson217 } from '@jab/curriculum/217';
+import { lesson53 } from '@jab/curriculum/53';
+import { lesson167 } from '@jab/curriculum/167';
+import { lesson242 } from '@jab/curriculum/242';
 
 export const RUNNER_IMAGE = 'java-algo-bridge-runner:21.0.12';
 export const CONTAINER_LABEL = 'java-algo-bridge.managed=production';
@@ -44,6 +47,9 @@ const runtimeRegistrations: readonly RuntimeLessonRegistration[] = Object.freeze
   Object.freeze({ lesson: LessonSchema.parse(lesson35) }),
   Object.freeze({ lesson: LessonSchema.parse(lesson121) }),
   Object.freeze({ lesson: LessonSchema.parse(lesson217) }),
+  Object.freeze({ lesson: LessonSchema.parse(lesson53) }),
+  Object.freeze({ lesson: LessonSchema.parse(lesson167) }),
+  Object.freeze({ lesson: LessonSchema.parse(lesson242) }),
 ]);
 const registeredLessons = new Map<ProblemId, Lesson>(runtimeRegistrations.map(registration => [registration.lesson.id, registration.lesson]));
 export const READY_PROBLEM_IDS: readonly ProblemId[] = Object.freeze(runtimeRegistrations.map(registration => registration.lesson.id));
