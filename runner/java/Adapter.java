@@ -30,6 +30,9 @@ public final class Adapter {
         case "53" -> run53(solution, instance, input, result);
         case "167" -> run167(solution, instance, input, result);
         case "242" -> run242(solution, instance, input, result);
+        case "88" -> run88(solution, instance, input, result);
+        case "125" -> run125(solution, instance, input, result);
+        case "169" -> run169(solution, instance, input, result);
         default -> throw new IllegalArgumentException("Unregistered problem");
       }
     } catch (Throwable error) {
@@ -145,6 +148,25 @@ public final class Adapter {
   private static void run242(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
     Method method = method(solution, "isAnagram", boolean.class, "public boolean isAnagram(String s, String t)", String.class, String.class);
     ok(result, booleanOutput((Boolean) method.invoke(instance, input.get("s").getAsString(), input.get("t").getAsString())));
+  }
+
+  private static void run88(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    int[] original = ints(input.getAsJsonArray("nums1"));
+    int[] nums2 = ints(input.getAsJsonArray("nums2"));
+    Method method = method(solution, "merge", void.class, "public void merge(int[] nums1, int m, int[] nums2, int n)", int[].class, int.class, int[].class, int.class);
+    method.invoke(instance, original, input.get("m").getAsInt(), nums2, input.get("n").getAsInt());
+    ok(result, intArrayOutput(original));
+  }
+
+  private static void run125(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    Method method = method(solution, "isPalindrome", boolean.class, "public boolean isPalindrome(String s)", String.class);
+    ok(result, booleanOutput((Boolean) method.invoke(instance, input.get("s").getAsString())));
+  }
+
+  private static void run169(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    int[] nums = ints(input.getAsJsonArray("nums"));
+    Method method = method(solution, "majorityElement", int.class, "public int majorityElement(int[] nums)", int[].class);
+    ok(result, intOutput((Integer) method.invoke(instance, (Object) nums)));
   }
 
   private static Method method(Class<?> solution, String name, Class<?> returnType, String signature, Class<?>... parameters) throws Exception {

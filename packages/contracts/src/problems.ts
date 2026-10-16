@@ -6,9 +6,9 @@ export const JAVA_INT_MAX = 2147483647;
 const javaInt = z.number().int().min(JAVA_INT_MIN).max(JAVA_INT_MAX);
 const sorted = (values: readonly number[]) => values.every((value, index) => index === 0 || value >= values[index - 1]!);
 
-export const ProblemIdSchema = z.enum(['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242']);
+export const ProblemIdSchema = z.enum(['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242', '88', '125', '169']);
 export type ProblemId = z.infer<typeof ProblemIdSchema>;
-export const PROBLEM_ORDER = ['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242'] as const satisfies readonly ProblemId[];
+export const PROBLEM_ORDER = ['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242', '88', '125', '169'] as const satisfies readonly ProblemId[];
 export const PROBLEM_META = Object.freeze({
   '704': { order: 1, number: 704, lessonVersion: '704-v1', testSuiteVersion: '704-tests-v2', title: '二分查找', methodSignature: 'public int search(int[] nums, int target)' },
   '283': { order: 2, number: 283, lessonVersion: '283-v1', testSuiteVersion: '283-tests-v1', title: '移动零', methodSignature: 'public void moveZeroes(int[] nums)' },
@@ -26,6 +26,9 @@ export const PROBLEM_META = Object.freeze({
   '53': { order: 14, number: 53, lessonVersion: '53-v1', testSuiteVersion: '53-tests-v1', title: '最大子数组和', methodSignature: 'public int maxSubArray(int[] nums)' },
   '167': { order: 15, number: 167, lessonVersion: '167-v1', testSuiteVersion: '167-tests-v1', title: '有序数组两数之和 II', methodSignature: 'public int[] twoSum(int[] numbers, int target)' },
   '242': { order: 16, number: 242, lessonVersion: '242-v1', testSuiteVersion: '242-tests-v1', title: '有效的字母异位词', methodSignature: 'public boolean isAnagram(String s, String t)' },
+  '88': { order: 17, number: 88, lessonVersion: '88-v1', testSuiteVersion: '88-tests-v1', title: '合并两个有序数组', methodSignature: 'public void merge(int[] nums1, int m, int[] nums2, int n)' },
+  '125': { order: 18, number: 125, lessonVersion: '125-v1', testSuiteVersion: '125-tests-v1', title: '验证回文串', methodSignature: 'public boolean isPalindrome(String s)' },
+  '169': { order: 19, number: 169, lessonVersion: '169-v1', testSuiteVersion: '169-tests-v1', title: '多数元素', methodSignature: 'public int majorityElement(int[] nums)' },
 } satisfies Record<ProblemId, { order: number; number: number; lessonVersion: string; testSuiteVersion: string; title: string; methodSignature: string }>);
 
 export const BinarySearchInputSchema = z.strictObject({
@@ -98,6 +101,24 @@ export const ValidAnagramInputSchema = z.strictObject({
   s: z.string().min(1).max(10000).regex(/^[a-z]+$/, 's 只能包含小写英文字母'),
   t: z.string().min(1).max(10000).regex(/^[a-z]+$/, 't 只能包含小写英文字母'),
 });
+export const MergeSortedArrayInputSchema = z.strictObject({
+  nums1: z.array(z.number().int().min(-1000000000).max(1000000000)).min(1).max(400),
+  m: z.number().int().min(0).max(200),
+  nums2: z.array(z.number().int().min(-1000000000).max(1000000000)).max(200),
+  n: z.number().int().min(0).max(200),
+}).superRefine(({ nums1, m, nums2, n }, ctx) => {
+  if (nums1.length !== m + n || nums2.length !== n) ctx.addIssue({ code: 'custom', message: 'nums1 长度必须等于 m+n，nums2 长度必须等于 n' });
+  if (m + n > 200) ctx.addIssue({ code: 'custom', message: '本站 m+n 最多 200' });
+  if (!sorted(nums1.slice(0, m)) || !sorted(nums2)) ctx.addIssue({ code: 'custom', message: '有效数组元素必须分别非降序' });
+  if (nums1.slice(m).some(value => value !== 0)) ctx.addIssue({ code: 'custom', message: 'nums1 的 n 个预留位置必须为 0' });
+});
+export const ValidPalindromeInputSchema = z.strictObject({ s: z.string().min(1).max(10000).regex(/^[\x20-\x7e]+$/, 's 只能包含可打印 ASCII 字符') });
+export const MajorityElementInputSchema = z.strictObject({ nums: z.array(z.number().int().min(-1000000000).max(1000000000)).min(1).max(10000) })
+  .superRefine(({ nums }, ctx) => {
+    const counts = new Map<number, number>();
+    for (const value of nums) counts.set(value, (counts.get(value) ?? 0) + 1);
+    if (![...counts.values()].some(count => count > nums.length / 2)) ctx.addIssue({ code: 'custom', message: '本站输入保证严格过半的多数元素' });
+  });
 
 export const ProblemInputSchemas = Object.freeze({
   '704': BinarySearchInputSchema, '283': MoveZeroesInputSchema, '977': SortedSquaresInputSchema, '1': TwoSumInputSchema,
@@ -105,8 +126,9 @@ export const ProblemInputSchemas = Object.freeze({
   '70': ClimbStairsInputSchema, '3': LongestSubstringInputSchema, '35': SearchInsertInputSchema,
   '121': MaxProfitInputSchema, '217': ContainsDuplicateInputSchema,
   '53': MaximumSubarrayInputSchema, '167': TwoSumSortedInputSchema, '242': ValidAnagramInputSchema,
+  '88': MergeSortedArrayInputSchema, '125': ValidPalindromeInputSchema, '169': MajorityElementInputSchema,
 });
-export const ProblemInputSchema = z.union([BinarySearchInputSchema, MoveZeroesInputSchema, SortedSquaresInputSchema, TwoSumInputSchema, ValidParenthesesInputSchema, LinkedListInputSchema, MergeListsInputSchema, TreeInputSchema, ClimbStairsInputSchema, LongestSubstringInputSchema, MaxProfitInputSchema, MaximumSubarrayInputSchema, TwoSumSortedInputSchema, ValidAnagramInputSchema]);
+export const ProblemInputSchema = z.union([BinarySearchInputSchema, MoveZeroesInputSchema, SortedSquaresInputSchema, TwoSumInputSchema, ValidParenthesesInputSchema, LinkedListInputSchema, MergeListsInputSchema, TreeInputSchema, ClimbStairsInputSchema, LongestSubstringInputSchema, MaxProfitInputSchema, MaximumSubarrayInputSchema, TwoSumSortedInputSchema, ValidAnagramInputSchema, MergeSortedArrayInputSchema, ValidPalindromeInputSchema, MajorityElementInputSchema]);
 export type BinarySearchInput = z.infer<typeof BinarySearchInputSchema>;
 export type MoveZeroesInput = z.infer<typeof MoveZeroesInputSchema>;
 export type SortedSquaresInput = z.infer<typeof SortedSquaresInputSchema>;
@@ -122,12 +144,16 @@ export type ContainsDuplicateInput = z.infer<typeof ContainsDuplicateInputSchema
 export type MaximumSubarrayInput = z.infer<typeof MaximumSubarrayInputSchema>;
 export type TwoSumSortedInput = z.infer<typeof TwoSumSortedInputSchema>;
 export type ValidAnagramInput = z.infer<typeof ValidAnagramInputSchema>;
+export type MergeSortedArrayInput = z.infer<typeof MergeSortedArrayInputSchema>;
+export type ValidPalindromeInput = z.infer<typeof ValidPalindromeInputSchema>;
+export type MajorityElementInput = z.infer<typeof MajorityElementInputSchema>;
 export type ProblemInputMap = {
   '704': BinarySearchInput; '283': MoveZeroesInput; '977': SortedSquaresInput; '1': TwoSumInput;
   '20': ValidParenthesesInput; '206': z.infer<typeof LinkedListInputSchema>; '21': MergeListsInput; '104': TreeInput;
   '70': ClimbStairsInput; '3': LongestSubstringInput; '35': SearchInsertInput; '121': MaxProfitInput;
   '217': ContainsDuplicateInput;
   '53': MaximumSubarrayInput; '167': TwoSumSortedInput; '242': ValidAnagramInput;
+  '88': MergeSortedArrayInput; '125': ValidPalindromeInput; '169': MajorityElementInput;
 };
 export type ProblemInput = ProblemInputMap[ProblemId];
 
@@ -238,6 +264,22 @@ export function expectedOutput<I extends ProblemId>(problemId: I, rawInput: Prob
       const counts = Array<number>(26).fill(0);
       for (let index = 0; index < s.length; index++) { counts[s.charCodeAt(index) - 97]!++; counts[t.charCodeAt(index) - 97]!--; }
       return { kind: 'boolean', value: counts.every(count => count === 0) };
+    }
+    case '88': {
+      const { nums1, m, nums2 } = input as MergeSortedArrayInput;
+      return { kind: 'int-array', values: [...nums1.slice(0, m), ...nums2].sort((a, b) => a - b) };
+    }
+    case '125': {
+      const normalized = (input as ValidPalindromeInput).s.toLowerCase().replace(/[^a-z0-9]/g, '');
+      return { kind: 'boolean', value: normalized === [...normalized].reverse().join('') };
+    }
+    case '169': {
+      const nums = (input as MajorityElementInput).nums;
+      const counts = new Map<number, number>();
+      for (const value of nums) counts.set(value, (counts.get(value) ?? 0) + 1);
+      const winner = [...counts].find(([, count]) => count > nums.length / 2);
+      if (!winner) throw new Error('MajorityElementInput contract promised a majority');
+      return { kind: 'int', value: winner[0] };
     }
   }
 }

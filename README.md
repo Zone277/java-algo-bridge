@@ -6,7 +6,7 @@ A local-first Java algorithm learning tool for Windows. It helps learners with b
 
 ## Highlights
 
-- Sixteen progressively structured algorithm problems covering arrays, hashing, stacks, linked lists, binary trees, dynamic programming, and sliding windows.
+- Nineteen progressively structured algorithm problems covering arrays, strings, hashing, stacks, linked lists, binary trees, dynamic programming, and sliding windows.
 - Eight short Java bridge lessons (J1–J8) covering syntax differences, arrays, collections, strings, references, and common data structures.
 - A complete learning path from syntax preparation and problem analysis to guided coding and independent practice.
 - State-based visualizations of built-in reference algorithms, showing how variables and data structures change step by step.
@@ -33,6 +33,9 @@ A local-first Java algorithm learning tool for Windows. It helps learners with b
 | 53 | Maximum Subarray | Array scanning and `Math.max` | Best sum of a nonempty contiguous range |
 | 167 | Two Sum II — Input Array Is Sorted | Arrays and one-based result indices | Opposing pointers on sorted values |
 | 242 | Valid Anagram | `String.charAt` and `int[26]` | Letter-frequency comparison |
+| 88 | Merge Sorted Array | `void` and shared array objects | Backward in-place merge |
+| 125 | Valid Palindrome | `String.charAt` and ASCII case handling | Opposing pointers skipping punctuation |
+| 169 | Majority Element | `int` locals and enhanced `for` | Pair cancellation and vote count |
 
 ## Requirements
 

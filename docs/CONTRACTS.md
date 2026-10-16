@@ -173,3 +173,13 @@ ReferenceTrace 的 `finalOutput` 使用同一 Output 联合但通道固定为 `r
 - 242：`{s:string,t:string}`，两者各 1—10000 个小写英文字母；返回字符多重集是否相等，长度不同直接为 false。版本 `242-v1/242-tests-v1/242-frequency-count-v1`，Java 方法 `public boolean isAnagram(String s, String t)`。
 
 三题沿用已有 `int | int-array | boolean` 输出、单次任务隔离和 `reference-model` / `student-java` 两通道。演示输入最多 30 项或字符，真实判题最多 10000 项或字符；超出演示限制明确拒绝生成轨迹，不影响真实 runner。
+
+## 三题续扩实施冻结（v1-extension-2026-10-16）
+
+用户继续授权扩题与推送。原十六题顺序、课程版本和学习进度键不变；末尾增加 88、125、169，当前共十九题。`ProblemIdSchema`、`PROBLEM_ORDER`、RunRequest/Lesson 联合、两端 registry、Java 适配器与 Supervisor 白名单必须同序。Lesson/测试集版本分别为 `88-v1/88-tests-v1`、`125-v1/125-tests-v1`、`169-v1/169-tests-v1`。
+
+- 88：`{nums1:int[],m:int,nums2:int[],n:int}`；`nums1.length=m+n`、`nums2.length=n`，`0<=m,n<=200`，`1<=m+n<=200`，有效前缀与 `nums2` 分别非降序，`nums1` 尾部 n 项为 0，值在 -10^9 到 10^9。`public void merge(int[] nums1,int m,int[] nums2,int n)` 的可信调用器读取传入的**原** `nums1` 对象；重新给参数赋值不算完成。输出为合并后非降序 `int-array`，可信预期用输入元素排序独立计算。
+- 125：`{s:string}`，本站 1—10000 个可打印 ASCII 字符。`public boolean isPalindrome(String s)`；忽略非 ASCII 字母数字，字母大小写不敏感，数字保留。可信预期先过滤和转小写再反向比较；超出本站字符范围返回输入错误，不报告算法错误。
+- 169：`{nums:int[]}`，本站 1—10000 项、每项 -10^9 到 10^9，严格多数元素已保证存在。`public int majorityElement(int[] nums)` 返回出现次数大于 `floor(n/2)` 的元素；可信预期用频次表计算，与课程参考投票法独立。
+
+上述三题继续使用既有 `int`、`boolean`、`int-array` 结构化输出、Docker 一次性隔离、进度与草稿命名空间。参考演示是参考算法的不可变状态模型，不是学生源码运行轨迹；演示最多 30 项/字符，真实 Java 判题沿用各题本站上限。

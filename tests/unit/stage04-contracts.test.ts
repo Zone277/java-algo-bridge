@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import {
-  PROBLEM_ORDER, RunRequestSchema, TreeInputSchema, TwoSumInputSchema,
+  PROBLEM_ORDER, RunRequestSchema, TreeInputSchema, TwoSumInputSchema, MergeSortedArrayInputSchema, ValidPalindromeInputSchema, MajorityElementInputSchema,
   expectedOutput, judgeProblemOutput, type MergeListsInput, type Output,
 } from '@jab/contracts';
 
 describe('shared problem contracts', () => {
   it('keeps the registered problem order and accepts every request shape', () => {
-    expect(PROBLEM_ORDER).toEqual(['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242']);
+    expect(PROBLEM_ORDER).toEqual(['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242', '88', '125', '169']);
     const requests = [
       ['704', '704-v1', { nums: [1], target: 1 }], ['283', '283-v1', { nums: [0] }],
       ['977', '977-v1', { nums: [-1, 2] }], ['1', '1-v1', { nums: [2, 7], target: 9 }],
@@ -19,6 +19,9 @@ describe('shared problem contracts', () => {
       ['53', '53-v1', { nums: [-2, 1, -3, 4] }],
       ['167', '167-v1', { numbers: [2, 7, 11, 15], target: 9 }],
       ['242', '242-v1', { s: 'listen', t: 'silent' }],
+      ['88', '88-v1', { nums1: [1, 0], m: 1, nums2: [2], n: 1 }],
+      ['125', '125-v1', { s: 'A,b,a' }],
+      ['169', '169-v1', { nums: [2, 1, 2] }],
     ] as const;
     for (const [problemId, lessonVersion, input] of requests) expect(RunRequestSchema.safeParse({ problemId, lessonVersion, source: 'class Solution {}', mode: 'run', input }).success).toBe(true);
   });
@@ -61,5 +64,20 @@ describe('shared problem contracts', () => {
     expect(expectedOutput('121', { prices: [7, 6, 4, 3, 1] })).toEqual({ kind: 'int', value: 0 });
     expect(expectedOutput('217', { nums: [1, 2, 3, 1] })).toEqual({ kind: 'boolean', value: true });
     expect(expectedOutput('217', { nums: [1, 2, 3, 4] })).toEqual({ kind: 'boolean', value: false });
+  });
+
+  it('validates and judges the three new problem semantics', () => {
+    const merge = MergeSortedArrayInputSchema.parse({ nums1: [1, 2, 0, 0], m: 2, nums2: [2, 3], n: 2 });
+    expect(expectedOutput('88', merge)).toEqual({ kind: 'int-array', values: [1, 2, 2, 3] });
+    expect(judgeProblemOutput('88', merge, { kind: 'int-array', values: [1, 2, 2, 3] }).passed).toBe(true);
+    expect(judgeProblemOutput('88', merge, { kind: 'int-array', values: [1, 2, 0, 0] }).passed).toBe(false);
+    expect(MergeSortedArrayInputSchema.safeParse({ nums1: [2, 1, 0], m: 2, nums2: [3], n: 1 }).success).toBe(false);
+    expect(MergeSortedArrayInputSchema.safeParse({ nums1: [1, 9], m: 1, nums2: [2], n: 1 }).success).toBe(false);
+    expect(ValidPalindromeInputSchema.safeParse({ s: 'A,1a' }).success).toBe(true);
+    expect(ValidPalindromeInputSchema.safeParse({ s: 'é' }).success).toBe(false);
+    expect(expectedOutput('125', { s: 'A,1b' })).toEqual({ kind: 'boolean', value: false });
+    expect(expectedOutput('125', { s: 'A man, a plan, a canal: Panama' })).toEqual({ kind: 'boolean', value: true });
+    expect(MajorityElementInputSchema.safeParse({ nums: [1, 2, 3] }).success).toBe(false);
+    expect(expectedOutput('169', { nums: [-3, 2, -3] })).toEqual({ kind: 'int', value: -3 });
   });
 });

@@ -14,6 +14,9 @@ import { lesson217, demoInputs as inputs217 } from '@jab/curriculum/217';
 import { lesson53, demoInputs as inputs53 } from '@jab/curriculum/53';
 import { lesson167, demoInputs as inputs167 } from '@jab/curriculum/167';
 import { lesson242, demoInputs as inputs242 } from '@jab/curriculum/242';
+import { lesson88, demoInputs as inputs88 } from '@jab/curriculum/88';
+import { lesson125, demoInputs as inputs125 } from '@jab/curriculum/125';
+import { lesson169, demoInputs as inputs169 } from '@jab/curriculum/169';
 import { buildReferenceTrace as trace704, predictionAt as predict704 } from '@jab/curriculum/704/model';
 import { buildReferenceTrace as trace283, predictionAt as predict283 } from '@jab/curriculum/283/model';
 import { buildReferenceTrace as trace977, predictionAt as predict977 } from '@jab/curriculum/977/model';
@@ -30,7 +33,10 @@ import { buildReferenceTrace as trace217, predictionAt as predict217 } from '@ja
 import { buildReferenceTrace as trace53, predictionAt as predict53 } from '@jab/curriculum/53/model';
 import { buildReferenceTrace as trace167, predictionAt as predict167 } from '@jab/curriculum/167/model';
 import { buildReferenceTrace as trace242, predictionAt as predict242 } from '@jab/curriculum/242/model';
-import { BinarySearchInputSchema, ClimbStairsInputSchema, ContainsDuplicateInputSchema, LinkedListInputSchema, LongestSubstringInputSchema, MaxProfitInputSchema, MaximumSubarrayInputSchema, MergeListsInputSchema, MoveZeroesInputSchema, SearchInsertInputSchema, SortedSquaresInputSchema, TreeInputSchema, TwoSumInputSchema, TwoSumSortedInputSchema, ValidAnagramInputSchema, ValidParenthesesInputSchema, type Answer, type Lesson, type LessonInput, type ReferenceTrace, type ReferencePrediction } from '@jab/contracts';
+import { buildReferenceTrace as trace88, predictionAt as predict88 } from '@jab/curriculum/88/model';
+import { buildReferenceTrace as trace125, predictionAt as predict125 } from '@jab/curriculum/125/model';
+import { buildReferenceTrace as trace169, predictionAt as predict169 } from '@jab/curriculum/169/model';
+import { BinarySearchInputSchema, ClimbStairsInputSchema, ContainsDuplicateInputSchema, LinkedListInputSchema, LongestSubstringInputSchema, MaxProfitInputSchema, MaximumSubarrayInputSchema, MergeListsInputSchema, MoveZeroesInputSchema, SearchInsertInputSchema, SortedSquaresInputSchema, TreeInputSchema, TwoSumInputSchema, TwoSumSortedInputSchema, ValidAnagramInputSchema, ValidParenthesesInputSchema, MergeSortedArrayInputSchema, ValidPalindromeInputSchema, MajorityElementInputSchema, type Answer, type Lesson, type LessonInput, type ReferenceTrace, type ReferencePrediction } from '@jab/contracts';
 
 export type LessonRuntime = {
   lesson: Lesson;
@@ -57,4 +63,7 @@ export const lessonRuntimes: LessonRuntime[] = [
   { lesson: lesson53, demoInputs: inputs53, buildTrace: (input, id) => trace53(MaximumSubarrayInputSchema.parse(input), id), predictionAt: predict53, defaultInput: inputs53[0]!.input, syntaxCheck: { checkpointId: '53-v1:syntax:negative-int', prompt: 'int best = -3; 执行 best = Math.max(best, -2) 后，best 是多少？', answer: { kind: 'int', value: -2 }, explanation: 'Math.max 返回较大的 int；全负数组的最大非空子数组和仍可能是负数。' } },
   { lesson: lesson167, demoInputs: inputs167, buildTrace: (input, id) => trace167(TwoSumSortedInputSchema.parse(input), id), predictionAt: predict167, defaultInput: inputs167[0]!.input, syntaxCheck: { checkpointId: '167-v1:syntax:one-based', prompt: '数组下标 0 对应题目要求的第几个位置？', answer: { kind: 'int', value: 1 }, explanation: 'Java 数组下标从 0 开始；本题返回的位置从 1 开始，所以返回 left + 1。' } },
   { lesson: lesson242, demoInputs: inputs242, buildTrace: (input, id) => trace242(ValidAnagramInputSchema.parse(input), id), predictionAt: predict242, defaultInput: inputs242[0]!.input, syntaxCheck: { checkpointId: '242-v1:syntax:char-offset', prompt: "小写字母 'c' - 'a' 在 Java 中的结果是多少？", answer: { kind: 'int', value: 2 }, explanation: "char 算术得到整数偏移；本站输入限定 a-z，可用它访问长度 26 的计数数组。" } },
+  { lesson: lesson88, demoInputs: inputs88, buildTrace: (input, id) => trace88(MergeSortedArrayInputSchema.parse(input), id), predictionAt: predict88, defaultInput: inputs88[0]!.input, syntaxCheck: { checkpointId: '88-v1:syntax:original-array', prompt: '传入 nums1 = {1, 0} 后，方法内执行 nums1[1] = 2。调用者原数组的第二项是多少？', answer: { kind: 'int', value: 2 }, explanation: '写入数组单元会修改共同引用的数组对象；只给参数 nums1 重新赋值则不会。' } },
+  { lesson: lesson125, demoInputs: inputs125, buildTrace: (input, id) => trace125(ValidPalindromeInputSchema.parse(input), id), predictionAt: predict125, defaultInput: inputs125[0]!.input, syntaxCheck: { checkpointId: '125-v1:syntax:char-case', prompt: 'String s = "Aa"; s.charAt(1) 得到哪个字符？', answer: { kind: 'text', value: 'a' }, explanation: 'charAt(1) 读取第二个字符；本站只接受可打印 ASCII，比较时再统一大小写。' } },
+  { lesson: lesson169, demoInputs: inputs169, buildTrace: (input, id) => trace169(MajorityElementInputSchema.parse(input), id), predictionAt: predict169, defaultInput: inputs169[0]!.input, syntaxCheck: { checkpointId: '169-v1:syntax:vote-count', prompt: 'int count = 0; 执行 count++ 后，count 是多少？', answer: { kind: 'int', value: 1 }, explanation: 'count++ 将 int 局部变量加一；多数投票中它表示当前候选的净票数，不是对象引用。' } },
 ];

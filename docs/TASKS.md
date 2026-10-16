@@ -125,3 +125,15 @@ C最终独立审查PASS（仅阶段00文档）：发现合法大输入的结构�
 | `/root/problem242` | `packages/curriculum/problems/242/**` | 字母频次完整课程；12 例、3 错夹具、3 动态预测；目录 Vitest 2 文件 / 9 测试与 ESLint PASS |
 
 三份任务的输入资料为 AGENTS、PRODUCT_SPEC、CONTRACTS、DECISIONS 与相邻题目课程；指定契约版本、写入边界、验收命令和交付格式均在实际派工中明确。工作 agent 均未修改共享注册、契约或根文件。主 agent 处理公共联合扩展导致的 704 测试用例类型窄化，并执行真实容器与浏览器集成验收。
+
+## 三题续扩实际派工（2026-10-16）
+
+平台确认三个原生工作 agent 与主 agent 共用同一 checkout，没有独立 worktree。主 agent 先固定 88/125/169 公共输入、可信输出和 Java 调用签名，随后以互不重叠目录派工；契约版本 `v1-extension-2026-10-16`。输入资料为 AGENTS、PRODUCT_SPEC、CONTRACTS、DECISIONS 与相邻课程。各 agent 必须交付完整课程、参考源码与模型、局部测试、路径清单和阻塞；验收命令为项目 Node24 环境中的 `npx vitest run packages/curriculum/problems/<id>`。
+
+| 实际任务 | 唯一允许写入路径 | 目标 |
+|---|---|---|
+| `/root/course88` | `packages/curriculum/problems/88/**` | 原数组向后归并；含重绑定错误夹具与中间状态不变量 |
+| `/root/course125` | `packages/curriculum/problems/125/**` | ASCII 回文双指针；标点/大小写/数字反例 |
+| `/root/course169` | `packages/curriculum/problems/169/**` | 多数元素投票；过半前提、抵消状态与反例 |
+
+主 agent 独占 `packages/contracts/**`、根清单和锁、公共注册、桥接映射、全局测试及文档；统一做真实 Docker 和浏览器集成。三份派工都禁止跨目录编辑、提交或推送。
