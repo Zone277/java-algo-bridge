@@ -33,6 +33,9 @@ public final class Adapter {
         case "88" -> run88(solution, instance, input, result);
         case "125" -> run125(solution, instance, input, result);
         case "169" -> run169(solution, instance, input, result);
+        case "11" -> run11(solution, instance, input, result);
+        case "209" -> run209(solution, instance, input, result);
+        case "198" -> run198(solution, instance, input, result);
         default -> throw new IllegalArgumentException("Unregistered problem");
       }
     } catch (Throwable error) {
@@ -175,6 +178,24 @@ public final class Adapter {
       throw new IllegalArgumentException("需要 " + signature + " 实例方法");
     method.setAccessible(true);
     return method;
+  }
+
+  private static void run11(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    int[] height = ints(input.getAsJsonArray("height"));
+    Method method = method(solution, "maxArea", int.class, "public int maxArea(int[] height)", int[].class);
+    ok(result, intOutput((Integer) method.invoke(instance, (Object) height)));
+  }
+
+  private static void run209(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    int[] nums = ints(input.getAsJsonArray("nums"));
+    Method method = method(solution, "minSubArrayLen", int.class, "public int minSubArrayLen(int target, int[] nums)", int.class, int[].class);
+    ok(result, intOutput((Integer) method.invoke(instance, input.get("target").getAsInt(), nums)));
+  }
+
+  private static void run198(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    int[] nums = ints(input.getAsJsonArray("nums"));
+    Method method = method(solution, "rob", int.class, "public int rob(int[] nums)", int[].class);
+    ok(result, intOutput((Integer) method.invoke(instance, (Object) nums)));
   }
 
   private static int[] ints(JsonArray array) {

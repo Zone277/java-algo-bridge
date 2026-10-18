@@ -137,3 +137,17 @@ C最终独立审查PASS（仅阶段00文档）：发现合法大输入的结构�
 | `/root/course169` | `packages/curriculum/problems/169/**` | 多数元素投票；过半前提、抵消状态与反例 |
 
 主 agent 独占 `packages/contracts/**`、根清单和锁、公共注册、桥接映射、全局测试及文档；统一做真实 Docker 和浏览器集成。三份派工都禁止跨目录编辑、提交或推送。
+
+## 三题续扩实际派工（2026-10-18）
+
+平台明确所有 agent 共享当前 checkout，没有自动隔离 worktree；本批使用三个真实原生工作 agent。主 agent 先固定 `v1-extension-2026-10-18` 输入、结果、Lesson/Run 联合与 Java 调用签名，再分配互不重叠的课程目录。
+
+| 实际任务 | 唯一允许写入路径 | 目标与验收 |
+|---|---|---|
+| `/root/course11` | `packages/curriculum/problems/11/**` | 完整短边双指针课程；逐步面积与排除不变量；目录 Vitest 与 ESLint |
+| `/root/course209` | `packages/curriculum/problems/209/**` | 完整正数窗口课程；连续和、收缩微步骤与最短长度；目录 Vitest 与 ESLint |
+| `/root/course198` | `packages/curriculum/problems/198/**` | 完整不相邻选择课程；前缀 DP 与滚动赋值不变量；目录 Vitest 与 ESLint |
+
+输入资料为 AGENTS、PRODUCT_SPEC、CONTRACTS、DECISIONS 及相邻课程；每份派工明确契约版本、读写边界、命令及交付格式。要求完整教学路径、至少八个覆盖用例、两个错误 Java 夹具和两个动态预测，目录外只读。主 agent 独占根配置/锁、contracts、所有公共 registry、Java Adapter、全局测试、文档及 Git；工作 agent 不运行宿主学生 Java、不提交或推送。真实 Docker 差分、浏览器学习闭环与旧题回归由主 agent 验收，结果见 `EXTENSION_2026-10-18.md`。
+
+实际目录交付：11 为 12 例/3 错夹具、2 文件/9 测试 PASS；209 为 15 例/2 错夹具、2 文件/10 测试 PASS；198 为 13 例/2 错夹具、2 文件/8 测试 PASS。所有目录均先释放给主 agent，随后 `/root/course198` 只读复核 11、`/root/course11` 只读复核 198。主 agent 修复复核发现的 198 显示边界与文字问题，复核者实际重跑组件/课程测试确认关闭；没有共享路径并发写入。

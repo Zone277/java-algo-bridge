@@ -183,3 +183,13 @@ ReferenceTrace 的 `finalOutput` 使用同一 Output 联合但通道固定为 `r
 - 169：`{nums:int[]}`，本站 1—10000 项、每项 -10^9 到 10^9，严格多数元素已保证存在。`public int majorityElement(int[] nums)` 返回出现次数大于 `floor(n/2)` 的元素；可信预期用频次表计算，与课程参考投票法独立。
 
 上述三题继续使用既有 `int`、`boolean`、`int-array` 结构化输出、Docker 一次性隔离、进度与草稿命名空间。参考演示是参考算法的不可变状态模型，不是学生源码运行轨迹；演示最多 30 项/字符，真实 Java 判题沿用各题本站上限。
+
+## 三题续扩实施冻结（v1-extension-2026-10-18）
+
+原十九题顺序、版本和学习记录保持不变，末尾依次加入 11、209、198，当前二十二题。公共 schema、课程注册、API 注册、Java Adapter 与 Supervisor 白名单统一扩展；Lesson/测试版本分别为 `11-v1/11-tests-v1`、`209-v1/209-tests-v1`、`198-v1/198-tests-v1`。
+
+- 11：严格输入 `{height:int[]}`，本站长度 2—10000，每项 0—10000。`public int maxArea(int[] height)` 返回 `max(min(height[i],height[j])*(j-i))`，要求 i<j，不是接雨水总量。参考算法移动短边；可信期望按高度降序加入下标、维护左右最远位置，独立计算面积。
+- 209：严格输入 `{target:int,nums:int[]}`，target 为 1—10^9，本站数组长度 1—10000、元素 1—10000。`public int minSubArrayLen(int target,int[] nums)` 返回总和至少为 target 的最短**连续**子数组长度，无解返回 0。正数是窗口单调收缩的前提；可信期望采用前缀和与逐起点二分查找。
+- 198：严格输入 `{nums:int[]}`，长度 1—100，金额 0—400。`public int rob(int[] nums)` 返回不选择相邻下标的最大总和；房屋排成一行，首尾不额外相邻。参考算法用两个滚动前缀值，可信期望用完整前缀 DP 表。
+
+三题沿用 `int` 输出和两个已有通道：参考状态 `reference-model` 与真实执行 `student-java`。算法版本依次为 `11-shorter-side-pointers-v1`、`209-positive-window-v1`、`198-rolling-prefix-dp-v1`。显示最多 30 项，超过明确拒绝生成演示，真实 Java 仍接受各题本站上限。Java int 足以容纳上述约束下的中间值与结果。

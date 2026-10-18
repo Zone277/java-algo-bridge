@@ -62,5 +62,8 @@ Docker run、资源限制与安全说明：限制需要实际配置与环境验�
 88：`https://leetcode.com/problems/merge-sorted-array/`
 125：`https://leetcode.com/problems/valid-palindrome/`
 169：`https://leetcode.com/problems/majority-element/`
+11：`https://leetcode.com/problems/container-with-most-water/`
+209：`https://leetcode.com/problems/minimum-size-subarray-sum/`
+198：`https://leetcode.com/problems/house-robber/`
 
 只用上述公开题目的任务信息作为算法原型范围；不复制付费题解或图形。本站原型不代表官方产品，不声明复现官方隐藏用例、时限或复杂度验证。

@@ -7,5 +7,5 @@ if (!health.available) {
   console.error(`BLOCKED real Java tests: ${health.reason}`);
   process.exitCode = 1;
 } else {
-  process.exitCode = await command(process.execPath, ['node_modules/vitest/vitest.mjs', 'run', '--config', 'vitest.runner.config.ts']);
+  process.exitCode = await command(process.execPath, ['node_modules/vitest/vitest.mjs', 'run', '--config', 'vitest.runner.config.ts', '--reporter', 'verbose']);
 }

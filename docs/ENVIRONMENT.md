@@ -78,3 +78,9 @@ Node24.20.0/npm11.19.0与Docker可用，目录仍共享且无Git仓库。默认d
 Docker CLI 29.7.2 可调用，但 daemon 返回 `Docker Desktop is unable to start`；host backend 日志明确记录 Linux/WSL engine 前置为 `WSL update required`。旧实现会把 exit 0 + 空 OSType 误报为 stale cleanup 失败；修复后 doctor 准确返回 `DOCKER_DAEMON_UNAVAILABLE`。没有调用宿主 Java、没有自动拉取缺失项目镜像、没有修改 WSL/虚拟化/防护设置。
 
 非 Docker门禁为 33 文件 / 206 测试 PASS，web/API build PASS，390px 专项 Playwright PASS。用户于 2026-09-15 明确授权 `wsl --update`，WSL 2.7.13 更新为 2.7.14；重启后 Docker Engine 29.7.2 恢复为 linux/amd64、cgroup v2。固定镜像 `java-algo-bridge-runner:21.0.12` 构建 PASS，ID `sha256:2e21b5062179c6fde7d2ff77b75f1f13348ca8651f258ac2ae20947d19124ff7`。64 项真实 runner、19 项真实浏览器、shutdown 和最终 verify 全部 PASS；结束后项目标签容器、`jab-run-*` 临时目录及 5173/3001 监听均为空。
+
+## 续扩环境检查（2026-10-18）
+
+当前 Windows / PowerShell，项目已有共享 Git checkout，`main` 初始干净，基线 `233cc109727c21815e6e892c9c805c9d8cc9a9f8`；远程为 Zone277/java-algo-bridge。项目脚本选择 Node v24.20.0/npm 11.19.0。Docker Desktop 原先未启动，通过现有桌面入口启动后 `docker info` 确认为 Engine 29.7.2、linux/x86_64；没有修改全局设置、WSL、执行策略或安全保护。原生 agent 按互斥课程目录共享同一 checkout，文件写入权限正常。
+
+本批固定 runner 镜像实际构建 ID 为 `sha256:11dbca74efe1222b7fb23e0e33dde77102c2108e72c9148ec43d3bbd31cfcff2`，linux/amd64；JDK 基础 digest、Gson 与资源限制保持。实际端口、真实执行、浏览器与清理验收见 `EXTENSION_2026-10-18.md`，其中未运行项明确标记 NOT_RUN。GitHub 采用现有凭据存储，凭据不进入项目文件；本轮用户已明确授权提交并推送。

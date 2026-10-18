@@ -6,9 +6,9 @@ export const JAVA_INT_MAX = 2147483647;
 const javaInt = z.number().int().min(JAVA_INT_MIN).max(JAVA_INT_MAX);
 const sorted = (values: readonly number[]) => values.every((value, index) => index === 0 || value >= values[index - 1]!);
 
-export const ProblemIdSchema = z.enum(['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242', '88', '125', '169']);
+export const ProblemIdSchema = z.enum(['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242', '88', '125', '169', '11', '209', '198']);
 export type ProblemId = z.infer<typeof ProblemIdSchema>;
-export const PROBLEM_ORDER = ['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242', '88', '125', '169'] as const satisfies readonly ProblemId[];
+export const PROBLEM_ORDER = ['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242', '88', '125', '169', '11', '209', '198'] as const satisfies readonly ProblemId[];
 export const PROBLEM_META = Object.freeze({
   '704': { order: 1, number: 704, lessonVersion: '704-v1', testSuiteVersion: '704-tests-v2', title: '二分查找', methodSignature: 'public int search(int[] nums, int target)' },
   '283': { order: 2, number: 283, lessonVersion: '283-v1', testSuiteVersion: '283-tests-v1', title: '移动零', methodSignature: 'public void moveZeroes(int[] nums)' },
@@ -29,6 +29,9 @@ export const PROBLEM_META = Object.freeze({
   '88': { order: 17, number: 88, lessonVersion: '88-v1', testSuiteVersion: '88-tests-v1', title: '合并两个有序数组', methodSignature: 'public void merge(int[] nums1, int m, int[] nums2, int n)' },
   '125': { order: 18, number: 125, lessonVersion: '125-v1', testSuiteVersion: '125-tests-v1', title: '验证回文串', methodSignature: 'public boolean isPalindrome(String s)' },
   '169': { order: 19, number: 169, lessonVersion: '169-v1', testSuiteVersion: '169-tests-v1', title: '多数元素', methodSignature: 'public int majorityElement(int[] nums)' },
+  '11': { order: 20, number: 11, lessonVersion: '11-v1', testSuiteVersion: '11-tests-v1', title: '盛最多水的容器', methodSignature: 'public int maxArea(int[] height)' },
+  '209': { order: 21, number: 209, lessonVersion: '209-v1', testSuiteVersion: '209-tests-v1', title: '长度最小的子数组', methodSignature: 'public int minSubArrayLen(int target, int[] nums)' },
+  '198': { order: 22, number: 198, lessonVersion: '198-v1', testSuiteVersion: '198-tests-v1', title: '打家劫舍', methodSignature: 'public int rob(int[] nums)' },
 } satisfies Record<ProblemId, { order: number; number: number; lessonVersion: string; testSuiteVersion: string; title: string; methodSignature: string }>);
 
 export const BinarySearchInputSchema = z.strictObject({
@@ -120,6 +123,10 @@ export const MajorityElementInputSchema = z.strictObject({ nums: z.array(z.numbe
     if (![...counts.values()].some(count => count > nums.length / 2)) ctx.addIssue({ code: 'custom', message: '本站输入保证严格过半的多数元素' });
   });
 
+export const ContainerWaterInputSchema = z.strictObject({ height: z.array(z.number().int().min(0).max(10000)).min(2).max(10000) });
+export const MinimumSubarrayInputSchema = z.strictObject({ target: z.number().int().min(1).max(1000000000), nums: z.array(z.number().int().min(1).max(10000)).min(1).max(10000) });
+export const HouseRobberInputSchema = z.strictObject({ nums: z.array(z.number().int().min(0).max(400)).min(1).max(100) });
+
 export const ProblemInputSchemas = Object.freeze({
   '704': BinarySearchInputSchema, '283': MoveZeroesInputSchema, '977': SortedSquaresInputSchema, '1': TwoSumInputSchema,
   '20': ValidParenthesesInputSchema, '206': LinkedListInputSchema, '21': MergeListsInputSchema, '104': TreeInputSchema,
@@ -127,8 +134,9 @@ export const ProblemInputSchemas = Object.freeze({
   '121': MaxProfitInputSchema, '217': ContainsDuplicateInputSchema,
   '53': MaximumSubarrayInputSchema, '167': TwoSumSortedInputSchema, '242': ValidAnagramInputSchema,
   '88': MergeSortedArrayInputSchema, '125': ValidPalindromeInputSchema, '169': MajorityElementInputSchema,
+  '11': ContainerWaterInputSchema, '209': MinimumSubarrayInputSchema, '198': HouseRobberInputSchema,
 });
-export const ProblemInputSchema = z.union([BinarySearchInputSchema, MoveZeroesInputSchema, SortedSquaresInputSchema, TwoSumInputSchema, ValidParenthesesInputSchema, LinkedListInputSchema, MergeListsInputSchema, TreeInputSchema, ClimbStairsInputSchema, LongestSubstringInputSchema, MaxProfitInputSchema, MaximumSubarrayInputSchema, TwoSumSortedInputSchema, ValidAnagramInputSchema, MergeSortedArrayInputSchema, ValidPalindromeInputSchema, MajorityElementInputSchema]);
+export const ProblemInputSchema = z.union([BinarySearchInputSchema, MoveZeroesInputSchema, SortedSquaresInputSchema, TwoSumInputSchema, ValidParenthesesInputSchema, LinkedListInputSchema, MergeListsInputSchema, TreeInputSchema, ClimbStairsInputSchema, LongestSubstringInputSchema, MaxProfitInputSchema, MaximumSubarrayInputSchema, TwoSumSortedInputSchema, ValidAnagramInputSchema, MergeSortedArrayInputSchema, ValidPalindromeInputSchema, MajorityElementInputSchema, ContainerWaterInputSchema, MinimumSubarrayInputSchema, HouseRobberInputSchema]);
 export type BinarySearchInput = z.infer<typeof BinarySearchInputSchema>;
 export type MoveZeroesInput = z.infer<typeof MoveZeroesInputSchema>;
 export type SortedSquaresInput = z.infer<typeof SortedSquaresInputSchema>;
@@ -147,6 +155,9 @@ export type ValidAnagramInput = z.infer<typeof ValidAnagramInputSchema>;
 export type MergeSortedArrayInput = z.infer<typeof MergeSortedArrayInputSchema>;
 export type ValidPalindromeInput = z.infer<typeof ValidPalindromeInputSchema>;
 export type MajorityElementInput = z.infer<typeof MajorityElementInputSchema>;
+export type ContainerWaterInput = z.infer<typeof ContainerWaterInputSchema>;
+export type MinimumSubarrayInput = z.infer<typeof MinimumSubarrayInputSchema>;
+export type HouseRobberInput = z.infer<typeof HouseRobberInputSchema>;
 export type ProblemInputMap = {
   '704': BinarySearchInput; '283': MoveZeroesInput; '977': SortedSquaresInput; '1': TwoSumInput;
   '20': ValidParenthesesInput; '206': z.infer<typeof LinkedListInputSchema>; '21': MergeListsInput; '104': TreeInput;
@@ -154,6 +165,7 @@ export type ProblemInputMap = {
   '217': ContainsDuplicateInput;
   '53': MaximumSubarrayInput; '167': TwoSumSortedInput; '242': ValidAnagramInput;
   '88': MergeSortedArrayInput; '125': ValidPalindromeInput; '169': MajorityElementInput;
+  '11': ContainerWaterInput; '209': MinimumSubarrayInput; '198': HouseRobberInput;
 };
 export type ProblemInput = ProblemInputMap[ProblemId];
 
@@ -280,6 +292,39 @@ export function expectedOutput<I extends ProblemId>(problemId: I, rawInput: Prob
       const winner = [...counts].find(([, count]) => count > nums.length / 2);
       if (!winner) throw new Error('MajorityElementInput contract promised a majority');
       return { kind: 'int', value: winner[0] };
+    }
+    case '11': {
+      // Process bars by descending height, independently of the reference two-pointer scan.
+      const height = (input as ContainerWaterInput).height;
+      const indices = height.map((_, index) => index).sort((a, b) => height[b]! - height[a]!);
+      let left = height.length; let right = -1; let best = 0;
+      for (const index of indices) {
+        left = Math.min(left, index); right = Math.max(right, index);
+        best = Math.max(best, height[index]! * (right - left));
+      }
+      return { kind: 'int', value: best };
+    }
+    case '209': {
+      const { nums, target } = input as MinimumSubarrayInput;
+      const prefix = [0];
+      for (const value of nums) prefix.push(prefix.at(-1)! + value);
+      let best = nums.length + 1;
+      for (let start = 0; start < nums.length; start++) {
+        const threshold = prefix[start]! + target;
+        let low = start + 1; let high = prefix.length;
+        while (low < high) {
+          const mid = low + Math.floor((high - low) / 2);
+          if (prefix[mid]! < threshold) low = mid + 1; else high = mid;
+        }
+        if (low < prefix.length) best = Math.min(best, low - start);
+      }
+      return { kind: 'int', value: best > nums.length ? 0 : best };
+    }
+    case '198': {
+      const nums = (input as HouseRobberInput).nums;
+      const dp = Array<number>(nums.length + 1).fill(0);
+      for (let count = 1; count <= nums.length; count++) dp[count] = Math.max(dp[count - 1]!, (count > 1 ? dp[count - 2]! : 0) + nums[count - 1]!);
+      return { kind: 'int', value: dp[nums.length]! };
     }
   }
 }

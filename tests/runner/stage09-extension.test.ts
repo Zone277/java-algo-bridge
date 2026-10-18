@@ -75,13 +75,13 @@ describe('three new courses execute Java in Docker and agree with immutable refe
   for (const course of courses) for (const fixture of course.lesson.testSuite.wrongFixtures) {
     it(`${course.id} rejects wrong fixture ${fixture.id} on a named counterexample`, async () => {
       const submitted = await runner.execute({ problemId: course.id, lessonVersion: course.lesson.lessonVersion, source: fixture.source, mode: 'submit' });
-      expect(['WRONG_ANSWER', 'RUNTIME_ERROR', 'TIME_LIMIT']).toContain(submitted.status);
+      expect(['WRONG_ANSWER', 'RUNTIME_ERROR', 'TIME_LIMIT'], JSON.stringify({ phase: submitted.phase, reason: submitted.reason, stderr: submitted.stderr, timings: submitted.timings, cleanup: submitted.cleanup })).toContain(submitted.status);
       let exposed = false;
       for (const id of fixture.targetedCaseIds) {
         const target = course.lesson.testSuite.cases.find(item => item.id === id)!;
         const request = RunRequestSchema.parse({ problemId: course.id, lessonVersion: course.lesson.lessonVersion, source: fixture.source, mode: 'run', input: target.input }) as RunRequest;
         const result = await runner.execute(request);
-        expect(['PASSED_LOCAL_TESTS', 'WRONG_ANSWER', 'RUNTIME_ERROR', 'TIME_LIMIT']).toContain(result.status);
+        expect(['PASSED_LOCAL_TESTS', 'WRONG_ANSWER', 'RUNTIME_ERROR', 'TIME_LIMIT'], JSON.stringify({ phase: result.phase, reason: result.reason, stderr: result.stderr, timings: result.timings, cleanup: result.cleanup })).toContain(result.status);
         exposed ||= result.status !== 'PASSED_LOCAL_TESTS';
       }
       expect(exposed, `${course.id}:${fixture.id} targeted cases must expose the bug`).toBe(true);

@@ -17,6 +17,9 @@ import { lesson242, demoInputs as inputs242 } from '@jab/curriculum/242';
 import { lesson88, demoInputs as inputs88 } from '@jab/curriculum/88';
 import { lesson125, demoInputs as inputs125 } from '@jab/curriculum/125';
 import { lesson169, demoInputs as inputs169 } from '@jab/curriculum/169';
+import { lesson11, demoInputs as inputs11 } from '@jab/curriculum/11';
+import { lesson209, demoInputs as inputs209 } from '@jab/curriculum/209';
+import { lesson198, demoInputs as inputs198 } from '@jab/curriculum/198';
 import { buildReferenceTrace as trace704, predictionAt as predict704 } from '@jab/curriculum/704/model';
 import { buildReferenceTrace as trace283, predictionAt as predict283 } from '@jab/curriculum/283/model';
 import { buildReferenceTrace as trace977, predictionAt as predict977 } from '@jab/curriculum/977/model';
@@ -36,6 +39,10 @@ import { buildReferenceTrace as trace242, predictionAt as predict242 } from '@ja
 import { buildReferenceTrace as trace88, predictionAt as predict88 } from '@jab/curriculum/88/model';
 import { buildReferenceTrace as trace125, predictionAt as predict125 } from '@jab/curriculum/125/model';
 import { buildReferenceTrace as trace169, predictionAt as predict169 } from '@jab/curriculum/169/model';
+import { buildReferenceTrace as trace11, predictionAt as predict11 } from '@jab/curriculum/11/model';
+import { buildReferenceTrace as trace209, predictionAt as predict209 } from '@jab/curriculum/209/model';
+import { buildReferenceTrace as trace198, predictionAt as predict198 } from '@jab/curriculum/198/model';
+import { ContainerWaterInputSchema, MinimumSubarrayInputSchema, HouseRobberInputSchema } from '@jab/contracts';
 import { BinarySearchInputSchema, ClimbStairsInputSchema, ContainsDuplicateInputSchema, LinkedListInputSchema, LongestSubstringInputSchema, MaxProfitInputSchema, MaximumSubarrayInputSchema, MergeListsInputSchema, MoveZeroesInputSchema, SearchInsertInputSchema, SortedSquaresInputSchema, TreeInputSchema, TwoSumInputSchema, TwoSumSortedInputSchema, ValidAnagramInputSchema, ValidParenthesesInputSchema, MergeSortedArrayInputSchema, ValidPalindromeInputSchema, MajorityElementInputSchema, type Answer, type Lesson, type LessonInput, type ReferenceTrace, type ReferencePrediction } from '@jab/contracts';
 
 export type LessonRuntime = {
@@ -66,4 +73,7 @@ export const lessonRuntimes: LessonRuntime[] = [
   { lesson: lesson88, demoInputs: inputs88, buildTrace: (input, id) => trace88(MergeSortedArrayInputSchema.parse(input), id), predictionAt: predict88, defaultInput: inputs88[0]!.input, syntaxCheck: { checkpointId: '88-v1:syntax:original-array', prompt: '传入 nums1 = {1, 0} 后，方法内执行 nums1[1] = 2。调用者原数组的第二项是多少？', answer: { kind: 'int', value: 2 }, explanation: '写入数组单元会修改共同引用的数组对象；只给参数 nums1 重新赋值则不会。' } },
   { lesson: lesson125, demoInputs: inputs125, buildTrace: (input, id) => trace125(ValidPalindromeInputSchema.parse(input), id), predictionAt: predict125, defaultInput: inputs125[0]!.input, syntaxCheck: { checkpointId: '125-v1:syntax:char-case', prompt: 'String s = "Aa"; s.charAt(1) 得到哪个字符？', answer: { kind: 'text', value: 'a' }, explanation: 'charAt(1) 读取第二个字符；本站只接受可打印 ASCII，比较时再统一大小写。' } },
   { lesson: lesson169, demoInputs: inputs169, buildTrace: (input, id) => trace169(MajorityElementInputSchema.parse(input), id), predictionAt: predict169, defaultInput: inputs169[0]!.input, syntaxCheck: { checkpointId: '169-v1:syntax:vote-count', prompt: 'int count = 0; 执行 count++ 后，count 是多少？', answer: { kind: 'int', value: 1 }, explanation: 'count++ 将 int 局部变量加一；多数投票中它表示当前候选的净票数，不是对象引用。' } },
+  { lesson: lesson11, demoInputs: inputs11, buildTrace: (input, id) => trace11(ContainerWaterInputSchema.parse(input), id), predictionAt: predict11, defaultInput: inputs11[0]!.input, syntaxCheck: { checkpointId: '11-v1:syntax:width', prompt: 'int left = 1, right = 4; 两条竖线之间的距离 right - left 是多少？', answer: { kind: 'int', value: 3 }, explanation: '下标间距为 4 - 1 = 3；容器宽度不是闭区间元素数量 4。' } },
+  { lesson: lesson209, demoInputs: inputs209, buildTrace: (input, id) => trace209(MinimumSubarrayInputSchema.parse(input), id), predictionAt: predict209, defaultInput: inputs209[0]!.input, syntaxCheck: { checkpointId: '209-v1:syntax:sum-update', prompt: 'int sum = 3; int[] nums = {2, 4}; 执行 sum += nums[1] 后，sum 是多少？', answer: { kind: 'int', value: 7 }, explanation: 'nums[1] 是第二项 4；sum += 4 更新 int 局部变量为 7，不修改数组元素。' } },
+  { lesson: lesson198, demoInputs: inputs198, buildTrace: (input, id) => trace198(HouseRobberInputSchema.parse(input), id), predictionAt: predict198, defaultInput: inputs198[0]!.input, syntaxCheck: { checkpointId: '198-v1:syntax:max', prompt: 'int skip = 4, take = 7; 表达式 Math.max(skip, take) 的结果是多少？', answer: { kind: 'int', value: 7 }, explanation: 'Math.max 返回两个 int 值中的较大值；返回 7 不会自动修改 skip 或 take。' } },
 ];
