@@ -9,9 +9,9 @@ Each request gets only its own read-only input mount, a non-root disposable cont
 This is a local single-user educational runner, not an anti-cheating system or a production multi-tenant sandbox. Student code shares a container and UID with the adapter, so deliberately hostile in-container process/filesystem manipulation is outside the grading authenticity guarantee. Container isolation remains the host security boundary.
 
 Gson 2.14.0 is vendored in `lib/gson-2.14.0.jar` for standard JSON serialization/parsing, SHA-256 `2cbd119bf1961c28788310963dc80ba65f58cdeec1dd139c8bdb1240faa2c36f`. Gson is licensed under Apache License 2.0; the jar includes its upstream `META-INF/LICENSE`. Project dependency preparation verifies the hash before image builds.
-# 二十二题固定适配与恢复边界
+# 二十五题固定适配与恢复边界
 
-同一 Supervisor 使用宿主注册的 `problem.txt` 选择 704、283、977、1、20、206、21、104、70、3、35、121、217、53、167、242、88、125、169、11、209 或 198，学生不能通过请求指定适配器类。固定镜像为 `java-algo-bridge-runner:21.0.12`；运行使用 `--pull=never`，本地镜像缺失时不访问 registry。基础 JDK digest 与原有资源限制保持。
+同一 Supervisor 使用宿主注册的 `problem.txt` 选择 704、283、977、1、20、206、21、104、70、3、35、121、217、53、167、242、88、125、169、11、209、198、153、136 或 746，学生不能通过请求指定适配器类。固定镜像为 `java-algo-bridge-runner:21.0.12`；运行使用 `--pull=never`，本地镜像缺失时不访问 registry。基础 JDK digest 与原有资源限制保持。
 
 `ListNode.java` 和 `TreeNode.java` 是镜像内预编译的可信类。学生源码编译使用可信 classpath；运行时平台目录和 Gson 在学生输出之前，同名平台 class 输出也会移除，不能替换平台类。
 

@@ -75,6 +75,9 @@ describe('stage05 runner availability and cleanup resilience without real Docker
       expect(command).toContain('--pull=never');
       expect(command).toContain(RUNNER_IMAGE);
     }
+    expect(runs.find(command => command.includes('--probe'))).toContain('--rm');
+    // Student task containers remain inspectable for genuine OOM evidence.
+    expect(runs.find(command => !command.includes('--probe'))).not.toContain('--rm');
     await runner.close();
   });
 

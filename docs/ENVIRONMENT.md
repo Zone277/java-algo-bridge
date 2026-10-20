@@ -84,3 +84,11 @@ Docker CLI 29.7.2 可调用，但 daemon 返回 `Docker Desktop is unable to sta
 当前 Windows / PowerShell，项目已有共享 Git checkout，`main` 初始干净，基线 `233cc109727c21815e6e892c9c805c9d8cc9a9f8`；远程为 Zone277/java-algo-bridge。项目脚本选择 Node v24.20.0/npm 11.19.0。Docker Desktop 原先未启动，通过现有桌面入口启动后 `docker info` 确认为 Engine 29.7.2、linux/x86_64；没有修改全局设置、WSL、执行策略或安全保护。原生 agent 按互斥课程目录共享同一 checkout，文件写入权限正常。
 
 本批固定 runner 镜像实际构建 ID 为 `sha256:11dbca74efe1222b7fb23e0e33dde77102c2108e72c9148ec43d3bbd31cfcff2`，linux/amd64；JDK 基础 digest、Gson 与资源限制保持。实际端口、真实执行、浏览器与清理验收见 `EXTENSION_2026-10-18.md`，其中未运行项明确标记 NOT_RUN。GitHub 采用现有凭据存储，凭据不进入项目文件；本轮用户已明确授权提交并推送。
+
+## 续扩环境检查（2026-10-20）
+
+Windows / PowerShell，main 初始干净，基线 27f3dca1ec4df5c8f2a32da3463fb92121936b4e，远程 Zone277/java-algo-bridge；fetch 成功。项目 Node24.20.0/npm11.19.0；Docker Desktop 原先未运行，通过现有桌面入口启动后 Engine29.7.2/linux/x86_64 恢复，未修改全局设置。原生 agent 共享单 checkout，按三个课程目录划分权限。
+
+实际构建 runner 镜像 ID 为 `sha256:91665eed2c169109468aadc084dde4d28e9991ed7e2e6d1cc6a22d7fdc80e3f1`，amd64；固定 Java21 基础 digest、Gson和限制保持。doctor 已确认127.0.0.1:5173/3001可绑定、真实Docker/JDK可用。最终验收见 EXTENSION_2026-10-20.md。
+
+最终全量回归与探针清理修复后专项均通过，资源独立复查为项目容器0/任务目录0/端口0。完整命令与初次残留情况见 ACCEPTANCE.md 与 EXTENSION_2026-10-20.md。

@@ -36,6 +36,9 @@ public final class Adapter {
         case "11" -> run11(solution, instance, input, result);
         case "209" -> run209(solution, instance, input, result);
         case "198" -> run198(solution, instance, input, result);
+        case "153" -> run153(solution, instance, input, result);
+        case "136" -> run136(solution, instance, input, result);
+        case "746" -> run746(solution, instance, input, result);
         default -> throw new IllegalArgumentException("Unregistered problem");
       }
     } catch (Throwable error) {
@@ -45,6 +48,24 @@ public final class Adapter {
       result.addProperty("status", cause instanceof OutOfMemoryError ? "RESOURCE_LIMIT" : "RUNTIME_ERROR");
     }
     Files.writeString(Path.of(args[1]), result.toString(), StandardOpenOption.CREATE_NEW);
+  }
+
+  private static void run153(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    int[] values = ints(input.getAsJsonArray("nums"));
+    Method method = method(solution, "findMin", int.class, "public int findMin(int[] nums)", int[].class);
+    ok(result, intOutput((Integer) method.invoke(instance, (Object) values)));
+  }
+
+  private static void run136(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    int[] values = ints(input.getAsJsonArray("nums"));
+    Method method = method(solution, "singleNumber", int.class, "public int singleNumber(int[] nums)", int[].class);
+    ok(result, intOutput((Integer) method.invoke(instance, (Object) values)));
+  }
+
+  private static void run746(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    int[] values = ints(input.getAsJsonArray("cost"));
+    Method method = method(solution, "minCostClimbingStairs", int.class, "public int minCostClimbingStairs(int[] cost)", int[].class);
+    ok(result, intOutput((Integer) method.invoke(instance, (Object) values)));
   }
 
   private static void run704(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {

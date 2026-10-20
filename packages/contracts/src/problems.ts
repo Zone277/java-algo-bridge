@@ -6,9 +6,9 @@ export const JAVA_INT_MAX = 2147483647;
 const javaInt = z.number().int().min(JAVA_INT_MIN).max(JAVA_INT_MAX);
 const sorted = (values: readonly number[]) => values.every((value, index) => index === 0 || value >= values[index - 1]!);
 
-export const ProblemIdSchema = z.enum(['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242', '88', '125', '169', '11', '209', '198']);
+export const ProblemIdSchema = z.enum(['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242', '88', '125', '169', '11', '209', '198', '153', '136', '746']);
 export type ProblemId = z.infer<typeof ProblemIdSchema>;
-export const PROBLEM_ORDER = ['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242', '88', '125', '169', '11', '209', '198'] as const satisfies readonly ProblemId[];
+export const PROBLEM_ORDER = ['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242', '88', '125', '169', '11', '209', '198', '153', '136', '746'] as const satisfies readonly ProblemId[];
 export const PROBLEM_META = Object.freeze({
   '704': { order: 1, number: 704, lessonVersion: '704-v1', testSuiteVersion: '704-tests-v2', title: '二分查找', methodSignature: 'public int search(int[] nums, int target)' },
   '283': { order: 2, number: 283, lessonVersion: '283-v1', testSuiteVersion: '283-tests-v1', title: '移动零', methodSignature: 'public void moveZeroes(int[] nums)' },
@@ -32,6 +32,9 @@ export const PROBLEM_META = Object.freeze({
   '11': { order: 20, number: 11, lessonVersion: '11-v1', testSuiteVersion: '11-tests-v1', title: '盛最多水的容器', methodSignature: 'public int maxArea(int[] height)' },
   '209': { order: 21, number: 209, lessonVersion: '209-v1', testSuiteVersion: '209-tests-v1', title: '长度最小的子数组', methodSignature: 'public int minSubArrayLen(int target, int[] nums)' },
   '198': { order: 22, number: 198, lessonVersion: '198-v1', testSuiteVersion: '198-tests-v1', title: '打家劫舍', methodSignature: 'public int rob(int[] nums)' },
+  '153': { order: 23, number: 153, lessonVersion: '153-v1', testSuiteVersion: '153-tests-v1', title: '寻找旋转排序数组中的最小值', methodSignature: 'public int findMin(int[] nums)' },
+  '136': { order: 24, number: 136, lessonVersion: '136-v1', testSuiteVersion: '136-tests-v1', title: '只出现一次的数字', methodSignature: 'public int singleNumber(int[] nums)' },
+  '746': { order: 25, number: 746, lessonVersion: '746-v1', testSuiteVersion: '746-tests-v1', title: '使用最小花费爬楼梯', methodSignature: 'public int minCostClimbingStairs(int[] cost)' },
 } satisfies Record<ProblemId, { order: number; number: number; lessonVersion: string; testSuiteVersion: string; title: string; methodSignature: string }>);
 
 export const BinarySearchInputSchema = z.strictObject({
@@ -126,6 +129,20 @@ export const MajorityElementInputSchema = z.strictObject({ nums: z.array(z.numbe
 export const ContainerWaterInputSchema = z.strictObject({ height: z.array(z.number().int().min(0).max(10000)).min(2).max(10000) });
 export const MinimumSubarrayInputSchema = z.strictObject({ target: z.number().int().min(1).max(1000000000), nums: z.array(z.number().int().min(1).max(10000)).min(1).max(10000) });
 export const HouseRobberInputSchema = z.strictObject({ nums: z.array(z.number().int().min(0).max(400)).min(1).max(100) });
+export const RotatedMinimumInputSchema = z.strictObject({ nums: z.array(z.number().int().min(-5000).max(5000)).min(1).max(5000) })
+  .refine(({ nums }) => {
+    if (new Set(nums).size !== nums.length) return false;
+    let descents = 0;
+    for (let i = 0; i < nums.length; i++) if (nums[i]! > nums[(i + 1) % nums.length]!) descents++;
+    return descents <= 1;
+  }, { message: 'nums 必须是互不相同的严格升序数组的一次旋转（允许原顺序）' });
+export const SingleNumberInputSchema = z.strictObject({ nums: z.array(z.number().int().min(-30000).max(30000)).min(1).max(10000) })
+  .refine(({ nums }) => {
+    const counts = new Map<number, number>();
+    for (const value of nums) counts.set(value, (counts.get(value) ?? 0) + 1);
+    return [...counts.values()].filter(count => count === 1).length === 1 && [...counts.values()].every(count => count === 1 || count === 2);
+  }, { message: '必须恰有一个值出现一次，其余每个值出现两次；本站最多 10000 项' });
+export const MinCostStairsInputSchema = z.strictObject({ cost: z.array(z.number().int().min(0).max(999)).min(2).max(1000) });
 
 export const ProblemInputSchemas = Object.freeze({
   '704': BinarySearchInputSchema, '283': MoveZeroesInputSchema, '977': SortedSquaresInputSchema, '1': TwoSumInputSchema,
@@ -135,8 +152,9 @@ export const ProblemInputSchemas = Object.freeze({
   '53': MaximumSubarrayInputSchema, '167': TwoSumSortedInputSchema, '242': ValidAnagramInputSchema,
   '88': MergeSortedArrayInputSchema, '125': ValidPalindromeInputSchema, '169': MajorityElementInputSchema,
   '11': ContainerWaterInputSchema, '209': MinimumSubarrayInputSchema, '198': HouseRobberInputSchema,
+  '153': RotatedMinimumInputSchema, '136': SingleNumberInputSchema, '746': MinCostStairsInputSchema,
 });
-export const ProblemInputSchema = z.union([BinarySearchInputSchema, MoveZeroesInputSchema, SortedSquaresInputSchema, TwoSumInputSchema, ValidParenthesesInputSchema, LinkedListInputSchema, MergeListsInputSchema, TreeInputSchema, ClimbStairsInputSchema, LongestSubstringInputSchema, MaxProfitInputSchema, MaximumSubarrayInputSchema, TwoSumSortedInputSchema, ValidAnagramInputSchema, MergeSortedArrayInputSchema, ValidPalindromeInputSchema, MajorityElementInputSchema, ContainerWaterInputSchema, MinimumSubarrayInputSchema, HouseRobberInputSchema]);
+export const ProblemInputSchema = z.union([BinarySearchInputSchema, MoveZeroesInputSchema, SortedSquaresInputSchema, TwoSumInputSchema, ValidParenthesesInputSchema, LinkedListInputSchema, MergeListsInputSchema, TreeInputSchema, ClimbStairsInputSchema, LongestSubstringInputSchema, MaxProfitInputSchema, MaximumSubarrayInputSchema, TwoSumSortedInputSchema, ValidAnagramInputSchema, MergeSortedArrayInputSchema, ValidPalindromeInputSchema, MajorityElementInputSchema, ContainerWaterInputSchema, MinimumSubarrayInputSchema, HouseRobberInputSchema, RotatedMinimumInputSchema, SingleNumberInputSchema, MinCostStairsInputSchema]);
 export type BinarySearchInput = z.infer<typeof BinarySearchInputSchema>;
 export type MoveZeroesInput = z.infer<typeof MoveZeroesInputSchema>;
 export type SortedSquaresInput = z.infer<typeof SortedSquaresInputSchema>;
@@ -158,6 +176,9 @@ export type MajorityElementInput = z.infer<typeof MajorityElementInputSchema>;
 export type ContainerWaterInput = z.infer<typeof ContainerWaterInputSchema>;
 export type MinimumSubarrayInput = z.infer<typeof MinimumSubarrayInputSchema>;
 export type HouseRobberInput = z.infer<typeof HouseRobberInputSchema>;
+export type RotatedMinimumInput = z.infer<typeof RotatedMinimumInputSchema>;
+export type SingleNumberInput = z.infer<typeof SingleNumberInputSchema>;
+export type MinCostStairsInput = z.infer<typeof MinCostStairsInputSchema>;
 export type ProblemInputMap = {
   '704': BinarySearchInput; '283': MoveZeroesInput; '977': SortedSquaresInput; '1': TwoSumInput;
   '20': ValidParenthesesInput; '206': z.infer<typeof LinkedListInputSchema>; '21': MergeListsInput; '104': TreeInput;
@@ -166,6 +187,7 @@ export type ProblemInputMap = {
   '53': MaximumSubarrayInput; '167': TwoSumSortedInput; '242': ValidAnagramInput;
   '88': MergeSortedArrayInput; '125': ValidPalindromeInput; '169': MajorityElementInput;
   '11': ContainerWaterInput; '209': MinimumSubarrayInput; '198': HouseRobberInput;
+  '153': RotatedMinimumInput; '136': SingleNumberInput; '746': MinCostStairsInput;
 };
 export type ProblemInput = ProblemInputMap[ProblemId];
 
@@ -325,6 +347,19 @@ export function expectedOutput<I extends ProblemId>(problemId: I, rawInput: Prob
       const dp = Array<number>(nums.length + 1).fill(0);
       for (let count = 1; count <= nums.length; count++) dp[count] = Math.max(dp[count - 1]!, (count > 1 ? dp[count - 2]! : 0) + nums[count - 1]!);
       return { kind: 'int', value: dp[nums.length]! };
+    }
+    case '153': return { kind: 'int', value: Math.min(...(input as RotatedMinimumInput).nums) };
+    case '136': {
+      const counts = new Map<number, number>();
+      for (const value of (input as SingleNumberInput).nums) counts.set(value, (counts.get(value) ?? 0) + 1);
+      return { kind: 'int', value: [...counts].find(([, count]) => count === 1)![0] };
+    }
+    case '746': {
+      // Independent backward cost-to-go recurrence; reference teaches forward arrival costs.
+      const { cost } = input as MinCostStairsInput;
+      const remaining = Array<number>(cost.length + 2).fill(0);
+      for (let i = cost.length - 1; i >= 0; i--) remaining[i] = cost[i]! + Math.min(remaining[i + 1]!, remaining[i + 2]!);
+      return { kind: 'int', value: Math.min(remaining[0]!, remaining[1]!) };
     }
   }
 }

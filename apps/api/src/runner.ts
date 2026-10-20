@@ -1,3 +1,6 @@
+import { lesson746 } from '@jab/curriculum/746';
+import { lesson136 } from '@jab/curriculum/136';
+import { lesson153 } from '@jab/curriculum/153';
 import { spawn } from 'node:child_process';
 import { createHash, randomUUID } from 'node:crypto';
 import { mkdtemp, writeFile, rm, readdir, readFile, lstat } from 'node:fs/promises';
@@ -62,6 +65,9 @@ const runtimeRegistrations: readonly RuntimeLessonRegistration[] = Object.freeze
   Object.freeze({ lesson: LessonSchema.parse(lesson11) }),
   Object.freeze({ lesson: LessonSchema.parse(lesson209) }),
   Object.freeze({ lesson: LessonSchema.parse(lesson198) }),
+  Object.freeze({ lesson: LessonSchema.parse(lesson153) }),
+  Object.freeze({ lesson: LessonSchema.parse(lesson136) }),
+  Object.freeze({ lesson: LessonSchema.parse(lesson746) }),
 ]);
 const registeredLessons = new Map<ProblemId, Lesson>(runtimeRegistrations.map(registration => [registration.lesson.id, registration.lesson]));
 export const READY_PROBLEM_IDS: readonly ProblemId[] = Object.freeze(runtimeRegistrations.map(registration => registration.lesson.id));
@@ -141,7 +147,9 @@ export class JavaRunner {
     try{await this.recoverStale(signal,deadline);}catch(error){return {available:false,reason:`STALE_CLEANUP_FAILED: ${String(error)}`};}
     if(this.stopped(signal,deadline))return {available:false,reason:signal?.aborted?'RUNNER_CHECK_ABORTED':'RUNNER_CHECK_TIMEOUT'};
     const name=`jab-probe-${randomUUID()}`;this.containers.add(name);
-    const run=await this.command(['run','--pull=never',...this.constraints(name),this.image,'--probe'],this.remaining(deadline,10000),signal);
+    // Probes have no post-exit OOM inspection; daemon-side removal also survives
+    // a host test-server teardown between the probe exiting and explicit cleanup.
+    const run=await this.command(['run','--rm','--pull=never',...this.constraints(name),this.image,'--probe'],this.remaining(deadline,10000),signal);
     const cleanup=await this.remove(name,undefined,Date.now()+5000);
     if(run.aborted)return {available:false,reason:'RUNNER_CHECK_ABORTED'};
     if(run.timedOut)return {available:false,reason:'DOCKER_CHECK_TIMEOUT'};

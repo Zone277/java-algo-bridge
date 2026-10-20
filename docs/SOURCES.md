@@ -66,4 +66,8 @@ Docker run、资源限制与安全说明：限制需要实际配置与环境验�
 209：`https://leetcode.com/problems/minimum-size-subarray-sum/`
 198：`https://leetcode.com/problems/house-robber/`
 
+153：`https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/`
+136：`https://leetcode.com/problems/single-number/`
+746：`https://leetcode.com/problems/min-cost-climbing-stairs/`
+
 只用上述公开题目的任务信息作为算法原型范围；不复制付费题解或图形。本站原型不代表官方产品，不声明复现官方隐藏用例、时限或复杂度验证。

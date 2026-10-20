@@ -151,3 +151,17 @@ C最终独立审查PASS（仅阶段00文档）：发现合法大输入的结构�
 输入资料为 AGENTS、PRODUCT_SPEC、CONTRACTS、DECISIONS 及相邻课程；每份派工明确契约版本、读写边界、命令及交付格式。要求完整教学路径、至少八个覆盖用例、两个错误 Java 夹具和两个动态预测，目录外只读。主 agent 独占根配置/锁、contracts、所有公共 registry、Java Adapter、全局测试、文档及 Git；工作 agent 不运行宿主学生 Java、不提交或推送。真实 Docker 差分、浏览器学习闭环与旧题回归由主 agent 验收，结果见 `EXTENSION_2026-10-18.md`。
 
 实际目录交付：11 为 12 例/3 错夹具、2 文件/9 测试 PASS；209 为 15 例/2 错夹具、2 文件/10 测试 PASS；198 为 13 例/2 错夹具、2 文件/8 测试 PASS。所有目录均先释放给主 agent，随后 `/root/course198` 只读复核 11、`/root/course11` 只读复核 198。主 agent 修复复核发现的 198 显示边界与文字问题，复核者实际重跑组件/课程测试确认关闭；没有共享路径并发写入。
+
+## 三题续扩实际派工（2026-10-20）
+
+共享 checkout 已由平台声明与 git worktree list 确认，无隔离 worktree。主 agent 先冻结 v1-extension-2026-10-20，再真实调用三个原生工作 agent：
+
+| 实际 agent | 唯一写入路径 | 任务与验收 |
+|---|---|---|
+| /root/course153 | packages/curriculum/problems/153/** | 完整二分课程、最小候选区间不变量、目录 Vitest |
+| /root/course136 | packages/curriculum/problems/136/** | 完整异或课程、前缀抵消与负数状态、目录 Vitest |
+| /root/course746 | packages/curriculum/problems/746/** | 完整费用 DP 课程、滚动赋值和演示边界、目录 Vitest |
+
+每份派工提供 AGENTS、PRODUCT_SPEC、CONTRACTS 和相邻课程作为输入，明确签名/范围/版本/验收命令/交付格式。禁止修改目录外文件、Git 提交或另派 agent。主 agent 负责两端注册、Java 适配器与白名单、桥接映射、全局契约/渲染测试、真实容器及浏览器验收、文档和 Git 集成。未改变根依赖与锁文件。
+
+最终目录交付与交叉只读审查见 EXTENSION_2026-10-20.md。主 agent 修复153 lint与153/746测试helper类型，收紧stage11错误夹具断言，处理最终发现的健康探针残留；上述目录均已释放后才修改，没有并发同写。最终370非Docker、121完整容器回归、34完整浏览器；探针修复后另12容器/11浏览器专项和shutdown通过。

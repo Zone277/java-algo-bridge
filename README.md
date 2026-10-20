@@ -6,7 +6,7 @@ A local-first Java algorithm learning tool for Windows. It helps learners with b
 
 ## Highlights
 
-- Twenty-two progressively structured algorithm problems covering arrays, strings, hashing, stacks, linked lists, binary trees, dynamic programming, and sliding windows.
+- Twenty-five progressively structured algorithm problems covering arrays, strings, hashing, stacks, linked lists, binary trees, dynamic programming, and sliding windows.
 - Eight short Java bridge lessons (J1–J8) covering syntax differences, arrays, collections, strings, references, and common data structures.
 - A complete learning path from syntax preparation and problem analysis to guided coding and independent practice.
 - State-based visualizations of built-in reference algorithms, showing how variables and data structures change step by step.
@@ -39,6 +39,9 @@ A local-first Java algorithm learning tool for Windows. It helps learners with b
 | 11 | Container With Most Water | Array indices, `Math.min/max`, integer arithmetic | Opposing pointers and discarding the shorter wall |
 | 209 | Minimum Size Subarray Sum | Nested `while` and running sums | Shrinking a contiguous positive-number window |
 | 198 | House Robber | Temporary variables and assignment order | Nonadjacent choices with rolling prefix optima |
+| 153 | Find Minimum in Rotated Sorted Array | Integer division and array bounds | Binary search preserving the minimum candidate |
+| 136 | Single Number | Bitwise XOR on Java int | Pair cancellation with a prefix invariant |
+| 746 | Min Cost Climbing Stairs | Math.min and rolling variables | Minimum arrival cost with two free starting positions |
 
 ## Requirements
 

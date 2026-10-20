@@ -26,6 +26,7 @@ export const RunRequestSchema = z.union([
   requestFor('35'), requestFor('121'), requestFor('217'), requestFor('53'), requestFor('167'), requestFor('242'),
   requestFor('88'), requestFor('125'), requestFor('169'),
   requestFor('11'), requestFor('209'), requestFor('198'),
+  requestFor('153'), requestFor('136'), requestFor('746'),
 ]);
 export const RunStatusSchema = z.enum(['PASSED_LOCAL_TESTS', 'WRONG_ANSWER', 'COMPILE_ERROR', 'RUNTIME_ERROR', 'TIME_LIMIT', 'RESOURCE_LIMIT', 'OUTPUT_LIMIT', 'RUNNER_UNAVAILABLE', 'INVALID_INPUT', 'SYSTEM_ERROR', 'CANCELLED']);
 const ms = z.number().nonnegative();

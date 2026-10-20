@@ -1,3 +1,12 @@
+import { lesson746, demoInputs as inputs746 } from '@jab/curriculum/746';
+import { buildReferenceTrace as trace746, predictionAt as predict746 } from '@jab/curriculum/746/model';
+import { MinCostStairsInputSchema } from '@jab/contracts';
+import { lesson136, demoInputs as inputs136 } from '@jab/curriculum/136';
+import { buildReferenceTrace as trace136, predictionAt as predict136 } from '@jab/curriculum/136/model';
+import { SingleNumberInputSchema } from '@jab/contracts';
+import { lesson153, demoInputs as inputs153 } from '@jab/curriculum/153';
+import { buildReferenceTrace as trace153, predictionAt as predict153 } from '@jab/curriculum/153/model';
+import { RotatedMinimumInputSchema } from '@jab/contracts';
 import { lesson704, demoInputs as inputs704 } from '@jab/curriculum/704';
 import { lesson283, demoInputs as inputs283 } from '@jab/curriculum/283';
 import { lesson977, demoInputs as inputs977 } from '@jab/curriculum/977';
@@ -76,4 +85,7 @@ export const lessonRuntimes: LessonRuntime[] = [
   { lesson: lesson11, demoInputs: inputs11, buildTrace: (input, id) => trace11(ContainerWaterInputSchema.parse(input), id), predictionAt: predict11, defaultInput: inputs11[0]!.input, syntaxCheck: { checkpointId: '11-v1:syntax:width', prompt: 'int left = 1, right = 4; 两条竖线之间的距离 right - left 是多少？', answer: { kind: 'int', value: 3 }, explanation: '下标间距为 4 - 1 = 3；容器宽度不是闭区间元素数量 4。' } },
   { lesson: lesson209, demoInputs: inputs209, buildTrace: (input, id) => trace209(MinimumSubarrayInputSchema.parse(input), id), predictionAt: predict209, defaultInput: inputs209[0]!.input, syntaxCheck: { checkpointId: '209-v1:syntax:sum-update', prompt: 'int sum = 3; int[] nums = {2, 4}; 执行 sum += nums[1] 后，sum 是多少？', answer: { kind: 'int', value: 7 }, explanation: 'nums[1] 是第二项 4；sum += 4 更新 int 局部变量为 7，不修改数组元素。' } },
   { lesson: lesson198, demoInputs: inputs198, buildTrace: (input, id) => trace198(HouseRobberInputSchema.parse(input), id), predictionAt: predict198, defaultInput: inputs198[0]!.input, syntaxCheck: { checkpointId: '198-v1:syntax:max', prompt: 'int skip = 4, take = 7; 表达式 Math.max(skip, take) 的结果是多少？', answer: { kind: 'int', value: 7 }, explanation: 'Math.max 返回两个 int 值中的较大值；返回 7 不会自动修改 skip 或 take。' } },
+  { lesson: lesson153, demoInputs: inputs153, buildTrace: (input, id) => trace153(RotatedMinimumInputSchema.parse(input), id), predictionAt: predict153, defaultInput: inputs153[0]!.input, syntaxCheck: { checkpointId: '153-v1:syntax:check', prompt: 'int left = 0, right = 5; 表达式 left + (right - left) / 2 的值是多少？', answer: { kind: 'int', value: 2 }, explanation: 'Java int 除法舍去小数部分，所以中点下标为 2。' } },
+  { lesson: lesson136, demoInputs: inputs136, buildTrace: (input, id) => trace136(SingleNumberInputSchema.parse(input), id), predictionAt: predict136, defaultInput: inputs136[0]!.input, syntaxCheck: { checkpointId: '136-v1:syntax:check', prompt: 'int result = 5; 执行 result ^= 5 后，result 是多少？', answer: { kind: 'int', value: 0 }, explanation: '^ 对 int 逐位异或；相同整数异或为 0，不是乘方。' } },
+  { lesson: lesson746, demoInputs: inputs746, buildTrace: (input, id) => trace746(MinCostStairsInputSchema.parse(input), id), predictionAt: predict746, defaultInput: inputs746[0]!.input, syntaxCheck: { checkpointId: '746-v1:syntax:check', prompt: 'int[] cost = {4, 7}; 顶楼的位置 cost.length 是多少？', answer: { kind: 'int', value: 2 }, explanation: '顶楼是位置 2，没有 cost[2]；cost 的合法下标只有 0 和 1。' } },
 ];
