@@ -39,6 +39,9 @@ public final class Adapter {
         case "153" -> run153(solution, instance, input, result);
         case "136" -> run136(solution, instance, input, result);
         case "746" -> run746(solution, instance, input, result);
+        case "33" -> run33(solution, instance, input, result);
+        case "392" -> run392(solution, instance, input, result);
+        case "322" -> run322(solution, instance, input, result);
         default -> throw new IllegalArgumentException("Unregistered problem");
       }
     } catch (Throwable error) {
@@ -66,6 +69,21 @@ public final class Adapter {
     int[] values = ints(input.getAsJsonArray("cost"));
     Method method = method(solution, "minCostClimbingStairs", int.class, "public int minCostClimbingStairs(int[] cost)", int[].class);
     ok(result, intOutput((Integer) method.invoke(instance, (Object) values)));
+  }
+
+  private static void run33(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    Method method = method(solution, "search", int.class, "public int search(int[] nums, int target)", int[].class, int.class);
+    ok(result, intOutput((Integer) method.invoke(instance, ints(input.getAsJsonArray("nums")), input.get("target").getAsInt())));
+  }
+
+  private static void run392(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    Method method = method(solution, "isSubsequence", boolean.class, "public boolean isSubsequence(String s, String t)", String.class, String.class);
+    ok(result, booleanOutput((Boolean) method.invoke(instance, input.get("s").getAsString(), input.get("t").getAsString())));
+  }
+
+  private static void run322(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    Method method = method(solution, "coinChange", int.class, "public int coinChange(int[] coins, int amount)", int[].class, int.class);
+    ok(result, intOutput((Integer) method.invoke(instance, ints(input.getAsJsonArray("coins")), input.get("amount").getAsInt())));
   }
 
   private static void run704(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {

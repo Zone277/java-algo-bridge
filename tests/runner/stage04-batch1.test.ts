@@ -1,6 +1,6 @@
 import { afterAll, describe, expect, it } from 'vitest';
 import {
-  LessonSchema, MoveZeroesInputSchema, OutputSchema, SortedSquaresInputSchema, TwoSumInputSchema,
+  LessonSchema, RunRequestSchema, MoveZeroesInputSchema, OutputSchema, SortedSquaresInputSchema, TwoSumInputSchema,
   judgeProblemOutput, type Lesson, type ProblemId, type ReferenceTrace,
 } from '@jab/contracts';
 import { lesson283 } from '@jab/curriculum/283';
@@ -27,7 +27,7 @@ const courses: BatchCourse[] = [
 
 describe('stage04 batch one real Java and reference-model differential gate', () => {
   it.each(courses)('$id reference Java passes every published case and agrees with the model', async course => {
-    const result = await runner.execute({ problemId: course.id, lessonVersion: course.lesson.lessonVersion, source: course.lesson.reference.source, mode: 'submit' });
+    const result = await runner.execute(RunRequestSchema.parse({ problemId: course.id, lessonVersion: course.lesson.lessonVersion, source: course.lesson.reference.source, mode: 'submit' }));
     expect(result.status, result.reason ?? '').toBe('PASSED_LOCAL_TESTS');
     expect(result.testSuiteVersion).toBe(course.lesson.testSuite.version);
     expect(result.cases).toHaveLength(course.lesson.testSuite.cases.length);
@@ -47,7 +47,7 @@ describe('stage04 batch one real Java and reference-model differential gate', ()
   for (const course of courses) {
     for (const fixture of course.lesson.testSuite.wrongFixtures) {
       it(`${course.id} rejects wrong fixture ${fixture.id} on a declared targeted case`, async () => {
-        const result = await runner.execute({ problemId: course.id, lessonVersion: course.lesson.lessonVersion, source: fixture.source, mode: 'submit' });
+        const result = await runner.execute(RunRequestSchema.parse({ problemId: course.id, lessonVersion: course.lesson.lessonVersion, source: fixture.source, mode: 'submit' }));
         expect(result.status).not.toBe('PASSED_LOCAL_TESTS');
         expect(result.cases.some(item => fixture.targetedCaseIds.includes(item.caseId) && item.status !== 'PASSED'), JSON.stringify(result.cases)).toBe(true);
       }, 120_000);

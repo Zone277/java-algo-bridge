@@ -6,7 +6,7 @@ A local-first Java algorithm learning tool for Windows. It helps learners with b
 
 ## Highlights
 
-- Twenty-five progressively structured algorithm problems covering arrays, strings, hashing, stacks, linked lists, binary trees, dynamic programming, and sliding windows.
+- Twenty-eight progressively structured algorithm problems covering arrays, strings, hashing, stacks, linked lists, binary trees, dynamic programming, and sliding windows.
 - Eight short Java bridge lessons (J1–J8) covering syntax differences, arrays, collections, strings, references, and common data structures.
 - A complete learning path from syntax preparation and problem analysis to guided coding and independent practice.
 - State-based visualizations of built-in reference algorithms, showing how variables and data structures change step by step.
@@ -42,6 +42,9 @@ A local-first Java algorithm learning tool for Windows. It helps learners with b
 | 153 | Find Minimum in Rotated Sorted Array | Integer division and array bounds | Binary search preserving the minimum candidate |
 | 136 | Single Number | Bitwise XOR on Java int | Pair cancellation with a prefix invariant |
 | 746 | Min Cost Climbing Stairs | Math.min and rolling variables | Minimum arrival cost with two free starting positions |
+| 33 | Search in Rotated Sorted Array | Array bounds and boolean conditions | Binary search using the sorted half |
+| 392 | Is Subsequence | String.length, charAt and short-circuit conditions | Ordered noncontiguous matching with two pointers |
+| 322 | Coin Change | Arrays.fill, nested loops and sentinel values | Minimum coin count with unlimited reuse |
 
 ## Requirements
 

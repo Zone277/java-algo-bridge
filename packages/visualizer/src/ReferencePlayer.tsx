@@ -96,7 +96,7 @@ function PlayerSession({ trace, source, predictionAt, predictionResults, onPredi
     {feedback && <p role="status" data-testid="prediction-feedback">{feedback}</p>}
     <p data-testid="trace-explanation">{snapshot.explanation}</p>
     {!snapshot.structures.length && <p>当前步骤没有结构状态。</p>}
-    {snapshot.structures.map((structure, structureIndex) => <StructureRenderer key={structure.id} structure={structure} snapshot={snapshot} showBinaryRange={trace.problemId === '704' && structureIndex === 0 && structure.kind === 'array'} />)}
+    {snapshot.structures.map((structure, structureIndex) => <StructureRenderer key={structure.id} structure={structure} snapshot={snapshot} showBinaryRange={(trace.problemId === '704' || trace.problemId === '33') && structureIndex === 0 && structure.kind === 'array'} />)}
     <table aria-label="参考变量表"><thead><tr><th>变量</th><th>当前值</th></tr></thead><tbody>{snapshot.variables.map(v => <tr key={v.name}><td>{v.name}</td><td>{formatValue(v.value)}</td></tr>)}</tbody></table>
     <details onToggle={e => { if (e.currentTarget.open) onViewSolution(); }}>
       <summary>查看参考 Java 代码（记录答案使用）</summary>

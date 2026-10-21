@@ -165,3 +165,17 @@ C最终独立审查PASS（仅阶段00文档）：发现合法大输入的结构�
 每份派工提供 AGENTS、PRODUCT_SPEC、CONTRACTS 和相邻课程作为输入，明确签名/范围/版本/验收命令/交付格式。禁止修改目录外文件、Git 提交或另派 agent。主 agent 负责两端注册、Java 适配器与白名单、桥接映射、全局契约/渲染测试、真实容器及浏览器验收、文档和 Git 集成。未改变根依赖与锁文件。
 
 最终目录交付与交叉只读审查见 EXTENSION_2026-10-20.md。主 agent 修复153 lint与153/746测试helper类型，收紧stage11错误夹具断言，处理最终发现的健康探针残留；上述目录均已释放后才修改，没有并发同写。最终370非Docker、121完整容器回归、34完整浏览器；探针修复后另12容器/11浏览器专项和shutdown通过。
+
+## 三题续扩实际派工（2026-10-21）
+
+共享checkout，主agent先落实v1-extension-2026-10-21，再分配：
+
+| 原生agent | 唯一写入路径 | 目标与验收 |
+|---|---|---|
+| /root/course33 | packages/curriculum/problems/33/** | 完整旋转二分课程、候选区间和分支不变量；目录Vitest/ESLint |
+| /root/course392 | packages/curriculum/problems/392/** | 完整子序列课程、前缀匹配和位置不复用；目录Vitest/ESLint |
+| /root/course322 | packages/curriculum/problems/322/** | 完整零钱兑换课程、逐金额最优和部分硬币状态；目录Vitest/ESLint |
+
+输入包括AGENTS、PRODUCT_SPEC、CONTRACTS、相邻课程及model-utils；派工明确契约、签名、输入限制、允许/禁止路径、验收命令、结果格式。工作agent不改公共文件、不提交或推送、不再派agent。主agent负责公共schema/判题、Java适配器/白名单、两端注册/桥接、全局测试、实际Docker与浏览器验收、文档和Git。
+
+课程目录释放后，course392只读审查322，course322只读审查33，course33只读审查392及公共判题。主agent修复输入标签、392检查点元数据，补三题声明到动态检查点的对应测试，并让33复用既有候选闭区间显示。独立穷举规模、具体问题和最终验证统一记录于[本批验收](EXTENSION_2026-10-21.md)。

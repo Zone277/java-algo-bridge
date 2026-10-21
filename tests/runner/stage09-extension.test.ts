@@ -28,7 +28,7 @@ function exceedsDemo(input: unknown): boolean {
 
 describe('three new courses execute Java in Docker and agree with immutable reference models', () => {
   it.each(courses)('$id reference Java passes every published case', async course => {
-    const result = await runner.execute({ problemId: course.id, lessonVersion: course.lesson.lessonVersion, source: course.lesson.reference.source, mode: 'submit' });
+    const result = await runner.execute(RunRequestSchema.parse({ problemId: course.id, lessonVersion: course.lesson.lessonVersion, source: course.lesson.reference.source, mode: 'submit' }));
     expect(result.status, result.reason ?? '').toBe('PASSED_LOCAL_TESTS');
     expect(result.cases).toHaveLength(course.lesson.testSuite.cases.length);
     for (const definition of course.lesson.testSuite.cases) {
@@ -74,7 +74,7 @@ describe('three new courses execute Java in Docker and agree with immutable refe
 
   for (const course of courses) for (const fixture of course.lesson.testSuite.wrongFixtures) {
     it(`${course.id} rejects wrong fixture ${fixture.id} on a named counterexample`, async () => {
-      const submitted = await runner.execute({ problemId: course.id, lessonVersion: course.lesson.lessonVersion, source: fixture.source, mode: 'submit' });
+      const submitted = await runner.execute(RunRequestSchema.parse({ problemId: course.id, lessonVersion: course.lesson.lessonVersion, source: fixture.source, mode: 'submit' }));
       expect(['WRONG_ANSWER', 'RUNTIME_ERROR', 'TIME_LIMIT'], JSON.stringify({ phase: submitted.phase, reason: submitted.reason, stderr: submitted.stderr, timings: submitted.timings, cleanup: submitted.cleanup })).toContain(submitted.status);
       let exposed = false;
       for (const id of fixture.targetedCaseIds) {

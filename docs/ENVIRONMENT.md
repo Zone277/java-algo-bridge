@@ -1,5 +1,11 @@
 # 本机环境与阻塞
 
+## 2026-10-21 续扩环境
+
+本轮 Windows / PowerShell 共享 checkout，初始工作区干净，main 与 origin/main 均为 2b96e56fb318208c0b51e3b0a06c988978c2575c。项目脚本选择 Node 24.20.0/npm 11.19.0。Docker 初始未运行，启动已有 Desktop 后确认 Engine 29.7.2/linux/x86_64；未安装依赖或改全局配置、安全策略。
+
+`npm run runner:build` PASS：java-algo-bridge-runner:21.0.12，sha256:10ccc751543c22675eb6bd35fdd7ed875e4dd524a4e8bf3d6e9db0daeb0ab58a，amd64。`npm run doctor` PASS：固定 Node、Docker/JDK 探针、127.0.0.1:5173/3001 绑定。完整证据与最终清理见 [本批验收](EXTENSION_2026-10-21.md)。以下历史环境记录保留，不代表本轮仍然阻塞。
+
 检查日期：2026-09-09（Asia/Shanghai）。证据来自本轮PowerShell实际命令及原生subagent只读回报；下表是结果摘要，不是未来doctor输出。阶段00不安装依赖，不执行学生源码。
 
 | 检查 / 实际命令 | 实际结果 | 状态与影响 |

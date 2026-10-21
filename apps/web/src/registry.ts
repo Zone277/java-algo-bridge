@@ -1,3 +1,12 @@
+import { lesson322, demoInputs as inputs322 } from '@jab/curriculum/322';
+import { buildReferenceTrace as trace322, predictionAt as predict322 } from '@jab/curriculum/322/model';
+import { CoinChangeInputSchema } from '@jab/contracts';
+import { lesson392, demoInputs as inputs392 } from '@jab/curriculum/392';
+import { buildReferenceTrace as trace392, predictionAt as predict392 } from '@jab/curriculum/392/model';
+import { IsSubsequenceInputSchema } from '@jab/contracts';
+import { lesson33, demoInputs as inputs33 } from '@jab/curriculum/33';
+import { buildReferenceTrace as trace33, predictionAt as predict33 } from '@jab/curriculum/33/model';
+import { RotatedSearchInputSchema } from '@jab/contracts';
 import { lesson746, demoInputs as inputs746 } from '@jab/curriculum/746';
 import { buildReferenceTrace as trace746, predictionAt as predict746 } from '@jab/curriculum/746/model';
 import { MinCostStairsInputSchema } from '@jab/contracts';
@@ -88,4 +97,7 @@ export const lessonRuntimes: LessonRuntime[] = [
   { lesson: lesson153, demoInputs: inputs153, buildTrace: (input, id) => trace153(RotatedMinimumInputSchema.parse(input), id), predictionAt: predict153, defaultInput: inputs153[0]!.input, syntaxCheck: { checkpointId: '153-v1:syntax:check', prompt: 'int left = 0, right = 5; 表达式 left + (right - left) / 2 的值是多少？', answer: { kind: 'int', value: 2 }, explanation: 'Java int 除法舍去小数部分，所以中点下标为 2。' } },
   { lesson: lesson136, demoInputs: inputs136, buildTrace: (input, id) => trace136(SingleNumberInputSchema.parse(input), id), predictionAt: predict136, defaultInput: inputs136[0]!.input, syntaxCheck: { checkpointId: '136-v1:syntax:check', prompt: 'int result = 5; 执行 result ^= 5 后，result 是多少？', answer: { kind: 'int', value: 0 }, explanation: '^ 对 int 逐位异或；相同整数异或为 0，不是乘方。' } },
   { lesson: lesson746, demoInputs: inputs746, buildTrace: (input, id) => trace746(MinCostStairsInputSchema.parse(input), id), predictionAt: predict746, defaultInput: inputs746[0]!.input, syntaxCheck: { checkpointId: '746-v1:syntax:check', prompt: 'int[] cost = {4, 7}; 顶楼的位置 cost.length 是多少？', answer: { kind: 'int', value: 2 }, explanation: '顶楼是位置 2，没有 cost[2]；cost 的合法下标只有 0 和 1。' } },
+  { lesson: lesson33, demoInputs: inputs33, buildTrace: (input, id) => trace33(RotatedSearchInputSchema.parse(input), id), predictionAt: predict33, defaultInput: inputs33[0]!.input, syntaxCheck: { checkpointId: '33-v1:syntax:check', prompt: 'int[] nums = {4, 7, 1, 2}; nums.length - 1 是多少？', answer: { kind: 'int', value: 3 }, explanation: '数组最后一个下标是长度减一，旋转不改变下标规则。' } },
+  { lesson: lesson392, demoInputs: inputs392, buildTrace: (input, id) => trace392(IsSubsequenceInputSchema.parse(input), id), predictionAt: predict392, defaultInput: inputs392[0]!.input, syntaxCheck: { checkpointId: '392-v1:syntax:check', prompt: 'String s = "aba"; s.length() 是多少？', answer: { kind: 'int', value: 3 }, explanation: 'String 用 length() 方法；每次 charAt 之前要保证下标小于长度。' } },
+  { lesson: lesson322, demoInputs: inputs322, buildTrace: (input, id) => trace322(CoinChangeInputSchema.parse(input), id), predictionAt: predict322, defaultInput: inputs322[0]!.input, syntaxCheck: { checkpointId: '322-v1:syntax:check', prompt: 'int amount = 6; 表达式 amount + 1 是多少？', answer: { kind: 'int', value: 7 }, explanation: '7 大于凑成金额6可能需要的最大硬币数，可以作为不可达哨兵。' } },
 ];
