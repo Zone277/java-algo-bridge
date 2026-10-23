@@ -42,6 +42,9 @@ public final class Adapter {
         case "33" -> run33(solution, instance, input, result);
         case "392" -> run392(solution, instance, input, result);
         case "322" -> run322(solution, instance, input, result);
+        case "724" -> run724(solution, instance, input, result);
+        case "219" -> run219(solution, instance, input, result);
+        case "560" -> run560(solution, instance, input, result);
         default -> throw new IllegalArgumentException("Unregistered problem");
       }
     } catch (Throwable error) {
@@ -69,6 +72,21 @@ public final class Adapter {
     int[] values = ints(input.getAsJsonArray("cost"));
     Method method = method(solution, "minCostClimbingStairs", int.class, "public int minCostClimbingStairs(int[] cost)", int[].class);
     ok(result, intOutput((Integer) method.invoke(instance, (Object) values)));
+  }
+
+  private static void run724(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    Method method = method(solution, "pivotIndex", int.class, "public int pivotIndex(int[] nums)", int[].class);
+    ok(result, intOutput((Integer) method.invoke(instance, (Object) ints(input.getAsJsonArray("nums")))));
+  }
+
+  private static void run219(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    Method method = method(solution, "containsNearbyDuplicate", boolean.class, "public boolean containsNearbyDuplicate(int[] nums, int k)", int[].class, int.class);
+    ok(result, booleanOutput((Boolean) method.invoke(instance, ints(input.getAsJsonArray("nums")), input.get("k").getAsInt())));
+  }
+
+  private static void run560(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    Method method = method(solution, "subarraySum", int.class, "public int subarraySum(int[] nums, int k)", int[].class, int.class);
+    ok(result, intOutput((Integer) method.invoke(instance, ints(input.getAsJsonArray("nums")), input.get("k").getAsInt())));
   }
 
   private static void run33(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {

@@ -1,3 +1,12 @@
+import { lesson724, demoInputs as inputs724 } from '@jab/curriculum/724';
+import { buildReferenceTrace as trace724, predictionAt as predict724 } from '@jab/curriculum/724/model';
+import { PivotIndexInputSchema } from '@jab/contracts';
+import { lesson219, demoInputs as inputs219 } from '@jab/curriculum/219';
+import { buildReferenceTrace as trace219, predictionAt as predict219 } from '@jab/curriculum/219/model';
+import { NearbyDuplicateInputSchema } from '@jab/contracts';
+import { lesson560, demoInputs as inputs560 } from '@jab/curriculum/560';
+import { buildReferenceTrace as trace560, predictionAt as predict560 } from '@jab/curriculum/560/model';
+import { SubarraySumInputSchema } from '@jab/contracts';
 import { lesson322, demoInputs as inputs322 } from '@jab/curriculum/322';
 import { buildReferenceTrace as trace322, predictionAt as predict322 } from '@jab/curriculum/322/model';
 import { CoinChangeInputSchema } from '@jab/contracts';
@@ -100,4 +109,7 @@ export const lessonRuntimes: LessonRuntime[] = [
   { lesson: lesson33, demoInputs: inputs33, buildTrace: (input, id) => trace33(RotatedSearchInputSchema.parse(input), id), predictionAt: predict33, defaultInput: inputs33[0]!.input, syntaxCheck: { checkpointId: '33-v1:syntax:check', prompt: 'int[] nums = {4, 7, 1, 2}; nums.length - 1 是多少？', answer: { kind: 'int', value: 3 }, explanation: '数组最后一个下标是长度减一，旋转不改变下标规则。' } },
   { lesson: lesson392, demoInputs: inputs392, buildTrace: (input, id) => trace392(IsSubsequenceInputSchema.parse(input), id), predictionAt: predict392, defaultInput: inputs392[0]!.input, syntaxCheck: { checkpointId: '392-v1:syntax:check', prompt: 'String s = "aba"; s.length() 是多少？', answer: { kind: 'int', value: 3 }, explanation: 'String 用 length() 方法；每次 charAt 之前要保证下标小于长度。' } },
   { lesson: lesson322, demoInputs: inputs322, buildTrace: (input, id) => trace322(CoinChangeInputSchema.parse(input), id), predictionAt: predict322, defaultInput: inputs322[0]!.input, syntaxCheck: { checkpointId: '322-v1:syntax:check', prompt: 'int amount = 6; 表达式 amount + 1 是多少？', answer: { kind: 'int', value: 7 }, explanation: '7 大于凑成金额6可能需要的最大硬币数，可以作为不可达哨兵。' } },
+  { lesson: lesson724, demoInputs: inputs724, buildTrace: (input, id) => trace724(PivotIndexInputSchema.parse(input), id), predictionAt: predict724, defaultInput: inputs724[0]!.input, syntaxCheck: { checkpointId: '724-v1:syntax:check', prompt: 'int[] nums = {2, -1, 3}; nums.length 的值是多少？', answer: { kind: 'int', value: 3 }, explanation: '数组长度为3，负数不影响长度。' } },
+  { lesson: lesson219, demoInputs: inputs219, buildTrace: (input, id) => trace219(NearbyDuplicateInputSchema.parse(input), id), predictionAt: predict219, defaultInput: inputs219[0]!.input, syntaxCheck: { checkpointId: '219-v1:syntax:check', prompt: '下标 2 与下标 5 的距离是多少？', answer: { kind: 'int', value: 3 }, explanation: '下标差为5-2=3；k=3时满足小于等于条件。' } },
+  { lesson: lesson560, demoInputs: inputs560, buildTrace: (input, id) => trace560(SubarraySumInputSchema.parse(input), id), predictionAt: predict560, defaultInput: inputs560[0]!.input, syntaxCheck: { checkpointId: '560-v1:syntax:check', prompt: 'HashMap<Integer,Integer> 保存某个前缀和出现3次，再出现1次，频次应为多少？', answer: { kind: 'int', value: 4 }, explanation: '频次是出现次数，应累加而非覆盖成1。' } },
 ];

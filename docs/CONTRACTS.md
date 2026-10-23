@@ -213,3 +213,13 @@ ReferenceTrace 的 `finalOutput` 使用同一 Output 联合但通道固定为 `r
 - 322：严格 `{coins:int[],amount:int}`，coins长1—12，各项1—2147483647，重复面值不改变可达语义；amount为0—10000。`public int coinChange(int[] coins,int amount)` 返回不限使用次数的最少硬币数，无解-1，金额0返回0。可信期望使用按硬币数分层BFS；参考金额递增DP，哨兵amount+1，不用Integer.MAX_VALUE参与加一。
 
 参考演示33最多30项；392每个字符串最多30字符；322最多30金额状态，D(0)单独表示。所有结构最多30项、轨迹最多2000快照，超限显式拒绝，真实Java输入范围不被演示上限缩小。子序列视图必须区分已扫描的连续前缀与实际匹配的不连续位置。
+
+## 三题续扩实施冻结（v1-extension-2026-10-23）
+
+原二十八题顺序、版本与进度键不变，追加724、219、560（29—31）。课程/测试版本各为<id>-v1/<id>-tests-v1；不增加输出结构、依赖或页面系统。
+
+- 724：PivotIndexInputSchema/PivotIndexInput，严格{nums:int[]}，长度1—10000，值-1000—1000。public int pivotIndex(int[] nums)，返回严格左右元素和相同的最左下标，无解-1，中心元素不计入两侧，空侧和为0。可信期望用独立前缀/后缀数组，参考总和+滚动left。
+- 219：NearbyDuplicateInputSchema/NearbyDuplicateInput，严格{nums:int[],k:int}，长度1—10000，值-10^9—10^9，k为0—100000。public boolean containsNearbyDuplicate(int[] nums,int k)，不同下标的相等值且距离<=k。可信期望排序(value,index)后检查同值相邻位置，参考Map保存最近下标；k=0必为false，不可自己与自己比较。
+- 560：SubarraySumInputSchema/SubarraySumInput，严格{nums:int[],k:int}，长度1—10000，值-1000—1000，k为-10^7—10^7。public int subarraySum(int[] nums,int k)，计数所有和为k的非空连续子数组；负数与零合法，不能套正数滑窗。可信期望一次建立所有前缀位置表、二分统计更早下标；参考在线前缀频次Map，初始{0:1}，先查后加。最大结果50005000和前缀±10000000均在int范围内。
+
+演示724/219最多30项；560最多29项，最多30个不同前缀键（含初始0）。每种结构最多30项、轨迹最多2000快照，超过明确拒绝，不缩小真实Java范围。所有视图读取不可变快照；教学辅助量明确标记，预测声明ID必须关联轨迹ID，短输入与提前返回仍有两次动态预测。

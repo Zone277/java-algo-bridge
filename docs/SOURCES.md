@@ -75,3 +75,11 @@ Docker run、资源限制与安全说明：限制需要实际配置与环境验�
 322：`https://leetcode.com/problems/coin-change/`
 
 只用上述公开题目的任务信息作为算法原型范围；不复制付费题解或图形。本站原型不代表官方产品，不声明复现官方隐藏用例、时限或复杂度验证。
+
+## 2026-10-23 新增公开来源
+
+- 724：https://leetcode.com/problems/find-pivot-index/
+- 219：https://leetcode.com/problems/contains-duplicate-ii/
+- 560：https://leetcode.com/problems/subarray-sum-equals-k/
+
+本轮读取公开题意与限制，课程文字、手算、代码及状态模型原创。219/560 的本站数组上限为10000，并明确区别官方上限。

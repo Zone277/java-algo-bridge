@@ -179,3 +179,17 @@ C最终独立审查PASS（仅阶段00文档）：发现合法大输入的结构�
 输入包括AGENTS、PRODUCT_SPEC、CONTRACTS、相邻课程及model-utils；派工明确契约、签名、输入限制、允许/禁止路径、验收命令、结果格式。工作agent不改公共文件、不提交或推送、不再派agent。主agent负责公共schema/判题、Java适配器/白名单、两端注册/桥接、全局测试、实际Docker与浏览器验收、文档和Git。
 
 课程目录释放后，course392只读审查322，course322只读审查33，course33只读审查392及公共判题。主agent修复输入标签、392检查点元数据，补三题声明到动态检查点的对应测试，并让33复用既有候选闭区间显示。独立穷举规模、具体问题和最终验证统一记录于[本批验收](EXTENSION_2026-10-21.md)。
+
+## 三题续扩派工（2026-10-23）
+
+共享checkout，v1-extension-2026-10-23先落地；原生worker最多3个。
+
+| agent | 唯一写入路径 | 目标与验收 |
+|---|---|---|
+| /root/course724 | packages/curriculum/problems/724/** | 完整中心下标课程、独立左右求和与中间状态；局部Vitest/ESLint |
+| /root/course219 | packages/curriculum/problems/219/** | 最近位置课程、全配对与Map时序；局部Vitest/ESLint |
+| /root/course560 | packages/curriculum/problems/560/** | 前缀频次课程、连续区间穷举与计数时序；局部Vitest/ESLint |
+
+派工均提供AGENTS/PRODUCT_SPEC/CONTRACTS和参考课程，明确禁止跨目录、Git与再派工，交付实际命令/结果/接口建议/阻塞并释放目录。主agent独占公共契约、注册、Java适配、全局测试、文档与Git。
+
+实际执行中，三个工作agent分别生成部分课程文件后遭遇客户端“Selected model is at capacity”错误；724和219的重试也失败，最终三者状态均为errored，没有完整agent交付或独立审查。主agent确认没有运行中的工作agent和并发目录写入后，串行补齐三目录及全局测试。实际测试、差分、浏览器与清理证据见[本批验收](EXTENSION_2026-10-23.md)。

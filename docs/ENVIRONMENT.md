@@ -1,5 +1,11 @@
 # 本机环境与阻塞
 
+## 2026-10-23 续扩环境
+
+Windows / PowerShell，共享同一 Git checkout。初始 `main` 与 `origin/main` 均为 `ed24ba594e6b81a533ea3966e37acb740e0a1a3b`，工作区干净，fetch 后左右差异 0/0。项目 Node 24.20.0/npm 11.19.0。Docker 初始未运行，启动现有 Docker Desktop 后确认 Engine 29.7.2、linux/x86_64；未修改全局配置或安全策略。
+
+`npm run runner:build` PASS：固定 `java-algo-bridge-runner:21.0.12` 镜像 `sha256:d8c809aaeb354f602cceacfb68d922d44ac870ce6d8daaaac1e3bbf9a22a7aa4`（amd64），基础镜像 digest 不变。`npm run doctor` PASS：固定 Node、Docker/JDK 探针和两个回环端口可绑定。三名原生 agent 遇到客户端模型容量错误并最终中断，主 agent 串行集成；详情见 [本批验收](EXTENSION_2026-10-23.md)。以下历史检查结果保持原样，不表示本轮仍受旧阻塞影响。
+
 ## 2026-10-21 续扩环境
 
 本轮 Windows / PowerShell 共享 checkout，初始工作区干净，main 与 origin/main 均为 2b96e56fb318208c0b51e3b0a06c988978c2575c。项目脚本选择 Node 24.20.0/npm 11.19.0。Docker 初始未运行，启动已有 Desktop 后确认 Engine 29.7.2/linux/x86_64；未安装依赖或改全局配置、安全策略。
