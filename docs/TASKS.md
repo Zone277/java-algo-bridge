@@ -193,3 +193,15 @@ C最终独立审查PASS（仅阶段00文档）：发现合法大输入的结构�
 派工均提供AGENTS/PRODUCT_SPEC/CONTRACTS和参考课程，明确禁止跨目录、Git与再派工，交付实际命令/结果/接口建议/阻塞并释放目录。主agent独占公共契约、注册、Java适配、全局测试、文档与Git。
 
 实际执行中，三个工作agent分别生成部分课程文件后遭遇客户端“Selected model is at capacity”错误；724和219的重试也失败，最终三者状态均为errored，没有完整agent交付或独立审查。主agent确认没有运行中的工作agent和并发目录写入后，串行补齐三目录及全局测试。实际测试、差分、浏览器与清理证据见[本批验收](EXTENSION_2026-10-23.md)。
+
+## 三题续扩实际派工（2026-10-27）
+
+平台与`git worktree list`确认所有agent共享同一checkout，没有自动隔离worktree。主agent先落实v1-extension-2026-10-27公共输入、输出与判题契约，再真实委派三个原生工作agent。每份派工均列明输入文件AGENTS、PRODUCT_SPEC、CONTRACTS、DECISIONS、STATUS及相邻课程，明确唯一写入目录、禁止共享文件/Git/再派工、局部Vitest/ESLint命令和完整交付格式。
+
+| agent | 唯一允许写入路径 | 目标 |
+|---|---|---|
+| `/root/course34` | `packages/curriculum/problems/34/**` | 双二分左右边界课程、模型、不变量和局部测试 |
+| `/root/course202` | `packages/curriculum/problems/202/**` | 数字平方和循环、已见集合参考模型和局部测试 |
+| `/root/course387` | `packages/curriculum/problems/387/**` | 字符频次两遍扫描课程、模型和局部测试 |
+
+主agent独占`packages/contracts`、根与公共配置、应用注册、Java Adapter/Supervisor、全局测试、文档、最终真实Docker/浏览器验收及Git提交推送。三个agent均实际交付并释放目录：34为16例/2错解、局部7项PASS；202为14例/2错解、局部9项PASS；387为13例/2错解、局部3项PASS。主agent完成公共集成后，`npm run check` 87文件/467项PASS、真实Java专项10项PASS、新题浏览器专项3项PASS；另委派一名原生agent只读独立审查，构造额外边界反例，未发现可复现缺陷。完整`npm run verify`为467非Docker、152容器、43浏览器及shutdown全部PASS，残留清理0。实际初次失败、审查样本与最终结果见[本批验收](EXTENSION_2026-10-27.md)。

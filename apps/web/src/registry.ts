@@ -1,3 +1,12 @@
+import { lesson34, demoInputs as inputs34 } from '@jab/curriculum/34';
+import { buildReferenceTrace as trace34, predictionAt as predict34 } from '@jab/curriculum/34/model';
+import { SearchRangeInputSchema } from '@jab/contracts';
+import { lesson202, demoInputs as inputs202 } from '@jab/curriculum/202';
+import { buildReferenceTrace as trace202, predictionAt as predict202 } from '@jab/curriculum/202/model';
+import { HappyNumberInputSchema } from '@jab/contracts';
+import { lesson387, demoInputs as inputs387 } from '@jab/curriculum/387';
+import { buildReferenceTrace as trace387, predictionAt as predict387 } from '@jab/curriculum/387/model';
+import { FirstUniqueCharInputSchema } from '@jab/contracts';
 import { lesson724, demoInputs as inputs724 } from '@jab/curriculum/724';
 import { buildReferenceTrace as trace724, predictionAt as predict724 } from '@jab/curriculum/724/model';
 import { PivotIndexInputSchema } from '@jab/contracts';
@@ -112,4 +121,7 @@ export const lessonRuntimes: LessonRuntime[] = [
   { lesson: lesson724, demoInputs: inputs724, buildTrace: (input, id) => trace724(PivotIndexInputSchema.parse(input), id), predictionAt: predict724, defaultInput: inputs724[0]!.input, syntaxCheck: { checkpointId: '724-v1:syntax:check', prompt: 'int[] nums = {2, -1, 3}; nums.length 的值是多少？', answer: { kind: 'int', value: 3 }, explanation: '数组长度为3，负数不影响长度。' } },
   { lesson: lesson219, demoInputs: inputs219, buildTrace: (input, id) => trace219(NearbyDuplicateInputSchema.parse(input), id), predictionAt: predict219, defaultInput: inputs219[0]!.input, syntaxCheck: { checkpointId: '219-v1:syntax:check', prompt: '下标 2 与下标 5 的距离是多少？', answer: { kind: 'int', value: 3 }, explanation: '下标差为5-2=3；k=3时满足小于等于条件。' } },
   { lesson: lesson560, demoInputs: inputs560, buildTrace: (input, id) => trace560(SubarraySumInputSchema.parse(input), id), predictionAt: predict560, defaultInput: inputs560[0]!.input, syntaxCheck: { checkpointId: '560-v1:syntax:check', prompt: 'HashMap<Integer,Integer> 保存某个前缀和出现3次，再出现1次，频次应为多少？', answer: { kind: 'int', value: 4 }, explanation: '频次是出现次数，应累加而非覆盖成1。' } },
+  { lesson: lesson34, demoInputs: inputs34, buildTrace: (input, id) => trace34(SearchRangeInputSchema.parse(input), id), predictionAt: predict34, defaultInput: inputs34[0]!.input, syntaxCheck: { checkpointId: '34-v1:syntax:check', prompt: 'int[] nums = {3, 3, 5}; nums.length 是多少？', answer: { kind: 'int', value: 3 }, explanation: '数组有3项，下标为0、1、2；重复值不改变数组长度。' } },
+  { lesson: lesson202, demoInputs: inputs202, buildTrace: (input, id) => trace202(HappyNumberInputSchema.parse(input), id), predictionAt: predict202, defaultInput: inputs202[0]!.input, syntaxCheck: { checkpointId: '202-v1:syntax:check', prompt: 'Java 的 int n = 19; n % 10 得到多少？', answer: { kind: 'int', value: 9 }, explanation: '% 取余数，19 除以 10 的余数是个位 9。' } },
+  { lesson: lesson387, demoInputs: inputs387, buildTrace: (input, id) => trace387(FirstUniqueCharInputSchema.parse(input), id), predictionAt: predict387, defaultInput: inputs387[0]!.input, syntaxCheck: { checkpointId: '387-v1:syntax:check', prompt: "在本站小写字母范围内，字符表达式 'c' - 'a' 的值是多少？", answer: { kind: 'int', value: 2 }, explanation: '小写ASCII/UTF-16代码单元按顺序编码，c 与 a 的差为2，可用作 int[26] 下标。' } },
 ];

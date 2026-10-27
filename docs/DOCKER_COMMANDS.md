@@ -222,7 +222,7 @@ npm run verify
 ```
 
 - `doctor`：检查 Docker daemon、Linux 容器、镜像和完整受限探针。
-- `test:runner`：真实编译和执行三十一题 Java，并覆盖错误答案、编译错误、异常、超时、输出超限和清理。
+- `test:runner`：真实编译和执行三十四题 Java，并覆盖错误答案、编译错误、异常、超时、输出超限和清理。
 - `test:e2e`：启动真实前后端并经 API 调用 Docker。
 - `test:shutdown`：验证服务退出时的在途容器和端口清理。
 - `verify`：依次执行完整门禁；不要在同一端口上同时运行另一个 dev。

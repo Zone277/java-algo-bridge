@@ -83,3 +83,11 @@ Docker run、资源限制与安全说明：限制需要实际配置与环境验�
 - 560：https://leetcode.com/problems/subarray-sum-equals-k/
 
 本轮读取公开题意与限制，课程文字、手算、代码及状态模型原创。219/560 的本站数组上限为10000，并明确区别官方上限。
+
+## 2026-10-27 新增公开来源
+
+- 34：https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
+- 202：https://leetcode.com/problems/happy-number/
+- 387：https://leetcode.com/problems/first-unique-character-in-a-string/
+
+仅参考公开任务语义；本站教学数组/字符串上限较公开题目缩小，课程内容和状态图原创，未声明官方合作或覆盖官方隐藏测试。

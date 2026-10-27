@@ -223,3 +223,13 @@ ReferenceTrace 的 `finalOutput` 使用同一 Output 联合但通道固定为 `r
 - 560：SubarraySumInputSchema/SubarraySumInput，严格{nums:int[],k:int}，长度1—10000，值-1000—1000，k为-10^7—10^7。public int subarraySum(int[] nums,int k)，计数所有和为k的非空连续子数组；负数与零合法，不能套正数滑窗。可信期望一次建立所有前缀位置表、二分统计更早下标；参考在线前缀频次Map，初始{0:1}，先查后加。最大结果50005000和前缀±10000000均在int范围内。
 
 演示724/219最多30项；560最多29项，最多30个不同前缀键（含初始0）。每种结构最多30项、轨迹最多2000快照，超过明确拒绝，不缩小真实Java范围。所有视图读取不可变快照；教学辅助量明确标记，预测声明ID必须关联轨迹ID，短输入与提前返回仍有两次动态预测。
+
+## 三题续扩实施冻结（v1-extension-2026-10-27）
+
+原31题顺序、版本和进度键不变，末尾追加34、202、387（32—34）。课程/测试版本各为`<id>-v1/<id>-tests-v1`；不增加输出种类、依赖或页面系统。公开语义依据见[SOURCES.md](SOURCES.md)。
+
+- 34：`SearchRangeInputSchema`/`SearchRangeInput`，严格输入`{nums:int[],target:int}`；本站数组长0—10000、元素和target均-10^9—10^9、非降序且允许重复。`public int[] searchRange(int[] nums,int target)`返回最左和最右目标下标，找不到返回`[-1,-1]`。参考解法做两次半开区间二分（首次`>=target`和首次`>target`），可信期望线性扫描。显示最多30项，空数组合法。
+- 202：`HappyNumberInputSchema`/`HappyNumberInput`，严格输入`{n:int}`，1—2147483647。`public boolean isHappy(int n)`反复计算十进制各位平方和；到1为真，非1循环为假。参考使用已见集合，可信期望用Floyd快慢指针。演示为各轮数字/各位和的状态，不称作学生Java调试；结构最多30项、轨迹最多2000快照。
+- 387：`FirstUniqueCharInputSchema`/`FirstUniqueCharInput`，严格输入`{s:string}`；本站长1—10000、仅小写a-z。`public int firstUniqChar(String s)`返回全串中出现一次的字符里最靠左的下标，否则-1。参考先用`int[26]`统计再从左扫描，可信期望用字符Map记录首次位置和总频次。演示最多30字符；真实判题接受本站全长。只在小写ASCII范围内解释`char`和数组下标，避免泛化为完整Unicode字符。
+
+34返回已有`int-array`，202返回已有`boolean`，387返回已有`int`。状态模型使用`reference-model`，真实执行使用`student-java`；参考模型终态须与真实Java参考解法对照，并单独核对中间不变量。三题各至少8个覆盖用例、2个可编译错解夹具、2个动态预测、3阶段引导、独立骨架、三级提示；原有课程的学习与运行契约保持不变。

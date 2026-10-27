@@ -104,3 +104,7 @@ Windows / PowerShell，main 初始干净，基线 27f3dca1ec4df5c8f2a32da3463fb9
 实际构建 runner 镜像 ID 为 `sha256:91665eed2c169109468aadc084dde4d28e9991ed7e2e6d1cc6a22d7fdc80e3f1`，amd64；固定 Java21 基础 digest、Gson和限制保持。doctor 已确认127.0.0.1:5173/3001可绑定、真实Docker/JDK可用。最终验收见 EXTENSION_2026-10-20.md。
 
 最终全量回归与探针清理修复后专项均通过，资源独立复查为项目容器0/任务目录0/端口0。完整命令与初次残留情况见 ACCEPTANCE.md 与 EXTENSION_2026-10-20.md。
+
+## 三题续扩本机环境（2026-10-27）
+
+Windows/PowerShell，初始共享checkout干净，`main`与`origin/main`同为`d1d98a897011664176b6eae4c3ace9c52621566d`；没有自动隔离worktree。项目Node24.20.0/npm11.19.0。Docker Desktop初始停止，通过本机已注册入口启动后Engine29.7.2/linux/x86_64可用；未修改全局Git、Docker或安全设置。固定Java21基础digest与既有限制不变；新三题Java适配和白名单加入后成功重建项目镜像`java-algo-bridge-runner:21.0.12`，ID `sha256:d6ded7c63e8ddac26a177cdd2afc24e49ea0f785d00310c19a18dfd6f781edf1`（amd64）。完整`npm run verify`退出0，实测非Docker467项、真实容器152项、浏览器43项及shutdown均PASS。结束后独立复查项目容器0、任务目录0、5173/3001监听0；详见[本批验收](EXTENSION_2026-10-27.md)。

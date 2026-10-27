@@ -45,6 +45,9 @@ public final class Adapter {
         case "724" -> run724(solution, instance, input, result);
         case "219" -> run219(solution, instance, input, result);
         case "560" -> run560(solution, instance, input, result);
+        case "34" -> run34(solution, instance, input, result);
+        case "202" -> run202(solution, instance, input, result);
+        case "387" -> run387(solution, instance, input, result);
         default -> throw new IllegalArgumentException("Unregistered problem");
       }
     } catch (Throwable error) {
@@ -87,6 +90,23 @@ public final class Adapter {
   private static void run560(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
     Method method = method(solution, "subarraySum", int.class, "public int subarraySum(int[] nums, int k)", int[].class, int.class);
     ok(result, intOutput((Integer) method.invoke(instance, ints(input.getAsJsonArray("nums")), input.get("k").getAsInt())));
+  }
+
+  private static void run34(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    Method method = method(solution, "searchRange", int[].class, "public int[] searchRange(int[] nums, int target)", int[].class, int.class);
+    int[] returned = (int[]) method.invoke(instance, ints(input.getAsJsonArray("nums")), input.get("target").getAsInt());
+    if (returned == null || returned.length != 2) wrong(result, "必须返回长度为 2 的 int[] 边界数组");
+    else ok(result, intArrayOutput(returned));
+  }
+
+  private static void run202(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    Method method = method(solution, "isHappy", boolean.class, "public boolean isHappy(int n)", int.class);
+    ok(result, booleanOutput((Boolean) method.invoke(instance, input.get("n").getAsInt())));
+  }
+
+  private static void run387(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    Method method = method(solution, "firstUniqChar", int.class, "public int firstUniqChar(String s)", String.class);
+    ok(result, intOutput((Integer) method.invoke(instance, input.get("s").getAsString())));
   }
 
   private static void run33(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
