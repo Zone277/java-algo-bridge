@@ -1,5 +1,9 @@
 # 本机环境与阻塞
 
+## 2026-10-28 续扩环境
+
+Windows / PowerShell，共享同一 Git checkout；开始时`main`与`origin/main`均为`8a2269035f731a216b108975d2f4c00f5b7012c9`，工作区干净，`git worktree list`仅一项，无隔离worktree。项目脚本选用Node 24.20.0/npm 11.19.0。Docker Desktop Linux Engine 初始停止，经现有应用入口启动后`docker info`确认29.7.2/linux/x86_64；未改全局设置或安全策略。启动前前后端回环端口5173/3001无监听。`npm run runner:build`重建固定项目镜像成功，ID为`sha256:f2a286982fcaf660ee5fb10d1cafdf2ba79678c459acad46ab69ba0a8e42ddc6`/amd64，基础JDK digest保持；完整verify均PASS。最终独立检查项目标签容器、任务目录和回环端口监听均为0。过程与门禁见[本批验收](EXTENSION_2026-10-28.md)；以下历史检查保持原样，不表示当前仍有旧阻塞。
+
 ## 2026-10-23 续扩环境
 
 Windows / PowerShell，共享同一 Git checkout。初始 `main` 与 `origin/main` 均为 `ed24ba594e6b81a533ea3966e37acb740e0a1a3b`，工作区干净，fetch 后左右差异 0/0。项目 Node 24.20.0/npm 11.19.0。Docker 初始未运行，启动现有 Docker Desktop 后确认 Engine 29.7.2、linux/x86_64；未修改全局配置或安全策略。

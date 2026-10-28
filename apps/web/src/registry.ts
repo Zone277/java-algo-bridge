@@ -7,6 +7,13 @@ import { HappyNumberInputSchema } from '@jab/contracts';
 import { lesson387, demoInputs as inputs387 } from '@jab/curriculum/387';
 import { buildReferenceTrace as trace387, predictionAt as predict387 } from '@jab/curriculum/387/model';
 import { FirstUniqueCharInputSchema } from '@jab/contracts';
+import { lesson69, demoInputs as inputs69 } from '@jab/curriculum/69';
+import { buildReferenceTrace as trace69, predictionAt as predict69 } from '@jab/curriculum/69/model';
+import { SqrtInputSchema, StockProfitIIInputSchema } from '@jab/contracts';
+import { lesson122, demoInputs as inputs122 } from '@jab/curriculum/122';
+import { buildReferenceTrace as trace122, predictionAt as predict122 } from '@jab/curriculum/122/model';
+import { lesson144, demoInputs as inputs144 } from '@jab/curriculum/144';
+import { buildReferenceTrace as trace144, predictionAt as predict144 } from '@jab/curriculum/144/model';
 import { lesson724, demoInputs as inputs724 } from '@jab/curriculum/724';
 import { buildReferenceTrace as trace724, predictionAt as predict724 } from '@jab/curriculum/724/model';
 import { PivotIndexInputSchema } from '@jab/contracts';
@@ -124,4 +131,7 @@ export const lessonRuntimes: LessonRuntime[] = [
   { lesson: lesson34, demoInputs: inputs34, buildTrace: (input, id) => trace34(SearchRangeInputSchema.parse(input), id), predictionAt: predict34, defaultInput: inputs34[0]!.input, syntaxCheck: { checkpointId: '34-v1:syntax:check', prompt: 'int[] nums = {3, 3, 5}; nums.length 是多少？', answer: { kind: 'int', value: 3 }, explanation: '数组有3项，下标为0、1、2；重复值不改变数组长度。' } },
   { lesson: lesson202, demoInputs: inputs202, buildTrace: (input, id) => trace202(HappyNumberInputSchema.parse(input), id), predictionAt: predict202, defaultInput: inputs202[0]!.input, syntaxCheck: { checkpointId: '202-v1:syntax:check', prompt: 'Java 的 int n = 19; n % 10 得到多少？', answer: { kind: 'int', value: 9 }, explanation: '% 取余数，19 除以 10 的余数是个位 9。' } },
   { lesson: lesson387, demoInputs: inputs387, buildTrace: (input, id) => trace387(FirstUniqueCharInputSchema.parse(input), id), predictionAt: predict387, defaultInput: inputs387[0]!.input, syntaxCheck: { checkpointId: '387-v1:syntax:check', prompt: "在本站小写字母范围内，字符表达式 'c' - 'a' 的值是多少？", answer: { kind: 'int', value: 2 }, explanation: '小写ASCII/UTF-16代码单元按顺序编码，c 与 a 的差为2，可用作 int[26] 下标。' } },
+  { lesson: lesson69, demoInputs: inputs69, buildTrace: (input, id) => trace69(SqrtInputSchema.parse(input), id), predictionAt: predict69, defaultInput: inputs69[0]!.input, syntaxCheck: { checkpointId: '69-v1:syntax:check', prompt: 'Java int 除法 8 / 3 的结果是多少？', answer: { kind: 'int', value: 2 }, explanation: '两个 int 相除会截去小数部分；平方根题也要返回向下取整的 int。' } },
+  { lesson: lesson122, demoInputs: inputs122, buildTrace: (input, id) => trace122(StockProfitIIInputSchema.parse(input), id), predictionAt: predict122, defaultInput: inputs122[0]!.input, syntaxCheck: { checkpointId: '122-v1:syntax:check', prompt: 'int[] prices = {3, 5, 4}; prices.length 是多少？', answer: { kind: 'int', value: 3 }, explanation: '数组有3天报价，下标是0、1、2；不能访问 prices[3]。' } },
+  { lesson: lesson144, demoInputs: inputs144, buildTrace: (input, id) => trace144(TreeInputSchema.parse(input), id), predictionAt: predict144, defaultInput: inputs144[0]!.input, syntaxCheck: { checkpointId: '144-v1:syntax:check', prompt: '前序遍历一个根值1、左孩子值2、右孩子值3的树，第一个访问的值是多少？', answer: { kind: 'int', value: 1 }, explanation: '前序顺序是根→左→右；首先访问根节点。' } },
 ];

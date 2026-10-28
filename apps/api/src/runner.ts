@@ -1,6 +1,9 @@
 import { lesson34 } from '@jab/curriculum/34';
 import { lesson202 } from '@jab/curriculum/202';
 import { lesson387 } from '@jab/curriculum/387';
+import { lesson69 } from '@jab/curriculum/69';
+import { lesson122 } from '@jab/curriculum/122';
+import { lesson144 } from '@jab/curriculum/144';
 import { lesson724 } from '@jab/curriculum/724';
 import { lesson219 } from '@jab/curriculum/219';
 import { lesson560 } from '@jab/curriculum/560';
@@ -86,6 +89,9 @@ const runtimeRegistrations: readonly RuntimeLessonRegistration[] = Object.freeze
   Object.freeze({ lesson: LessonSchema.parse(lesson34) }),
   Object.freeze({ lesson: LessonSchema.parse(lesson202) }),
   Object.freeze({ lesson: LessonSchema.parse(lesson387) }),
+  Object.freeze({ lesson: LessonSchema.parse(lesson69) }),
+  Object.freeze({ lesson: LessonSchema.parse(lesson122) }),
+  Object.freeze({ lesson: LessonSchema.parse(lesson144) }),
 ]);
 const registeredLessons = new Map<ProblemId, Lesson>(runtimeRegistrations.map(registration => [registration.lesson.id, registration.lesson]));
 export const READY_PROBLEM_IDS: readonly ProblemId[] = Object.freeze(runtimeRegistrations.map(registration => registration.lesson.id));

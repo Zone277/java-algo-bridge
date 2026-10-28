@@ -100,7 +100,8 @@ Structure按kind严格联合，共同含id:string：
 - map：`{kind:"map",id,entries:{key:Value,value:Value}[]}`，键唯一，顺序明确由模型给出。
 - stack：`{kind:"stack",id,items:Value[],topIndex:int|null}`，空栈topIndex=null，否则为length-1。
 - list：`{kind:"list",id,nodes:{id:string,value:int,nextId:string|null}[],bindings:{name:string,objectId:string|null}[]}`，边和变量绑定分开；节点ID稳定且所有非null引用存在。
-- tree：`{kind:"tree",id,nodes:{id:string,value:int,leftId:string|null,rightId:string|null}[],rootId:string|null,frames:{frameId:string,nodeId:string|null,phase:"enter"|"await-left"|"await-right"|"return",leftDepth:int|null,rightDepth:int|null,returnValue:int|null}[]}`，frames按栈底到栈顶，调用帧身份不同于节点身份。
+- tree：`{kind:"tree",id,frameSemantics?:"depth"|"traversal",nodes:{id:string,value:int,leftId:string|null,rightId:string|null}[],rootId:string|null,frames:{frameId:string,nodeId:string|null,phase:"enter"|"await-left"|"await-right"|"return",leftDepth:int|null,rightDepth:int|null,returnValue:int|null}[]}`，frames按栈底到栈顶，调用帧身份不同于节点身份。缺省沿用104深度表；144声明`traversal`并只显示调用帧节点和阶段，不虚构左右深度/返回整数。
+- array结构可选`presentation:"array"|"list"`仅控制教学视图标题；144的`List<Integer>`输出前缀使用`presentation:"list"`，不会把Java方法返回类型写成`int[]`。真实结构化wire输出仍复用`int-array`并只用于判题传输。
 - dp：`{kind:"dp",id,values:(int|null)[],activeIndex:int|null}`，null表示未计算。
 - window：`{kind:"window",id,text:string,left:int,rightExclusive:int,members:Value[]}`，半开区间、0≤left≤rightExclusive≤text.length。
 
@@ -233,3 +234,13 @@ ReferenceTrace 的 `finalOutput` 使用同一 Output 联合但通道固定为 `r
 - 387：`FirstUniqueCharInputSchema`/`FirstUniqueCharInput`，严格输入`{s:string}`；本站长1—10000、仅小写a-z。`public int firstUniqChar(String s)`返回全串中出现一次的字符里最靠左的下标，否则-1。参考先用`int[26]`统计再从左扫描，可信期望用字符Map记录首次位置和总频次。演示最多30字符；真实判题接受本站全长。只在小写ASCII范围内解释`char`和数组下标，避免泛化为完整Unicode字符。
 
 34返回已有`int-array`，202返回已有`boolean`，387返回已有`int`。状态模型使用`reference-model`，真实执行使用`student-java`；参考模型终态须与真实Java参考解法对照，并单独核对中间不变量。三题各至少8个覆盖用例、2个可编译错解夹具、2个动态预测、3阶段引导、独立骨架、三级提示；原有课程的学习与运行契约保持不变。
+
+## 三题续扩实施冻结（v1-extension-2026-10-28）
+
+原34题顺序、版本和草稿键保持不变，追加69、122、144（35—37），各使用`<id>-v1`课程版本与`<id>-tests-v1`测试版本。继续使用已有`int`和`int-array`输出种类、回环API、参考模型与独立Docker Java执行。题意核对官方公开页面，本站教材、代码和状态演示为原创。
+
+- 69：`SqrtInputSchema` / `SqrtInput`，严格输入`{x:int}`且`0≤x≤2147483647`；`public int mySqrt(int x)`返回不超过平方根的最大非负整数。参考算法使用避免溢出的二分（比较`mid <= x / mid`或long乘积），可信判题独立使用`Math.floor(Math.sqrt(x))`；演示必须覆盖0/1和最大int的边界，不把浮点算法当作学生参考解法。
+- 122：`StockProfitIIInputSchema` / `StockProfitIIInput`，严格输入`{prices:int[]}`，本站长度1—10000、单价0—10000；`public int maxProfit(int[] prices)`可多次买卖、同时最多持有一股，返回最大非负总收益。参考算法求所有相邻正增量之和，可信判题使用cash/hold两状态DP，覆盖连续上涨、下跌、平台与反复波动。本站最大总收益不超过50000000，不溢出int。
+- 144：复用`TreeInputSchema` / `TreeInput`，严格输入`{root:(int|null)[]}`，使用紧凑队列式层序而非堆下标；本站最多1000个非null节点、深度128、值-100—100。`public List<Integer> preorderTraversal(TreeNode root)`返回根→左→右的整数列表，可信适配器转换为结构化`int-array`，拒绝null列表、null/非Integer项、超出输入节点数的返回列表；真实判题与独立迭代栈期望逐项比对。参考Java用递归；状态演示用稳定对象ID，重复值节点不能合并，空树返回空列表。演示最多30节点、深度8，真实Java仍支持本站契约上限。
+
+三题每题至少8个覆盖用例、2个可编译错解夹具及具名反例、2个动态预测、3阶段引导、独立骨架、三级提示；每个参考模型的终态须与真实Java输出对照，中间状态不变量单测。工作agent仅写各自课程目录，主agent独占公共契约、注册、Java适配器、跨题测试、状态与Git。

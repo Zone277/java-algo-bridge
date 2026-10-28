@@ -12,7 +12,7 @@ const nextDigitSquare = (start: number) => {
 
 describe('34/202/387 frozen contracts and independent judges', () => {
   it('keeps the old prefix and validates all new request variants', () => {
-    expect(PROBLEM_ORDER.slice(-3)).toEqual(['34', '202', '387']);
+    expect(PROBLEM_ORDER.slice(31, 34)).toEqual(['34', '202', '387']);
     for (const [id, input] of [['34', { nums: [], target: 3 }], ['202', { n: 1 }], ['387', { s: 'a' }]] as const) {
       expect(RunRequestSchema.safeParse({ problemId: id, lessonVersion: `${id}-v1`, source: 'class Solution {}', mode: 'run', input }).success).toBe(true);
       expect(RunRequestSchema.safeParse({ problemId: id, lessonVersion: `${id}-v1`, source: 'class Solution {}', mode: 'submit', input }).success).toBe(false);

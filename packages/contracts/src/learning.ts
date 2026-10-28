@@ -2,6 +2,7 @@ import { z } from 'zod';
 import {
   PivotIndexInputSchema, NearbyDuplicateInputSchema, SubarraySumInputSchema,
   SearchRangeInputSchema, HappyNumberInputSchema, FirstUniqueCharInputSchema,
+  SqrtInputSchema, StockProfitIIInputSchema,
   BinarySearchInputSchema, BooleanOutputSchema, ClimbStairsInputSchema, ContainsDuplicateInputSchema, IntArrayOutputSchema, IntOutputSchema,
   LongestSubstringInputSchema, MaxProfitInputSchema, MaximumSubarrayInputSchema, MergeListsInputSchema, MoveZeroesInputSchema, OutputSchema, PROBLEM_META, ProblemIdSchema,
   SearchInsertInputSchema, MergeSortedArrayInputSchema, ValidPalindromeInputSchema, MajorityElementInputSchema,
@@ -27,11 +28,11 @@ export const ValueSchema = z.discriminatedUnion('kind', [
 ]);
 const variable = z.strictObject({ name: id, value: ValueSchema });
 export const StructureSchema = z.discriminatedUnion('kind', [
-  z.strictObject({ kind: z.literal('array'), id, values: z.array(integer), indices: z.array(z.strictObject({ name: id, index: integer })) }),
+  z.strictObject({ kind: z.literal('array'), id, presentation: z.enum(['array', 'list']).optional(), values: z.array(integer), indices: z.array(z.strictObject({ name: id, index: integer })) }),
   z.strictObject({ kind: z.literal('map'), id, entries: z.array(z.strictObject({ key: ValueSchema, value: ValueSchema })) }),
   z.strictObject({ kind: z.literal('stack'), id, items: z.array(ValueSchema), topIndex: integer.nullable() }),
   z.strictObject({ kind: z.literal('list'), id, nodes: z.array(z.strictObject({ id, value: integer, nextId: id.nullable() })), bindings: z.array(z.strictObject({ name: id, objectId: id.nullable() })) }),
-  z.strictObject({ kind: z.literal('tree'), id, nodes: z.array(z.strictObject({ id, value: integer, leftId: id.nullable(), rightId: id.nullable() })), rootId: id.nullable(), frames: z.array(z.strictObject({ frameId: id, nodeId: id.nullable(), phase: z.enum(['enter', 'await-left', 'await-right', 'return']), leftDepth: integer.nullable(), rightDepth: integer.nullable(), returnValue: integer.nullable() })) }),
+  z.strictObject({ kind: z.literal('tree'), id, frameSemantics: z.enum(['depth', 'traversal']).optional(), nodes: z.array(z.strictObject({ id, value: integer, leftId: id.nullable(), rightId: id.nullable() })), rootId: id.nullable(), frames: z.array(z.strictObject({ frameId: id, nodeId: id.nullable(), phase: z.enum(['enter', 'await-left', 'await-right', 'return']), leftDepth: integer.nullable(), rightDepth: integer.nullable(), returnValue: integer.nullable() })) }),
   z.strictObject({ kind: z.literal('dp'), id, values: z.array(integer.nullable()), activeIndex: integer.nullable() }),
   z.strictObject({ kind: z.literal('window'), id, text: z.string(), left: integer.nonnegative(), rightExclusive: integer.nonnegative(), members: z.array(ValueSchema) }),
 ]).superRefine((structure, ctx) => {
@@ -150,6 +151,9 @@ export const LessonSchema = z.discriminatedUnion('id', [
   variant('34', 32, SearchRangeInputSchema, IntArrayOutputSchema),
   variant('202', 33, HappyNumberInputSchema, BooleanOutputSchema),
   variant('387', 34, FirstUniqueCharInputSchema, IntOutputSchema),
+  variant('69', 35, SqrtInputSchema, IntOutputSchema),
+  variant('122', 36, StockProfitIIInputSchema, IntOutputSchema),
+  variant('144', 37, TreeInputSchema, IntArrayOutputSchema),
 ]).superRefine((lesson, ctx) => {
   const issue = (message: string) => ctx.addIssue({ code: 'custom', message });
   const meta = PROBLEM_META[lesson.id];

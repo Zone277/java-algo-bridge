@@ -205,3 +205,17 @@ C最终独立审查PASS（仅阶段00文档）：发现合法大输入的结构�
 | `/root/course387` | `packages/curriculum/problems/387/**` | 字符频次两遍扫描课程、模型和局部测试 |
 
 主agent独占`packages/contracts`、根与公共配置、应用注册、Java Adapter/Supervisor、全局测试、文档、最终真实Docker/浏览器验收及Git提交推送。三个agent均实际交付并释放目录：34为16例/2错解、局部7项PASS；202为14例/2错解、局部9项PASS；387为13例/2错解、局部3项PASS。主agent完成公共集成后，`npm run check` 87文件/467项PASS、真实Java专项10项PASS、新题浏览器专项3项PASS；另委派一名原生agent只读独立审查，构造额外边界反例，未发现可复现缺陷。完整`npm run verify`为467非Docker、152容器、43浏览器及shutdown全部PASS，残留清理0。实际初次失败、审查样本与最终结果见[本批验收](EXTENSION_2026-10-27.md)。
+
+## 三题续扩实际派工（2026-10-28）
+
+主agent经`git worktree list`核对仅一个共享checkout，无自动隔离。先固定`v1-extension-2026-10-28`公共输入、输出、签名及独立判题，然后通过客户端原生`collaboration.spawn_agent`派出最多三个并发工作agent。每份派工包含AGENTS/PRODUCT_SPEC/CONTRACTS/DECISIONS与相邻课程输入、唯一写入目录、禁止共享文件/Git、目录内Vitest/类型检查命令、完整交付格式。
+
+| agent | 唯一允许写入路径 | 交付目标 |
+|---|---|---|
+| `/root/course69` | `packages/curriculum/problems/69/**` | 防溢出整数二分课程、快照、中间不变量及局部测试 |
+| `/root/course122` | `packages/curriculum/problems/122/**` | 多次交易贪心课程、状态前缀收益及局部测试 |
+| `/root/course144` | `packages/curriculum/problems/144/**` | 稳定节点身份的递归前序遍历课程、状态与局部测试 |
+
+主agent独占根配置与课程包导出、`packages/contracts/**`、公共渲染器、API/web注册、Java Adapter/Supervisor、全局测试、文档、真实Docker/浏览器验收及Git提交推送。工作agent只在其授权目录写，跨范围建议交主agent在串行集成窗口处理。实际结果及门禁证据写入本批验收记录。
+
+实际三名agent均按唯一目录完成并释放：69为15例/2错解/目录7项PASS；122为14例/3错解/目录9项PASS；144为11例/2错解/目录11项PASS。144提出公共树帧表不应显示深度数据，主agent在共享集成窗口新增可选`frameSemantics`及列表视图`presentation`，课程agent仅在144目录使用。主agent统一执行固定镜像重建、新题11项真实Java专项、3项完整浏览器专项和全量verify；最终96文件/511项静态、18文件/163项容器、46项浏览器、shutdown与独立残留检查全部PASS。首次静态断言失败及修复见[本批验收](EXTENSION_2026-10-28.md)。

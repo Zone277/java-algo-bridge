@@ -91,3 +91,11 @@ Docker run、资源限制与安全说明：限制需要实际配置与环境验�
 - 387：https://leetcode.com/problems/first-unique-character-in-a-string/
 
 仅参考公开任务语义；本站教学数组/字符串上限较公开题目缩小，课程内容和状态图原创，未声明官方合作或覆盖官方隐藏测试。
+
+## 2026-10-28 新增公开来源
+
+- 69：[Sqrt(x)](https://leetcode.com/problems/sqrtx/)：非负int的整数平方根，向下取整；本站参考代码不调用内置幂函数。
+- 122：[Best Time to Buy and Sell Stock II](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/)：可多次交易，但同时最多持有一股；本站数组上限10000，小于公开题目的30000。
+- 144：[Binary Tree Preorder Traversal](https://leetcode.com/problems/binary-tree-preorder-traversal/)：根→左→右访问，空树返回空列表；本站复用已有紧凑层序输入解析，教学演示最多30节点。
+
+仅核对公开任务语义；课程题面、手算、参考Java代码与状态模型由本站原创，未复制官方题解或声称官方合作。

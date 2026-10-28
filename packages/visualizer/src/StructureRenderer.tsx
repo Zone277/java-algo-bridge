@@ -31,10 +31,11 @@ function intVariable(snapshot: Snapshot, name: string) {
 
 function ArrayDiagram({ array, closedInterval }: { array: Extract<Structure, { kind: 'array' }>; closedInterval?: { left: number; right: number; mid?: number } }) {
   const width = Math.max(300, array.values.length * 68);
+  const label = array.presentation === 'list' ? '结果列表（参考模型）' : `数组 ${array.id}`;
   return <section className="structure-diagram" data-testid={`structure-array-${array.id}`}>
-    <h4>数组 {array.id}</h4>
+    <h4>{label}</h4>
     {closedInterval && <p data-testid="search-interval">{closedInterval.left > closedInterval.right ? `搜索区间为空：left=${closedInterval.left}，right=${closedInterval.right}` : `候选闭区间 [${closedInterval.left}, ${closedInterval.right}]`}</p>}
-    <div style={{ overflowX: 'auto' }}><svg role="img" aria-label={closedInterval ? '数组与搜索区间' : `数组 ${array.id}`} width={width} height="138" viewBox={`0 0 ${width} 138`}>
+    <div style={{ overflowX: 'auto' }}><svg role="img" aria-label={closedInterval ? '数组与搜索区间' : label} width={width} height="138" viewBox={`0 0 ${width} 138`}>
       {array.values.map((value, index) => {
         const inRange = closedInterval !== undefined && index >= closedInterval.left && index <= closedInterval.right;
         const isMid = closedInterval?.mid === index;
@@ -87,6 +88,7 @@ function TreeDiagram({ tree }: { tree: Extract<Structure, { kind: 'tree' }> }) {
   const positions = new Map<string, { x: number; y: number }>();
   levels.forEach((level, depth) => level.forEach((nodeId, index) => positions.set(nodeId, { x: (index + 1) * width / (level.length + 1), y: depth * 115 + 50 })));
   const phaseName = { enter: '进入', 'await-left': '等待左子树', 'await-right': '等待右子树', return: '准备返回' } as const;
+  const traversal = tree.frameSemantics === 'traversal';
   return <section className="structure-diagram" data-testid={`structure-tree-${tree.id}`}>
     <h4>树对象 {tree.id}</h4>
     <p>节点 ID 表示对象身份；调用帧 ID 表示一次方法调用，两者不是同一概念。</p>
@@ -100,7 +102,15 @@ function TreeDiagram({ tree }: { tree: Extract<Structure, { kind: 'tree' }> }) {
     </svg></div>}
     <table aria-label={`树对象字段 ${tree.id}`}><thead><tr><th>节点 ID</th><th>val</th><th>left</th><th>right</th></tr></thead><tbody>{tree.nodes.map(node => <tr key={node.id}><td>{node.id}</td><td>{node.value}</td><td>{node.leftId ?? 'null'}</td><td>{node.rightId ?? 'null'}</td></tr>)}</tbody></table>
     <h4>方法调用帧（栈底 → 栈顶）</h4>
-    {!tree.frames.length ? <p data-testid="empty-frames">当前没有活动调用帧。</p> : <table aria-label={`调用帧 ${tree.id}`}><thead><tr><th>帧 ID</th><th>参数节点</th><th>阶段</th><th>左深度</th><th>右深度</th><th>返回值</th></tr></thead><tbody>{tree.frames.map((frame, index) => <tr key={frame.frameId} data-frame-id={frame.frameId}><td>{frame.frameId}{index === tree.frames.length - 1 ? '（栈顶）' : ''}</td><td>{frame.nodeId ?? 'null'}</td><td>{phaseName[frame.phase]}</td><td>{frame.leftDepth ?? '—'}</td><td>{frame.rightDepth ?? '—'}</td><td>{frame.returnValue ?? '—'}</td></tr>)}</tbody></table>}
+    {!tree.frames.length ? <p data-testid="empty-frames">当前没有活动调用帧。</p> : <table aria-label={`调用帧 ${tree.id}`}>
+      <thead><tr><th>帧 ID</th><th>参数节点</th><th>阶段</th>{!traversal && <><th>左深度</th><th>右深度</th><th>返回值</th></>}</tr></thead>
+      <tbody>{tree.frames.map((frame, index) => <tr key={frame.frameId} data-frame-id={frame.frameId}>
+        <td>{frame.frameId}{index === tree.frames.length - 1 ? '（栈顶）' : ''}</td>
+        <td>{frame.nodeId ?? 'null'}</td>
+        <td>{phaseName[frame.phase]}</td>
+        {!traversal && <><td>{frame.leftDepth ?? '—'}</td><td>{frame.rightDepth ?? '—'}</td><td>{frame.returnValue ?? '—'}</td></>}
+      </tr>)}</tbody>
+    </table>}
   </section>;
 }
 

@@ -48,6 +48,9 @@ public final class Adapter {
         case "34" -> run34(solution, instance, input, result);
         case "202" -> run202(solution, instance, input, result);
         case "387" -> run387(solution, instance, input, result);
+        case "69" -> run69(solution, instance, input, result);
+        case "122" -> run122(solution, instance, input, result);
+        case "144" -> run144(solution, instance, input, result);
         default -> throw new IllegalArgumentException("Unregistered problem");
       }
     } catch (Throwable error) {
@@ -107,6 +110,34 @@ public final class Adapter {
   private static void run387(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
     Method method = method(solution, "firstUniqChar", int.class, "public int firstUniqChar(String s)", String.class);
     ok(result, intOutput((Integer) method.invoke(instance, input.get("s").getAsString())));
+  }
+
+  private static void run69(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    Method method = method(solution, "mySqrt", int.class, "public int mySqrt(int x)", int.class);
+    ok(result, intOutput((Integer) method.invoke(instance, input.get("x").getAsInt())));
+  }
+
+  private static void run122(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    Method method = method(solution, "maxProfit", int.class, "public int maxProfit(int[] prices)", int[].class);
+    ok(result, intOutput((Integer) method.invoke(instance, (Object) ints(input.getAsJsonArray("prices")))));
+  }
+
+  private static void run144(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    JsonArray source = input.getAsJsonArray("root");
+    TreeNode root = buildTree(source);
+    Method method = method(solution, "preorderTraversal", List.class, "public List<Integer> preorderTraversal(TreeNode root)", TreeNode.class);
+    List<?> returned = (List<?>) method.invoke(instance, root);
+    if (returned == null) { wrong(result, "必须返回非 null 的 List<Integer>"); return; }
+    int nodeCount = 0;
+    for (JsonElement token : source) if (!token.isJsonNull()) nodeCount++;
+    if (returned.size() > nodeCount) { wrong(result, "结果长度不能超过输入节点数"); return; }
+    int[] values = new int[returned.size()];
+    for (int index = 0; index < values.length; index++) {
+      Object value = returned.get(index);
+      if (!(value instanceof Integer)) { wrong(result, "返回列表只能包含非 null 的 Integer 元素"); return; }
+      values[index] = (Integer) value;
+    }
+    ok(result, intArrayOutput(values));
   }
 
   private static void run33(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {

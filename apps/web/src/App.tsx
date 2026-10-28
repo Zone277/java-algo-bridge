@@ -76,6 +76,7 @@ const providedTypes: Partial<Record<ProblemId, { testId: string; title: string; 
   '206': { testId: 'listnode-definition', title: 'ListNode', source: LIST_NODE_SOURCE, note: '平台提供此类，请勿重复声明。对象编号是教学身份，不是物理地址；移动变量绑定不代表删除或回收对象。' },
   '21': { testId: 'listnode-definition', title: 'ListNode', source: LIST_NODE_SOURCE, note: '平台提供此类，请勿重复声明。合并结果需要复用输入节点；哑节点不能成为返回链的一部分。' },
   '104': { testId: 'treenode-definition', title: 'TreeNode', source: TREE_NODE_SOURCE, note: '平台根据层序输入构造树并提供此类，请勿重复声明。树节点对象与递归调用栈帧是两类身份。' },
+  '144': { testId: 'treenode-definition', title: 'TreeNode', source: TREE_NODE_SOURCE, note: '平台根据紧凑层序输入构造树并提供此类；前序遍历返回值列表，节点对象身份与值分开。' },
 };
 
 type Loaded = { progress: Progress; storageAllowed: boolean; legacy: string | null; note: string };
