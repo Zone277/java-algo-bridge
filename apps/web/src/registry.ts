@@ -14,6 +14,13 @@ import { lesson122, demoInputs as inputs122 } from '@jab/curriculum/122';
 import { buildReferenceTrace as trace122, predictionAt as predict122 } from '@jab/curriculum/122/model';
 import { lesson144, demoInputs as inputs144 } from '@jab/curriculum/144';
 import { buildReferenceTrace as trace144, predictionAt as predict144 } from '@jab/curriculum/144/model';
+import { lesson94, demoInputs as inputs94 } from '@jab/curriculum/94';
+import { buildReferenceTrace as trace94, predictionAt as predict94 } from '@jab/curriculum/94/model';
+import { lesson268, demoInputs as inputs268 } from '@jab/curriculum/268';
+import { buildReferenceTrace as trace268, predictionAt as predict268 } from '@jab/curriculum/268/model';
+import { lesson338, demoInputs as inputs338 } from '@jab/curriculum/338';
+import { buildReferenceTrace as trace338, predictionAt as predict338 } from '@jab/curriculum/338/model';
+import { MissingNumberInputSchema, CountingBitsInputSchema } from '@jab/contracts';
 import { lesson724, demoInputs as inputs724 } from '@jab/curriculum/724';
 import { buildReferenceTrace as trace724, predictionAt as predict724 } from '@jab/curriculum/724/model';
 import { PivotIndexInputSchema } from '@jab/contracts';
@@ -134,4 +141,7 @@ export const lessonRuntimes: LessonRuntime[] = [
   { lesson: lesson69, demoInputs: inputs69, buildTrace: (input, id) => trace69(SqrtInputSchema.parse(input), id), predictionAt: predict69, defaultInput: inputs69[0]!.input, syntaxCheck: { checkpointId: '69-v1:syntax:check', prompt: 'Java int 除法 8 / 3 的结果是多少？', answer: { kind: 'int', value: 2 }, explanation: '两个 int 相除会截去小数部分；平方根题也要返回向下取整的 int。' } },
   { lesson: lesson122, demoInputs: inputs122, buildTrace: (input, id) => trace122(StockProfitIIInputSchema.parse(input), id), predictionAt: predict122, defaultInput: inputs122[0]!.input, syntaxCheck: { checkpointId: '122-v1:syntax:check', prompt: 'int[] prices = {3, 5, 4}; prices.length 是多少？', answer: { kind: 'int', value: 3 }, explanation: '数组有3天报价，下标是0、1、2；不能访问 prices[3]。' } },
   { lesson: lesson144, demoInputs: inputs144, buildTrace: (input, id) => trace144(TreeInputSchema.parse(input), id), predictionAt: predict144, defaultInput: inputs144[0]!.input, syntaxCheck: { checkpointId: '144-v1:syntax:check', prompt: '前序遍历一个根值1、左孩子值2、右孩子值3的树，第一个访问的值是多少？', answer: { kind: 'int', value: 1 }, explanation: '前序顺序是根→左→右；首先访问根节点。' } },
+  { lesson: lesson94, demoInputs: inputs94, buildTrace: (input, id) => trace94(TreeInputSchema.parse(input), id), predictionAt: predict94, defaultInput: inputs94[0]!.input, syntaxCheck: { checkpointId: '94-v1:syntax:check', prompt: '中序遍历一个根值1、左孩子值2、右孩子值3的树，第一个访问的值是多少？', answer: { kind: 'int', value: 2 }, explanation: '中序顺序是左→根→右；先访问左孩子。' } },
+  { lesson: lesson268, demoInputs: inputs268, buildTrace: (input, id) => trace268(MissingNumberInputSchema.parse(input), id), predictionAt: predict268, defaultInput: inputs268[0]!.input, syntaxCheck: { checkpointId: '268-v1:syntax:check', prompt: 'int[] nums = {3, 0, 1}; 表达式 nums.length 的值是多少？', answer: { kind: 'int', value: 3 }, explanation: '数组有 3 项，候选数字范围是 0..3，共 4 个值。' } },
+  { lesson: lesson338, demoInputs: inputs338, buildTrace: (input, id) => trace338(CountingBitsInputSchema.parse(input), id), predictionAt: predict338, defaultInput: inputs338[0]!.input, syntaxCheck: { checkpointId: '338-v1:syntax:check', prompt: 'int n = 2; new int[n + 1] 创建的数组长度是多少？', answer: { kind: 'int', value: 3 }, explanation: '需要保存 0、1、2 三个数各自的二进制 1 的数量。' } },
 ];

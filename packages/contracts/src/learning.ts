@@ -3,6 +3,7 @@ import {
   PivotIndexInputSchema, NearbyDuplicateInputSchema, SubarraySumInputSchema,
   SearchRangeInputSchema, HappyNumberInputSchema, FirstUniqueCharInputSchema,
   SqrtInputSchema, StockProfitIIInputSchema,
+  MissingNumberInputSchema, CountingBitsInputSchema,
   BinarySearchInputSchema, BooleanOutputSchema, ClimbStairsInputSchema, ContainsDuplicateInputSchema, IntArrayOutputSchema, IntOutputSchema,
   LongestSubstringInputSchema, MaxProfitInputSchema, MaximumSubarrayInputSchema, MergeListsInputSchema, MoveZeroesInputSchema, OutputSchema, PROBLEM_META, ProblemIdSchema,
   SearchInsertInputSchema, MergeSortedArrayInputSchema, ValidPalindromeInputSchema, MajorityElementInputSchema,
@@ -154,6 +155,9 @@ export const LessonSchema = z.discriminatedUnion('id', [
   variant('69', 35, SqrtInputSchema, IntOutputSchema),
   variant('122', 36, StockProfitIIInputSchema, IntOutputSchema),
   variant('144', 37, TreeInputSchema, IntArrayOutputSchema),
+  variant('94', 38, TreeInputSchema, IntArrayOutputSchema),
+  variant('268', 39, MissingNumberInputSchema, IntOutputSchema),
+  variant('338', 40, CountingBitsInputSchema, IntArrayOutputSchema),
 ]).superRefine((lesson, ctx) => {
   const issue = (message: string) => ctx.addIssue({ code: 'custom', message });
   const meta = PROBLEM_META[lesson.id];

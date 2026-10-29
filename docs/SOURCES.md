@@ -99,3 +99,11 @@ Docker run、资源限制与安全说明：限制需要实际配置与环境验�
 - 144：[Binary Tree Preorder Traversal](https://leetcode.com/problems/binary-tree-preorder-traversal/)：根→左→右访问，空树返回空列表；本站复用已有紧凑层序输入解析，教学演示最多30节点。
 
 仅核对公开任务语义；课程题面、手算、参考Java代码与状态模型由本站原创，未复制官方题解或声称官方合作。
+
+## 2026-10-29 新增公开来源
+
+- 94：[Binary Tree Inorder Traversal](https://leetcode.com/problems/binary-tree-inorder-traversal/)：按左→根→右访问，空树返回空列表。本站沿用紧凑层序树输入，演示最多30节点。
+- 268：[Missing Number](https://leetcode.com/problems/missing-number/)：0..n 的 n+1 个候选值中，输入有 n 个互异值，返回唯一缺失值；本站 n 上限10000。
+- 338：[Counting Bits](https://leetcode.com/problems/counting-bits/)：返回 0..n 各整数的二进制1位数量，结果长度 n+1；公开题目 n 上限100000，本站因结构化输出与可视化限制收紧为9999。
+
+只核对公开题意和约束；本站的中文题面、手算、Java参考解法和状态演示均为原创，不声称复现官方全部测试。

@@ -219,3 +219,17 @@ C最终独立审查PASS（仅阶段00文档）：发现合法大输入的结构�
 主agent独占根配置与课程包导出、`packages/contracts/**`、公共渲染器、API/web注册、Java Adapter/Supervisor、全局测试、文档、真实Docker/浏览器验收及Git提交推送。工作agent只在其授权目录写，跨范围建议交主agent在串行集成窗口处理。实际结果及门禁证据写入本批验收记录。
 
 实际三名agent均按唯一目录完成并释放：69为15例/2错解/目录7项PASS；122为14例/3错解/目录9项PASS；144为11例/2错解/目录11项PASS。144提出公共树帧表不应显示深度数据，主agent在共享集成窗口新增可选`frameSemantics`及列表视图`presentation`，课程agent仅在144目录使用。主agent统一执行固定镜像重建、新题11项真实Java专项、3项完整浏览器专项和全量verify；最终96文件/511项静态、18文件/163项容器、46项浏览器、shutdown与独立残留检查全部PASS。首次静态断言失败及修复见[本批验收](EXTENSION_2026-10-28.md)。
+
+## 三题续扩实际派工（2026-10-29）
+
+主agent先确认`git worktree list`只有一个共享checkout，并冻结`v1-extension-2026-10-29`输入/输出、Java签名与独立判题期望。通过客户端原生`collaboration.spawn_agent`同时派出三名工作agent；每份派工列出AGENTS、PRODUCT_SPEC、CONTRACTS、DECISIONS、STATUS和相邻课程，明确契约版本、唯一写入目录、禁止范围、局部验收命令与交付格式。无自动隔离worktree。
+
+| agent | 唯一允许写入路径 | 目标与实际交付 |
+|---|---|---|
+| `/root/course94` | `packages/curriculum/problems/94/**` | 中序树遍历课程、稳定节点身份/调用帧模型及单测；11发布例、2错解、2动态预测；局部11项、类型与ESLint PASS |
+| `/root/course268` | `packages/curriculum/problems/268/**` | 缺失数字异或半步状态课程及单测；13发布例、2错解、3动态预测；局部8项与类型PASS，主agent在目录释放后修复一处ESLint `prefer-const` |
+| `/root/course338` | `packages/curriculum/problems/338/**` | 比特计数DP课程、已算/默认零区分及单测；13发布例、2错解、2动态预测；局部8项与类型PASS |
+
+三名agent均交付并释放互斥目录。主agent独占`packages/contracts/**`、根配置/导出、桥接与前后端注册、Java Adapter/Supervisor、全局测试、状态文档及Git。实际真实容器、浏览器、全量回归和清理证据见[本批验收](EXTENSION_2026-10-29.md)。
+
+主agent完整`npm run verify`最终104文件/549项静态、19文件/173项真实容器、49项浏览器与shutdown全部PASS；独立残留检查容器、任务目录与端口均为0。初轮lint与旧题数断言修复均保留在本批验收记录。

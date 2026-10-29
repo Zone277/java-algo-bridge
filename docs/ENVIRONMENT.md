@@ -1,5 +1,11 @@
 # 本机环境与阻塞
 
+## 2026-10-29 续扩环境
+
+Windows/PowerShell；开始时`main`与`origin/main`同为`1c36afd32a66cfdaf989ec8da9b1cae66fdc4d4e`且工作区干净。`git worktree list`只有一个共享checkout，三名原生工作agent按互斥目录写入。原系统PATH指向Node22.13.1/npm10.9.2；本轮每条验收命令显式把项目内`.tools/node-v24.20.0-win-x64`置于PATH首位，核验Node24.20.0/npm11.19.0，没有修改全局配置。
+
+Docker Desktop初始未启动；从本机已安装应用启动后，受限沙箱访问命名管道报`permission denied`，按执行环境权限要求对Docker命令使用受审查提权，实际确认Engine29.7.2/linux/x86_64。`npm run runner:build`重建固定`java-algo-bridge-runner:21.0.12`成功，镜像ID`sha256:ea156e0b5741c0fe4346a7b0d6e5990e4108caa60c55552d3a04cdc292bdc96d`/amd64；基础JDK digest和既有安全限制未改变。`npm run doctor`确认回环端口5173/3001可绑定、Docker/JDK runner可用。完整verify通过后独立检查项目容器0、`jab-run-*`任务目录0、5173/3001监听0；详见[本批验收](EXTENSION_2026-10-29.md)。
+
 ## 2026-10-28 续扩环境
 
 Windows / PowerShell，共享同一 Git checkout；开始时`main`与`origin/main`均为`8a2269035f731a216b108975d2f4c00f5b7012c9`，工作区干净，`git worktree list`仅一项，无隔离worktree。项目脚本选用Node 24.20.0/npm 11.19.0。Docker Desktop Linux Engine 初始停止，经现有应用入口启动后`docker info`确认29.7.2/linux/x86_64；未改全局设置或安全策略。启动前前后端回环端口5173/3001无监听。`npm run runner:build`重建固定项目镜像成功，ID为`sha256:f2a286982fcaf660ee5fb10d1cafdf2ba79678c459acad46ab69ba0a8e42ddc6`/amd64，基础JDK digest保持；完整verify均PASS。最终独立检查项目标签容器、任务目录和回环端口监听均为0。过程与门禁见[本批验收](EXTENSION_2026-10-28.md)；以下历史检查保持原样，不表示当前仍有旧阻塞。

@@ -51,6 +51,9 @@ public final class Adapter {
         case "69" -> run69(solution, instance, input, result);
         case "122" -> run122(solution, instance, input, result);
         case "144" -> run144(solution, instance, input, result);
+        case "94" -> run94(solution, instance, input, result);
+        case "268" -> run268(solution, instance, input, result);
+        case "338" -> run338(solution, instance, input, result);
         default -> throw new IllegalArgumentException("Unregistered problem");
       }
     } catch (Throwable error) {
@@ -138,6 +141,37 @@ public final class Adapter {
       values[index] = (Integer) value;
     }
     ok(result, intArrayOutput(values));
+  }
+
+  private static void run94(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    JsonArray source = input.getAsJsonArray("root");
+    TreeNode root = buildTree(source);
+    Method method = method(solution, "inorderTraversal", List.class, "public List<Integer> inorderTraversal(TreeNode root)", TreeNode.class);
+    List<?> returned = (List<?>) method.invoke(instance, root);
+    if (returned == null) { wrong(result, "必须返回非 null 的 List<Integer>"); return; }
+    int nodeCount = 0;
+    for (JsonElement token : source) if (!token.isJsonNull()) nodeCount++;
+    if (returned.size() > nodeCount) { wrong(result, "结果长度不能超过输入节点数"); return; }
+    int[] values = new int[returned.size()];
+    for (int index = 0; index < values.length; index++) {
+      Object value = returned.get(index);
+      if (!(value instanceof Integer)) { wrong(result, "返回列表只能包含非 null 的 Integer 元素"); return; }
+      values[index] = (Integer) value;
+    }
+    ok(result, intArrayOutput(values));
+  }
+
+  private static void run268(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    Method method = method(solution, "missingNumber", int.class, "public int missingNumber(int[] nums)", int[].class);
+    ok(result, intOutput((Integer) method.invoke(instance, (Object) ints(input.getAsJsonArray("nums")))));
+  }
+
+  private static void run338(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    int n = input.get("n").getAsInt();
+    Method method = method(solution, "countBits", int[].class, "public int[] countBits(int n)", int.class);
+    int[] returned = (int[]) method.invoke(instance, n);
+    if (returned == null || returned.length != n + 1) { wrong(result, "必须返回长度为 n+1 的非 null int[]"); return; }
+    ok(result, intArrayOutput(returned));
   }
 
   private static void run33(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {

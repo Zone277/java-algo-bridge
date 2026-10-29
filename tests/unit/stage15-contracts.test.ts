@@ -6,9 +6,9 @@ import {
 
 describe('69/122/144 frozen input and judging contracts', () => {
   it('preserves the previous 34 topics and accepts only matching run variants', () => {
-    expect(PROBLEM_ORDER).toHaveLength(37);
+    expect(PROBLEM_ORDER).toHaveLength(40);
     expect(PROBLEM_ORDER.slice(31, 34)).toEqual(['34', '202', '387']);
-    expect(PROBLEM_ORDER.slice(-3)).toEqual(['69', '122', '144']);
+    expect(PROBLEM_ORDER.slice(34, 37)).toEqual(['69', '122', '144']);
     for (const [problemId, input] of [['69', { x: 8 }], ['122', { prices: [2, 5] }], ['144', { root: [1, null, 2] }]] as const) {
       expect(RunRequestSchema.safeParse({ problemId, lessonVersion: `${problemId}-v1`, source: 'class Solution {}', mode: 'run', input }).success).toBe(true);
       expect(RunRequestSchema.safeParse({ problemId, lessonVersion: `${problemId}-v1`, source: 'class Solution {}', mode: 'submit', input }).success).toBe(false);

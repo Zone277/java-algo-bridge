@@ -6,9 +6,9 @@ export const JAVA_INT_MAX = 2147483647;
 const javaInt = z.number().int().min(JAVA_INT_MIN).max(JAVA_INT_MAX);
 const sorted = (values: readonly number[]) => values.every((value, index) => index === 0 || value >= values[index - 1]!);
 
-export const ProblemIdSchema = z.enum(['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242', '88', '125', '169', '11', '209', '198', '153', '136', '746', '33', '392', '322', '724', '219', '560', '34', '202', '387', '69', '122', '144']);
+export const ProblemIdSchema = z.enum(['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242', '88', '125', '169', '11', '209', '198', '153', '136', '746', '33', '392', '322', '724', '219', '560', '34', '202', '387', '69', '122', '144', '94', '268', '338']);
 export type ProblemId = z.infer<typeof ProblemIdSchema>;
-export const PROBLEM_ORDER = ['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242', '88', '125', '169', '11', '209', '198', '153', '136', '746', '33', '392', '322', '724', '219', '560', '34', '202', '387', '69', '122', '144'] as const satisfies readonly ProblemId[];
+export const PROBLEM_ORDER = ['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242', '88', '125', '169', '11', '209', '198', '153', '136', '746', '33', '392', '322', '724', '219', '560', '34', '202', '387', '69', '122', '144', '94', '268', '338'] as const satisfies readonly ProblemId[];
 export const PROBLEM_META = Object.freeze({
   '704': { order: 1, number: 704, lessonVersion: '704-v1', testSuiteVersion: '704-tests-v2', title: '二分查找', methodSignature: 'public int search(int[] nums, int target)' },
   '283': { order: 2, number: 283, lessonVersion: '283-v1', testSuiteVersion: '283-tests-v1', title: '移动零', methodSignature: 'public void moveZeroes(int[] nums)' },
@@ -47,6 +47,9 @@ export const PROBLEM_META = Object.freeze({
   '69': { order: 35, number: 69, lessonVersion: '69-v1', testSuiteVersion: '69-tests-v1', title: '整数平方根', methodSignature: 'public int mySqrt(int x)' },
   '122': { order: 36, number: 122, lessonVersion: '122-v1', testSuiteVersion: '122-tests-v1', title: '买卖股票的最佳时机 II', methodSignature: 'public int maxProfit(int[] prices)' },
   '144': { order: 37, number: 144, lessonVersion: '144-v1', testSuiteVersion: '144-tests-v1', title: '二叉树的前序遍历', methodSignature: 'public List<Integer> preorderTraversal(TreeNode root)' },
+  '94': { order: 38, number: 94, lessonVersion: '94-v1', testSuiteVersion: '94-tests-v1', title: '二叉树的中序遍历', methodSignature: 'public List<Integer> inorderTraversal(TreeNode root)' },
+  '268': { order: 39, number: 268, lessonVersion: '268-v1', testSuiteVersion: '268-tests-v1', title: '缺失的数字', methodSignature: 'public int missingNumber(int[] nums)' },
+  '338': { order: 40, number: 338, lessonVersion: '338-v1', testSuiteVersion: '338-tests-v1', title: '比特位计数', methodSignature: 'public int[] countBits(int n)' },
 } satisfies Record<ProblemId, { order: number; number: number; lessonVersion: string; testSuiteVersion: string; title: string; methodSignature: string }>);
 
 export const BinarySearchInputSchema = z.strictObject({
@@ -174,9 +177,13 @@ export const HappyNumberInputSchema = z.strictObject({ n: z.number().int().min(1
 export const FirstUniqueCharInputSchema = z.strictObject({ s: z.string().min(1).max(10000).regex(/^[a-z]+$/) });
 export const SqrtInputSchema = z.strictObject({ x: z.number().int().min(0).max(JAVA_INT_MAX) });
 export const StockProfitIIInputSchema = z.strictObject({ prices: z.array(z.number().int().min(0).max(10000)).min(1).max(10000) });
+export const MissingNumberInputSchema = z.strictObject({ nums: z.array(z.number().int().min(0).max(10000)).min(1).max(10000) })
+  .refine(({ nums }) => new Set(nums).size === nums.length && nums.every(value => value <= nums.length), { message: 'nums 必须是 0..n 范围内互不相同的 n 个数，恰缺一项' });
+export const CountingBitsInputSchema = z.strictObject({ n: z.number().int().min(0).max(9999) });
 
 export const ProblemInputSchemas = Object.freeze({
   '69': SqrtInputSchema, '122': StockProfitIIInputSchema, '144': TreeInputSchema,
+  '94': TreeInputSchema, '268': MissingNumberInputSchema, '338': CountingBitsInputSchema,
   '34': SearchRangeInputSchema, '202': HappyNumberInputSchema, '387': FirstUniqueCharInputSchema,
   '724': PivotIndexInputSchema, '219': NearbyDuplicateInputSchema, '560': SubarraySumInputSchema,
   '704': BinarySearchInputSchema, '283': MoveZeroesInputSchema, '977': SortedSquaresInputSchema, '1': TwoSumInputSchema,
@@ -189,7 +196,7 @@ export const ProblemInputSchemas = Object.freeze({
   '33': RotatedSearchInputSchema, '392': IsSubsequenceInputSchema, '322': CoinChangeInputSchema,
   '153': RotatedMinimumInputSchema, '136': SingleNumberInputSchema, '746': MinCostStairsInputSchema,
 });
-export const ProblemInputSchema = z.union([BinarySearchInputSchema, MoveZeroesInputSchema, SortedSquaresInputSchema, TwoSumInputSchema, ValidParenthesesInputSchema, LinkedListInputSchema, MergeListsInputSchema, TreeInputSchema, ClimbStairsInputSchema, LongestSubstringInputSchema, MaxProfitInputSchema, MaximumSubarrayInputSchema, TwoSumSortedInputSchema, ValidAnagramInputSchema, MergeSortedArrayInputSchema, ValidPalindromeInputSchema, MajorityElementInputSchema, ContainerWaterInputSchema, MinimumSubarrayInputSchema, HouseRobberInputSchema, RotatedMinimumInputSchema, SingleNumberInputSchema, MinCostStairsInputSchema, RotatedSearchInputSchema, IsSubsequenceInputSchema, CoinChangeInputSchema, PivotIndexInputSchema, NearbyDuplicateInputSchema, SubarraySumInputSchema, SearchRangeInputSchema, HappyNumberInputSchema, FirstUniqueCharInputSchema, SqrtInputSchema, StockProfitIIInputSchema]);
+export const ProblemInputSchema = z.union([BinarySearchInputSchema, MoveZeroesInputSchema, SortedSquaresInputSchema, TwoSumInputSchema, ValidParenthesesInputSchema, LinkedListInputSchema, MergeListsInputSchema, TreeInputSchema, ClimbStairsInputSchema, LongestSubstringInputSchema, MaxProfitInputSchema, MaximumSubarrayInputSchema, TwoSumSortedInputSchema, ValidAnagramInputSchema, MergeSortedArrayInputSchema, ValidPalindromeInputSchema, MajorityElementInputSchema, ContainerWaterInputSchema, MinimumSubarrayInputSchema, HouseRobberInputSchema, RotatedMinimumInputSchema, SingleNumberInputSchema, MinCostStairsInputSchema, RotatedSearchInputSchema, IsSubsequenceInputSchema, CoinChangeInputSchema, PivotIndexInputSchema, NearbyDuplicateInputSchema, SubarraySumInputSchema, SearchRangeInputSchema, HappyNumberInputSchema, FirstUniqueCharInputSchema, SqrtInputSchema, StockProfitIIInputSchema, MissingNumberInputSchema, CountingBitsInputSchema]);
 export type BinarySearchInput = z.infer<typeof BinarySearchInputSchema>;
 export type MoveZeroesInput = z.infer<typeof MoveZeroesInputSchema>;
 export type SortedSquaresInput = z.infer<typeof SortedSquaresInputSchema>;
@@ -225,8 +232,11 @@ export type HappyNumberInput = z.infer<typeof HappyNumberInputSchema>;
 export type FirstUniqueCharInput = z.infer<typeof FirstUniqueCharInputSchema>;
 export type SqrtInput = z.infer<typeof SqrtInputSchema>;
 export type StockProfitIIInput = z.infer<typeof StockProfitIIInputSchema>;
+export type MissingNumberInput = z.infer<typeof MissingNumberInputSchema>;
+export type CountingBitsInput = z.infer<typeof CountingBitsInputSchema>;
 export type ProblemInputMap = {
   '69': SqrtInput; '122': StockProfitIIInput; '144': TreeInput;
+  '94': TreeInput; '268': MissingNumberInput; '338': CountingBitsInput;
   '34': SearchRangeInput; '202': HappyNumberInput; '387': FirstUniqueCharInput;
   '724': PivotIndexInput; '219': NearbyDuplicateInput; '560': SubarraySumInput;
   '33': RotatedSearchInput; '392': IsSubsequenceInput; '322': CoinChangeInput;
@@ -289,6 +299,42 @@ function treeDepth(tokens: readonly (number | null)[]) { return inspectCompactTr
 export function expectedOutput<I extends ProblemId>(problemId: I, rawInput: ProblemInputMap[I]): Output {
   const input = parseProblemInput(problemId, rawInput) as ProblemInput;
   switch (problemId) {
+    case '94': {
+      // Explicit stack oracle, independent of the recursive reference Java solution.
+      const tokens = (input as TreeInput).root;
+      if (tokens.length === 0) return { kind: 'int-array', values: [] };
+      const nodes: { value: number; left: number | null; right: number | null }[] = [{ value: tokens[0]!, left: null, right: null }];
+      const queue = [0]; let cursor = 1;
+      for (let parent = 0; parent < queue.length && cursor < tokens.length; parent++) {
+        for (const side of ['left', 'right'] as const) {
+          if (cursor >= tokens.length) break;
+          const value = tokens[cursor++];
+          if (value !== null) { const index = nodes.length; nodes.push({ value: value!, left: null, right: null }); nodes[queue[parent]!]![side] = index; queue.push(index); }
+        }
+      }
+      const values: number[] = []; const stack: number[] = []; let current: number | null = 0;
+      while (current !== null || stack.length) {
+        while (current !== null) { stack.push(current); current = nodes[current]!.left; }
+        const index = stack.pop()!; const node = nodes[index]!;
+        values.push(node.value); current = node.right;
+      }
+      return { kind: 'int-array', values };
+    }
+    case '268': {
+      const nums = (input as MissingNumberInput).nums;
+      const seen = new Uint8Array(nums.length + 1);
+      for (const value of nums) seen[value] = 1;
+      return { kind: 'int', value: seen.indexOf(0) };
+    }
+    case '338': {
+      const { n } = input as CountingBitsInput;
+      const values = Array.from({ length: n + 1 }, (_, value) => {
+        let bits = 0; let x = value;
+        while (x !== 0) { x &= x - 1; bits++; }
+        return bits;
+      });
+      return { kind: 'int-array', values };
+    }
     case '69': return { kind: 'int', value: Math.floor(Math.sqrt((input as SqrtInput).x)) };
     case '122': {
       // Two-state dynamic program, independent of the taught sum-of-rises greedy scan.

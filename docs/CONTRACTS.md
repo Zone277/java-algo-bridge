@@ -244,3 +244,13 @@ ReferenceTrace 的 `finalOutput` 使用同一 Output 联合但通道固定为 `r
 - 144：复用`TreeInputSchema` / `TreeInput`，严格输入`{root:(int|null)[]}`，使用紧凑队列式层序而非堆下标；本站最多1000个非null节点、深度128、值-100—100。`public List<Integer> preorderTraversal(TreeNode root)`返回根→左→右的整数列表，可信适配器转换为结构化`int-array`，拒绝null列表、null/非Integer项、超出输入节点数的返回列表；真实判题与独立迭代栈期望逐项比对。参考Java用递归；状态演示用稳定对象ID，重复值节点不能合并，空树返回空列表。演示最多30节点、深度8，真实Java仍支持本站契约上限。
 
 三题每题至少8个覆盖用例、2个可编译错解夹具及具名反例、2个动态预测、3阶段引导、独立骨架、三级提示；每个参考模型的终态须与真实Java输出对照，中间状态不变量单测。工作agent仅写各自课程目录，主agent独占公共契约、注册、Java适配器、跨题测试、状态与Git。
+
+## 三题续扩实施冻结（v1-extension-2026-10-29）
+
+保留原37题顺序、课程版本和草稿键，末尾追加94、268、338（38—40）。各题Lesson/测试集版本为`<id>-v1/<id>-tests-v1`；公共Lesson/RunRequest联合、浏览器/API注册、Supervisor白名单及可信Adapter必须一致。沿用现有`int`与`int-array`输出、课程工作台和独立Docker Java执行，不增依赖或页面系统。
+
+- 94：复用`TreeInputSchema`，紧凑队列式层序输入`{root:(int|null)[]}`，本站最多1000个非null节点、深度128、节点值-100—100。`public List<Integer> inorderTraversal(TreeNode root)`按左→根→右返回值列表。可信适配器拒绝null列表、null或非Integer元素、超输入节点数的列表，并转为结构化`int-array`；独立迭代栈oracle逐项判定。空树输出`[]`，重复值仍属于不同节点。参考树演示最多30节点、深度8。
+- 268：`MissingNumberInputSchema`/`MissingNumberInput`严格输入`{nums:int[]}`，n为1—10000，n项互异且均在0..n；因此恰缺一项。`public int missingNumber(int[] nums)`返回缺失的**值**而非数组下标；可信期望用位图找未出现项，参考用异或成对抵消。演示最多30项，真实Java仍接受本站上限。
+- 338：`CountingBitsInputSchema`/`CountingBitsInput`严格输入`{n:int}`，本站0—9999；`public int[] countBits(int n)`返回长度恰好n+1的数组，索引i对应i的二进制1位数量。n=0也需返回`[0]`；可信适配器在序列化前拒绝null或长度不等于n+1的数组。参考用`ans[i]=ans[i>>1]+(i&1)`单遍DP，可信期望独立逐数用`x &= x-1`计数。本站上限使结构化输出不超过10000项；演示最多30项。
+
+三题参考演示仍固定标注“参考解法 · 算法状态演示（非 JVM 调试）”，类型为`reference-model`；学生Java真实运行结果来自`student-java`，不得用源码、打印文本或参考模型代替。每题至少8个有效用例、2个可编译错解、2个随输入变化的预测、3阶段引导、独立骨架和三级提示。终态与真实Java参考输出差分，另单测中间不变量。三名工作agent共享checkout，仅各写自己的题号课程目录；主agent独占公共文件、全局测试、状态与Git。
