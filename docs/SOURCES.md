@@ -107,3 +107,11 @@ Docker run、资源限制与安全说明：限制需要实际配置与环境验�
 - 338：[Counting Bits](https://leetcode.com/problems/counting-bits/)：返回 0..n 各整数的二进制1位数量，结果长度 n+1；公开题目 n 上限100000，本站因结构化输出与可视化限制收紧为9999。
 
 只核对公开题意和约束；本站的中文题面、手算、Java参考解法和状态演示均为原创，不声称复现官方全部测试。
+
+## 2026-10-30 新增公开来源
+
+- 145：[Binary Tree Postorder Traversal](https://leetcode.com/problems/binary-tree-postorder-traversal/)：左→右→根，空树返回空列表。本站使用既有紧凑层序输入契约。
+- 231：[Power of Two](https://leetcode.com/problems/power-of-two/)：正整数2的幂返回true，输入可覆盖完整有符号32位整数。
+- 383：[Ransom Note](https://leetcode.com/problems/ransom-note/)：杂志里的每个字符最多用一次；公开约束为小写英文字母、两串各长1—100000，本站上限收紧为10000。
+
+仅参考公开题意与限制；教学文本、示例、Java代码与状态模型均为原创，不声称通过官方隐藏测试。

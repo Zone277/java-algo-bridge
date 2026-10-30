@@ -254,3 +254,13 @@ ReferenceTrace 的 `finalOutput` 使用同一 Output 联合但通道固定为 `r
 - 338：`CountingBitsInputSchema`/`CountingBitsInput`严格输入`{n:int}`，本站0—9999；`public int[] countBits(int n)`返回长度恰好n+1的数组，索引i对应i的二进制1位数量。n=0也需返回`[0]`；可信适配器在序列化前拒绝null或长度不等于n+1的数组。参考用`ans[i]=ans[i>>1]+(i&1)`单遍DP，可信期望独立逐数用`x &= x-1`计数。本站上限使结构化输出不超过10000项；演示最多30项。
 
 三题参考演示仍固定标注“参考解法 · 算法状态演示（非 JVM 调试）”，类型为`reference-model`；学生Java真实运行结果来自`student-java`，不得用源码、打印文本或参考模型代替。每题至少8个有效用例、2个可编译错解、2个随输入变化的预测、3阶段引导、独立骨架和三级提示。终态与真实Java参考输出差分，另单测中间不变量。三名工作agent共享checkout，仅各写自己的题号课程目录；主agent独占公共文件、全局测试、状态与Git。
+
+## 三题续扩实施冻结（v1-extension-2026-10-30）
+
+保留原40题顺序、课程版本和草稿键，末尾追加145、231、383（41—43）。各题采用`<id>-v1`课程版本和`<id>-tests-v1`测试版本，复用现有课程、参考状态、结构化输出与受限一次性Docker Java执行；不增加依赖或页面系统。
+
+- 145：复用`TreeInputSchema`的紧凑队列式层序`{root:(int|null)[]}`，本站最多1000个节点、深度128、值-100—100；空树合法。`public List<Integer> postorderTraversal(TreeNode root)`返回左→右→根的列表。可信适配器拒绝null列表、null/非Integer元素、超过节点数的列表，再转为`int-array`；独立双栈oracle逐项判定。参考Java递归，状态模型以稳定节点ID和调用帧展示；演示最多30节点、深度8。
+- 231：`PowerOfTwoInputSchema`严格输入`{n:int}`，覆盖有符号Java int全域。`public boolean isPowerOfTwo(int n)`仅在n是正整数2的非负整数次幂时返回true；参考先判断n>0再用`(n & (n-1)) == 0`，可信期望独立反复除以2。0与负数，包括`Integer.MIN_VALUE`，必须返回false。
+- 383：`RansomNoteInputSchema`严格输入`{ransomNote:string,magazine:string}`，两串各长1—10000、仅小写a-z。`public boolean canConstruct(String ransomNote,String magazine)`判断杂志中的每个字符最多使用一次时能否组成赎金信；参考用`int[26]`计数并逐字扣减，可信期望独立`Map`频次。重复字母按数量判断，不按出现顺序判断；演示最多30字符，真实判题接受本站全长。
+
+三题各至少8个有效用例、2个可编译错解、2个动态预测、3阶段引导、独立骨架及三级提示。参考状态模型的终态须与真实Java参考输出对照，同时单独核对中间不变量。工作agent仅拥有各自题号目录；共享契约、注册、Java Adapter、全局测试、文档和Git由主agent串行集成。

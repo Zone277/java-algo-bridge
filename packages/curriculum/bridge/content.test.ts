@@ -8,7 +8,7 @@ describe('Java bridge static curriculum', () => {
       expect(BridgeUnitSchema.parse(unit)).toEqual(unit);
       for (const problem of unit.relatedProblems) expect(bridgePrerequisites[problem]).toContain(unit.id);
     }
-    expect(Object.keys(bridgePrerequisites)).toHaveLength(40);
+    expect(Object.keys(bridgePrerequisites)).toHaveLength(43);
   });
   it('keeps object/variable, pass-by-value and Unicode caveats explicit', () => {
     expect(bridgeUnits[2]!.explanation).toContain('参数始终按值传递');

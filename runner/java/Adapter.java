@@ -54,6 +54,9 @@ public final class Adapter {
         case "94" -> run94(solution, instance, input, result);
         case "268" -> run268(solution, instance, input, result);
         case "338" -> run338(solution, instance, input, result);
+        case "145" -> run145(solution, instance, input, result);
+        case "231" -> run231(solution, instance, input, result);
+        case "383" -> run383(solution, instance, input, result);
         default -> throw new IllegalArgumentException("Unregistered problem");
       }
     } catch (Throwable error) {
@@ -159,6 +162,34 @@ public final class Adapter {
       values[index] = (Integer) value;
     }
     ok(result, intArrayOutput(values));
+  }
+
+  private static void run145(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    JsonArray source = input.getAsJsonArray("root");
+    TreeNode root = buildTree(source);
+    Method method = method(solution, "postorderTraversal", List.class, "public List<Integer> postorderTraversal(TreeNode root)", TreeNode.class);
+    List<?> returned = (List<?>) method.invoke(instance, root);
+    if (returned == null) { wrong(result, "必须返回非 null 的 List<Integer>"); return; }
+    int nodeCount = 0;
+    for (JsonElement token : source) if (!token.isJsonNull()) nodeCount++;
+    if (returned.size() > nodeCount) { wrong(result, "结果长度不能超过输入节点数"); return; }
+    int[] values = new int[returned.size()];
+    for (int index = 0; index < values.length; index++) {
+      Object value = returned.get(index);
+      if (!(value instanceof Integer)) { wrong(result, "返回列表只能包含非 null 的 Integer 元素"); return; }
+      values[index] = (Integer) value;
+    }
+    ok(result, intArrayOutput(values));
+  }
+
+  private static void run231(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    Method method = method(solution, "isPowerOfTwo", boolean.class, "public boolean isPowerOfTwo(int n)", int.class);
+    ok(result, booleanOutput((Boolean) method.invoke(instance, input.get("n").getAsInt())));
+  }
+
+  private static void run383(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    Method method = method(solution, "canConstruct", boolean.class, "public boolean canConstruct(String ransomNote, String magazine)", String.class, String.class);
+    ok(result, booleanOutput((Boolean) method.invoke(instance, input.get("ransomNote").getAsString(), input.get("magazine").getAsString())));
   }
 
   private static void run268(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {

@@ -233,3 +233,15 @@ C最终独立审查PASS（仅阶段00文档）：发现合法大输入的结构�
 三名agent均交付并释放互斥目录。主agent独占`packages/contracts/**`、根配置/导出、桥接与前后端注册、Java Adapter/Supervisor、全局测试、状态文档及Git。实际真实容器、浏览器、全量回归和清理证据见[本批验收](EXTENSION_2026-10-29.md)。
 
 主agent完整`npm run verify`最终104文件/549项静态、19文件/173项真实容器、49项浏览器与shutdown全部PASS；独立残留检查容器、任务目录与端口均为0。初轮lint与旧题数断言修复均保留在本批验收记录。
+
+## 三题续扩实际派工（2026-10-30）
+
+经`git worktree list`确认只有一个共享checkout，未创建隔离worktree。主agent先冻结`v1-extension-2026-10-30`契约，再以客户端真实`collaboration.spawn_agent`同时派出三个工作agent。每份派工提供题目目标、已固定输入/输出/版本、相邻课程模板、唯一允许写入路径、共享文件/Git禁区、局部测试命令和交付要素。
+
+| agent | 唯一允许写入路径 | 任务 |
+|---|---|---|
+| `/root/course145` | `packages/curriculum/problems/145/**` | 后序树遍历课程、稳定节点状态模型与局部测试 |
+| `/root/course231` | `packages/curriculum/problems/231/**` | 有符号int位运算课程、状态模型与局部测试 |
+| `/root/course383` | `packages/curriculum/problems/383/**` | 字母频次课程、状态模型与局部测试 |
+
+主agent独占`packages/contracts/**`、根配置与课程包导出、桥接/前后端注册、可信Java Adapter、全局测试、文档和Git。实际交付、验证命令与遗留阻塞见[本批验收](EXTENSION_2026-10-30.md)。

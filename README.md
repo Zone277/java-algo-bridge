@@ -6,7 +6,7 @@ A local-first Java algorithm learning tool for Windows. It helps learners with b
 
 ## Highlights
 
-- Forty progressively structured algorithm problems covering arrays, strings, hashing, stacks, linked lists, binary trees, dynamic programming, and sliding windows.
+- Forty-three progressively structured algorithm problems covering arrays, strings, hashing, stacks, linked lists, binary trees, dynamic programming, and sliding windows.
 - Eight short Java bridge lessons (J1–J8) covering syntax differences, arrays, collections, strings, references, and common data structures.
 - A complete learning path from syntax preparation and problem analysis to guided coding and independent practice.
 - State-based visualizations of built-in reference algorithms, showing how variables and data structures change step by step.
@@ -57,6 +57,9 @@ A local-first Java algorithm learning tool for Windows. It helps learners with b
 | 94 | Binary Tree Inorder Traversal | `TreeNode`, `List<Integer>` and recursion | Left-root-right traversal with stable node identities |
 | 268 | Missing Number | `int[]`, `length`, bitwise XOR | Pairwise cancellation across 0..n |
 | 338 | Counting Bits | `int[]`, right shift, bitwise AND | Dynamic programming over computed prefixes |
+| 145 | Binary Tree Postorder Traversal | `TreeNode`, `List<Integer>`, recursion | Visit left and right subtrees before the root |
+| 231 | Power of Two | Signed `int`, bitwise AND, `boolean` | Test for exactly one set bit in a positive integer |
+| 383 | Ransom Note | `String`, `charAt`, `int[26]` | Count and consume available letters |
 
 ## Requirements
 

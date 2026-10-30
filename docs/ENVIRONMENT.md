@@ -1,5 +1,9 @@
 # 本机环境与阻塞
 
+## 2026-10-30 续扩环境
+
+Windows/PowerShell；开始时`main`与`origin/main`均为`8399203ec287c7a9765ee0c246889a2bfdcb2b78`，工作区干净，`git worktree list`只有一个共享checkout。项目自带Node24.20.0/npm11.19.0通过显式PATH用于全部验收，不更改全局配置。Docker Desktop最初停止；启动时被上一日残留、系统无法访问的Unix socket阻断。只读日志确认故障并核对无Docker进程后，将仅含过期socket的三个运行时目录可逆移到同一用户本地目录下的`run-stale-*`/`docker-secrets-engine-stale-*`，再单次启动现有应用。未读取密钥、重置Docker或关闭安全保护。随后`docker info`确认Engine29.7.2/linux/x86_64，`npm run runner:build`重建固定`java-algo-bridge-runner:21.0.12`镜像成功，ID`sha256:683d404ed4887446017fc5b489129f0aaa3149d1f535ea6a6da751aa08eeb203`/amd64。`npm run doctor`确认127.0.0.1:5173/3001可绑定及真实Docker/JDK可用。最后残留与全量结果见[本批验收](EXTENSION_2026-10-30.md)。
+
 ## 2026-10-29 续扩环境
 
 Windows/PowerShell；开始时`main`与`origin/main`同为`1c36afd32a66cfdaf989ec8da9b1cae66fdc4d4e`且工作区干净。`git worktree list`只有一个共享checkout，三名原生工作agent按互斥目录写入。原系统PATH指向Node22.13.1/npm10.9.2；本轮每条验收命令显式把项目内`.tools/node-v24.20.0-win-x64`置于PATH首位，核验Node24.20.0/npm11.19.0，没有修改全局配置。
