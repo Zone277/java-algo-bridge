@@ -67,7 +67,7 @@ public final class Supervisor {
       if(args.length>0 && args[0].equals("--probe")) {System.out.println("{\"available\":true}");return;}
       JsonArray inputs=JsonParser.parseString(Files.readString(Path.of("/input/inputs.json"))).getAsJsonArray();
       String problemId=Files.readString(Path.of("/input/problem.txt")).trim();
-      if(!Set.of("704","283","977","1","20","206","21","104","70","3","35","121","217","53","167","242","88","125","169","11","209","198","153","136","746","33","392","322","724","219","560","34","202","387","69","122","144","94","268","338","145","231","383").contains(problemId)) throw new IllegalArgumentException("Unregistered problem");
+      if(!Set.of("704","283","977","1","20","206","21","104","70","3","35","121","217","53","167","242","88","125","169","11","209","198","153","136","746","33","392","322","724","219","560","34","202","387","69","122","144","94","268","338","145","231","383","9","101","112").contains(problemId)) throw new IllegalArgumentException("Unregistered problem");
       String compile=run(List.of("javac","-J-Xmx192m","-J-XX:ActiveProcessorCount=1","-proc:none","-implicit:none","-encoding","UTF-8","-cp","/opt/bridge","-sourcepath","/input","-d","/work","/input/Solution.java"),15000);
       response.addProperty("compileMs",(System.nanoTime()-compileStart)/1000000.0);
       response.addProperty("phase","compile");

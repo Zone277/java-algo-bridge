@@ -115,3 +115,11 @@ Docker run、资源限制与安全说明：限制需要实际配置与环境验�
 - 383：[Ransom Note](https://leetcode.com/problems/ransom-note/)：杂志里的每个字符最多用一次；公开约束为小写英文字母、两串各长1—100000，本站上限收紧为10000。
 
 仅参考公开题意与限制；教学文本、示例、Java代码与状态模型均为原创，不声称通过官方隐藏测试。
+
+## 2026-10-31 新增公开来源
+
+- 9：[Palindrome Number](https://leetcode.com/problems/palindrome-number/)：输入有符号32位整数，判断十进制数字序列是否左右对称；负数不是回文。本站包含0与完整Java `int` 边界，参考用半段反转避免溢出。
+- 101：[Symmetric Tree](https://leetcode.com/problems/symmetric-tree/)：比较二叉树围绕中心轴是否镜像对称；重复值不能替代结构配对。本站沿用紧凑层序树输入，并额外允许空树作教学边界。
+- 112：[Path Sum](https://leetcode.com/problems/path-sum/)：只在完整的根到叶路径和等于目标时返回真；空树返回假。本站复用紧凑层序树输入，上限1000节点、深度128、节点值-100—100、`targetSum` -1000—1000。
+
+仅核对公开任务语义；中文题面、推导、Java参考解法、状态模型与测试均为本站原创，不宣称官方合作或通过官方隐藏测试。

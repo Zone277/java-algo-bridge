@@ -3,7 +3,7 @@ import {
   PivotIndexInputSchema, NearbyDuplicateInputSchema, SubarraySumInputSchema,
   SearchRangeInputSchema, HappyNumberInputSchema, FirstUniqueCharInputSchema,
   SqrtInputSchema, StockProfitIIInputSchema,
-  MissingNumberInputSchema, CountingBitsInputSchema, PowerOfTwoInputSchema, RansomNoteInputSchema,
+  MissingNumberInputSchema, CountingBitsInputSchema, PowerOfTwoInputSchema, RansomNoteInputSchema, PalindromeNumberInputSchema, PathSumInputSchema,
   BinarySearchInputSchema, BooleanOutputSchema, ClimbStairsInputSchema, ContainsDuplicateInputSchema, IntArrayOutputSchema, IntOutputSchema,
   LongestSubstringInputSchema, MaxProfitInputSchema, MaximumSubarrayInputSchema, MergeListsInputSchema, MoveZeroesInputSchema, OutputSchema, PROBLEM_META, ProblemIdSchema,
   SearchInsertInputSchema, MergeSortedArrayInputSchema, ValidPalindromeInputSchema, MajorityElementInputSchema,
@@ -161,6 +161,9 @@ export const LessonSchema = z.discriminatedUnion('id', [
   variant('145', 41, TreeInputSchema, IntArrayOutputSchema),
   variant('231', 42, PowerOfTwoInputSchema, BooleanOutputSchema),
   variant('383', 43, RansomNoteInputSchema, BooleanOutputSchema),
+  variant('9', 44, PalindromeNumberInputSchema, BooleanOutputSchema),
+  variant('101', 45, TreeInputSchema, BooleanOutputSchema),
+  variant('112', 46, PathSumInputSchema, BooleanOutputSchema),
 ]).superRefine((lesson, ctx) => {
   const issue = (message: string) => ctx.addIssue({ code: 'custom', message });
   const meta = PROBLEM_META[lesson.id];

@@ -26,8 +26,14 @@ import { lesson231, demoInputs as inputs231 } from '@jab/curriculum/231';
 import { buildReferenceTrace as trace231, predictionAt as predict231 } from '@jab/curriculum/231/model';
 import { lesson383, demoInputs as inputs383 } from '@jab/curriculum/383';
 import { buildReferenceTrace as trace383, predictionAt as predict383 } from '@jab/curriculum/383/model';
+import { lesson9, demoInputs as inputs9 } from '@jab/curriculum/9';
+import { buildReferenceTrace as trace9, predictionAt as predict9 } from '@jab/curriculum/9/model';
+import { lesson101, demoInputs as inputs101 } from '@jab/curriculum/101';
+import { buildReferenceTrace as trace101, predictionAt as predict101 } from '@jab/curriculum/101/model';
+import { lesson112, demoInputs as inputs112 } from '@jab/curriculum/112';
+import { buildReferenceTrace as trace112, predictionAt as predict112 } from '@jab/curriculum/112/model';
 import { MissingNumberInputSchema, CountingBitsInputSchema } from '@jab/contracts';
-import { PowerOfTwoInputSchema, RansomNoteInputSchema } from '@jab/contracts';
+import { PowerOfTwoInputSchema, RansomNoteInputSchema, PalindromeNumberInputSchema, PathSumInputSchema } from '@jab/contracts';
 import { lesson724, demoInputs as inputs724 } from '@jab/curriculum/724';
 import { buildReferenceTrace as trace724, predictionAt as predict724 } from '@jab/curriculum/724/model';
 import { PivotIndexInputSchema } from '@jab/contracts';
@@ -154,4 +160,7 @@ export const lessonRuntimes: LessonRuntime[] = [
   { lesson: lesson145, demoInputs: inputs145, buildTrace: (input, id) => trace145(TreeInputSchema.parse(input), id), predictionAt: predict145, defaultInput: inputs145[0]!.input, syntaxCheck: { checkpointId: '145-v1:syntax:check', prompt: '后序遍历根值 1、左孩子值 2、右孩子值 3 的树，最后访问的值是多少？', answer: { kind: 'int', value: 1 }, explanation: '后序先完整访问左、右子树，最后访问根。' } },
   { lesson: lesson231, demoInputs: inputs231, buildTrace: (input, id) => trace231(PowerOfTwoInputSchema.parse(input), id), predictionAt: predict231, defaultInput: inputs231[0]!.input, syntaxCheck: { checkpointId: '231-v1:syntax:check', prompt: 'Java 中 8 & 7 的值是多少？', answer: { kind: 'int', value: 0 }, explanation: '& 是按位与；8 只有一个二进制 1，减 1 后该位置变为 0。' } },
   { lesson: lesson383, demoInputs: inputs383, buildTrace: (input, id) => trace383(RansomNoteInputSchema.parse(input), id), predictionAt: predict383, defaultInput: inputs383[0]!.input, syntaxCheck: { checkpointId: '383-v1:syntax:check', prompt: "Java 中 'c' - 'a' 的值是多少？", answer: { kind: 'int', value: 2 }, explanation: '小写英文字母可映射到 int[26] 的下标 0 到 25。' } },
+  { lesson: lesson9, demoInputs: inputs9, buildTrace: (input, id) => trace9(PalindromeNumberInputSchema.parse(input), id), predictionAt: predict9, defaultInput: inputs9[0]!.input, syntaxCheck: { checkpointId: '9-v1:syntax:check', prompt: 'Java 中 121 % 10 得到多少？', answer: { kind: 'int', value: 1 }, explanation: '% 取余数，得到最低位数字 1。' } },
+  { lesson: lesson101, demoInputs: inputs101, buildTrace: (input, id) => trace101(TreeInputSchema.parse(input), id), predictionAt: predict101, defaultInput: inputs101[0]!.input, syntaxCheck: { checkpointId: '101-v1:syntax:check', prompt: '若 TreeNode root = null，表达式 root == null 为真时，布尔值可写成 1 还是 true？请输入 1 表示 true。', answer: { kind: 'int', value: 1 }, explanation: 'Java 的 boolean 使用 true/false，不能把整数 1 直接当作 true；本题用 1 作为填写选项。' } },
+  { lesson: lesson112, demoInputs: inputs112, buildTrace: (input, id) => trace112(PathSumInputSchema.parse(input), id), predictionAt: predict112, defaultInput: inputs112[0]!.input, syntaxCheck: { checkpointId: '112-v1:syntax:check', prompt: '树根值 5、左孩子值 4，走到左孩子时路径和值是多少？', answer: { kind: 'int', value: 9 }, explanation: '从根到当前节点累加 5 + 4 = 9，只有到叶子才检查是否命中目标。' } },
 ];

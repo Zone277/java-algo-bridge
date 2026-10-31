@@ -245,3 +245,15 @@ C最终独立审查PASS（仅阶段00文档）：发现合法大输入的结构�
 | `/root/course383` | `packages/curriculum/problems/383/**` | 字母频次课程、状态模型与局部测试 |
 
 主agent独占`packages/contracts/**`、根配置与课程包导出、桥接/前后端注册、可信Java Adapter、全局测试、文档和Git。实际交付、验证命令与遗留阻塞见[本批验收](EXTENSION_2026-10-30.md)。
+
+## 三题续扩实际派工（2026-10-31）
+
+`git worktree list`确认只有一个共享checkout，没有自动隔离worktree。主agent先冻结`v1-extension-2026-10-31`的题号、版本、输入、布尔输出与独立期望，再用客户端真实`collaboration.spawn_agent`同时派出三个工作agent。每份派工包含目标、官方语义、相邻课程和契约输入、独占写入路径、共享文件禁区、局部验收与交付格式。
+
+| agent | 唯一允许写入路径 | 已交付 |
+|---|---|---|
+| `/root/course9` | `packages/curriculum/problems/9/**` | 16有效用例、2可编译错解、2动态预测、3段引导与半段反转状态模型；局部2文件/8项PASS |
+| `/root/course101` | `packages/curriculum/problems/101/**` | 11有效用例、2可编译错解、2动态预测、3段引导与镜像配对状态模型；局部2文件/9项PASS |
+| `/root/course112` | `packages/curriculum/problems/112/**` | 13有效用例、2可编译错解、2动态预测、3段引导与根到叶剩余目标状态模型；局部2文件/9项PASS |
+
+三名agent已交付并释放目录。主agent独占`packages/contracts/**`、根配置与课程包导出、桥接/前后端注册、可信Java Adapter/Supervisor、全局测试、状态文档及Git。真实容器、浏览器、全量回归和清理证据见[本批验收](EXTENSION_2026-10-31.md)。

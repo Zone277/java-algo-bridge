@@ -1,5 +1,9 @@
 # 本机环境与阻塞
 
+## 2026-10-31 续扩环境
+
+Windows/PowerShell；开始时共享checkout干净，`main`与`origin/main`均为`854d686935a7437174b0b5566721597c0e465602`，`git worktree list`仅此一个工作目录。项目内Node24.20.0/npm11.19.0通过显式PATH使用，未改全局配置。Docker Desktop最初停止，启动时被上次残留的失效Unix socket阻断；只读日志先后定位`run/sailor-ingest.sock`和`docker-secrets-engine/engine.sock`。核验失效目录仅含reparse point/socket、停止崩溃的Docker Desktop进程后，将目录可逆改名为同级`*-stale-20261031-*`再启动，未重置应用、读取密钥或关闭安全保护。实际确认Engine29.7.2/linux/x86_64。固定`java-algo-bridge-runner:21.0.12`镜像以原有JDK digest重建成功，ID`sha256:77ad6e4dd5707322de352e9a77861bf95085db2c2f73c9534b1b6bad4d4031e1`/amd64。新三题真实Java专项及浏览器专项均PASS。完整`npm run verify`首次在`test:runner`探针出现`DOCKER_CHECK_TIMEOUT`，单独`npm run doctor`再测PASS，修复101参考演示的独立审查问题后，最终完整`npm run verify`退出0（621静态、193真实容器、55浏览器及shutdown均PASS）。独立残留检查项目容器、任务目录和回环端口均为0；过程与证据见[本批验收](EXTENSION_2026-10-31.md)。
+
 ## 2026-10-30 续扩环境
 
 Windows/PowerShell；开始时`main`与`origin/main`均为`8399203ec287c7a9765ee0c246889a2bfdcb2b78`，工作区干净，`git worktree list`只有一个共享checkout。项目自带Node24.20.0/npm11.19.0通过显式PATH用于全部验收，不更改全局配置。Docker Desktop最初停止；启动时被上一日残留、系统无法访问的Unix socket阻断。只读日志确认故障并核对无Docker进程后，将仅含过期socket的三个运行时目录可逆移到同一用户本地目录下的`run-stale-*`/`docker-secrets-engine-stale-*`，再单次启动现有应用。未读取密钥、重置Docker或关闭安全保护。随后`docker info`确认Engine29.7.2/linux/x86_64，`npm run runner:build`重建固定`java-algo-bridge-runner:21.0.12`镜像成功，ID`sha256:683d404ed4887446017fc5b489129f0aaa3149d1f535ea6a6da751aa08eeb203`/amd64。`npm run doctor`确认127.0.0.1:5173/3001可绑定及真实Docker/JDK可用。最后残留与全量结果见[本批验收](EXTENSION_2026-10-30.md)。

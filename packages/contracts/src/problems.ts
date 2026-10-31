@@ -6,9 +6,9 @@ export const JAVA_INT_MAX = 2147483647;
 const javaInt = z.number().int().min(JAVA_INT_MIN).max(JAVA_INT_MAX);
 const sorted = (values: readonly number[]) => values.every((value, index) => index === 0 || value >= values[index - 1]!);
 
-export const ProblemIdSchema = z.enum(['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242', '88', '125', '169', '11', '209', '198', '153', '136', '746', '33', '392', '322', '724', '219', '560', '34', '202', '387', '69', '122', '144', '94', '268', '338', '145', '231', '383']);
+export const ProblemIdSchema = z.enum(['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242', '88', '125', '169', '11', '209', '198', '153', '136', '746', '33', '392', '322', '724', '219', '560', '34', '202', '387', '69', '122', '144', '94', '268', '338', '145', '231', '383', '9', '101', '112']);
 export type ProblemId = z.infer<typeof ProblemIdSchema>;
-export const PROBLEM_ORDER = ['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242', '88', '125', '169', '11', '209', '198', '153', '136', '746', '33', '392', '322', '724', '219', '560', '34', '202', '387', '69', '122', '144', '94', '268', '338', '145', '231', '383'] as const satisfies readonly ProblemId[];
+export const PROBLEM_ORDER = ['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242', '88', '125', '169', '11', '209', '198', '153', '136', '746', '33', '392', '322', '724', '219', '560', '34', '202', '387', '69', '122', '144', '94', '268', '338', '145', '231', '383', '9', '101', '112'] as const satisfies readonly ProblemId[];
 export const PROBLEM_META = Object.freeze({
   '704': { order: 1, number: 704, lessonVersion: '704-v1', testSuiteVersion: '704-tests-v2', title: '二分查找', methodSignature: 'public int search(int[] nums, int target)' },
   '283': { order: 2, number: 283, lessonVersion: '283-v1', testSuiteVersion: '283-tests-v1', title: '移动零', methodSignature: 'public void moveZeroes(int[] nums)' },
@@ -53,6 +53,9 @@ export const PROBLEM_META = Object.freeze({
   '145': { order: 41, number: 145, lessonVersion: '145-v1', testSuiteVersion: '145-tests-v1', title: '二叉树的后序遍历', methodSignature: 'public List<Integer> postorderTraversal(TreeNode root)' },
   '231': { order: 42, number: 231, lessonVersion: '231-v1', testSuiteVersion: '231-tests-v1', title: '2 的幂', methodSignature: 'public boolean isPowerOfTwo(int n)' },
   '383': { order: 43, number: 383, lessonVersion: '383-v1', testSuiteVersion: '383-tests-v1', title: '赎金信', methodSignature: 'public boolean canConstruct(String ransomNote, String magazine)' },
+  '9': { order: 44, number: 9, lessonVersion: '9-v1', testSuiteVersion: '9-tests-v1', title: '回文数', methodSignature: 'public boolean isPalindrome(int x)' },
+  '101': { order: 45, number: 101, lessonVersion: '101-v1', testSuiteVersion: '101-tests-v1', title: '对称二叉树', methodSignature: 'public boolean isSymmetric(TreeNode root)' },
+  '112': { order: 46, number: 112, lessonVersion: '112-v1', testSuiteVersion: '112-tests-v1', title: '路径总和', methodSignature: 'public boolean hasPathSum(TreeNode root, int targetSum)' },
 } satisfies Record<ProblemId, { order: number; number: number; lessonVersion: string; testSuiteVersion: string; title: string; methodSignature: string }>);
 
 export const BinarySearchInputSchema = z.strictObject({
@@ -185,11 +188,14 @@ export const MissingNumberInputSchema = z.strictObject({ nums: z.array(z.number(
 export const CountingBitsInputSchema = z.strictObject({ n: z.number().int().min(0).max(9999) });
 export const PowerOfTwoInputSchema = z.strictObject({ n: javaInt });
 export const RansomNoteInputSchema = z.strictObject({ ransomNote: z.string().min(1).max(10000).regex(/^[a-z]+$/), magazine: z.string().min(1).max(10000).regex(/^[a-z]+$/) });
+export const PalindromeNumberInputSchema = z.strictObject({ x: javaInt });
+export const PathSumInputSchema = TreeInputSchema.safeExtend({ targetSum: z.number().int().min(-1000).max(1000) });
 
 export const ProblemInputSchemas = Object.freeze({
   '69': SqrtInputSchema, '122': StockProfitIIInputSchema, '144': TreeInputSchema,
   '94': TreeInputSchema, '268': MissingNumberInputSchema, '338': CountingBitsInputSchema,
   '145': TreeInputSchema, '231': PowerOfTwoInputSchema, '383': RansomNoteInputSchema,
+  '9': PalindromeNumberInputSchema, '101': TreeInputSchema, '112': PathSumInputSchema,
   '34': SearchRangeInputSchema, '202': HappyNumberInputSchema, '387': FirstUniqueCharInputSchema,
   '724': PivotIndexInputSchema, '219': NearbyDuplicateInputSchema, '560': SubarraySumInputSchema,
   '704': BinarySearchInputSchema, '283': MoveZeroesInputSchema, '977': SortedSquaresInputSchema, '1': TwoSumInputSchema,
@@ -202,7 +208,7 @@ export const ProblemInputSchemas = Object.freeze({
   '33': RotatedSearchInputSchema, '392': IsSubsequenceInputSchema, '322': CoinChangeInputSchema,
   '153': RotatedMinimumInputSchema, '136': SingleNumberInputSchema, '746': MinCostStairsInputSchema,
 });
-export const ProblemInputSchema = z.union([BinarySearchInputSchema, MoveZeroesInputSchema, SortedSquaresInputSchema, TwoSumInputSchema, ValidParenthesesInputSchema, LinkedListInputSchema, MergeListsInputSchema, TreeInputSchema, ClimbStairsInputSchema, LongestSubstringInputSchema, MaxProfitInputSchema, MaximumSubarrayInputSchema, TwoSumSortedInputSchema, ValidAnagramInputSchema, MergeSortedArrayInputSchema, ValidPalindromeInputSchema, MajorityElementInputSchema, ContainerWaterInputSchema, MinimumSubarrayInputSchema, HouseRobberInputSchema, RotatedMinimumInputSchema, SingleNumberInputSchema, MinCostStairsInputSchema, RotatedSearchInputSchema, IsSubsequenceInputSchema, CoinChangeInputSchema, PivotIndexInputSchema, NearbyDuplicateInputSchema, SubarraySumInputSchema, SearchRangeInputSchema, HappyNumberInputSchema, FirstUniqueCharInputSchema, SqrtInputSchema, StockProfitIIInputSchema, MissingNumberInputSchema, CountingBitsInputSchema, PowerOfTwoInputSchema, RansomNoteInputSchema]);
+export const ProblemInputSchema = z.union([BinarySearchInputSchema, MoveZeroesInputSchema, SortedSquaresInputSchema, TwoSumInputSchema, ValidParenthesesInputSchema, LinkedListInputSchema, MergeListsInputSchema, TreeInputSchema, ClimbStairsInputSchema, LongestSubstringInputSchema, MaxProfitInputSchema, MaximumSubarrayInputSchema, TwoSumSortedInputSchema, ValidAnagramInputSchema, MergeSortedArrayInputSchema, ValidPalindromeInputSchema, MajorityElementInputSchema, ContainerWaterInputSchema, MinimumSubarrayInputSchema, HouseRobberInputSchema, RotatedMinimumInputSchema, SingleNumberInputSchema, MinCostStairsInputSchema, RotatedSearchInputSchema, IsSubsequenceInputSchema, CoinChangeInputSchema, PivotIndexInputSchema, NearbyDuplicateInputSchema, SubarraySumInputSchema, SearchRangeInputSchema, HappyNumberInputSchema, FirstUniqueCharInputSchema, SqrtInputSchema, StockProfitIIInputSchema, MissingNumberInputSchema, CountingBitsInputSchema, PowerOfTwoInputSchema, RansomNoteInputSchema, PalindromeNumberInputSchema, PathSumInputSchema]);
 export type BinarySearchInput = z.infer<typeof BinarySearchInputSchema>;
 export type MoveZeroesInput = z.infer<typeof MoveZeroesInputSchema>;
 export type SortedSquaresInput = z.infer<typeof SortedSquaresInputSchema>;
@@ -242,10 +248,13 @@ export type MissingNumberInput = z.infer<typeof MissingNumberInputSchema>;
 export type CountingBitsInput = z.infer<typeof CountingBitsInputSchema>;
 export type PowerOfTwoInput = z.infer<typeof PowerOfTwoInputSchema>;
 export type RansomNoteInput = z.infer<typeof RansomNoteInputSchema>;
+export type PalindromeNumberInput = z.infer<typeof PalindromeNumberInputSchema>;
+export type PathSumInput = z.infer<typeof PathSumInputSchema>;
 export type ProblemInputMap = {
   '69': SqrtInput; '122': StockProfitIIInput; '144': TreeInput;
   '94': TreeInput; '268': MissingNumberInput; '338': CountingBitsInput;
   '145': TreeInput; '231': PowerOfTwoInput; '383': RansomNoteInput;
+  '9': PalindromeNumberInput; '101': TreeInput; '112': PathSumInput;
   '34': SearchRangeInput; '202': HappyNumberInput; '387': FirstUniqueCharInput;
   '724': PivotIndexInput; '219': NearbyDuplicateInput; '560': SubarraySumInput;
   '33': RotatedSearchInput; '392': IsSubsequenceInput; '322': CoinChangeInput;
@@ -305,9 +314,62 @@ export function expectedMergedList(input: MergeListsInput): ListGraph {
 }
 
 function treeDepth(tokens: readonly (number | null)[]) { return inspectCompactTree(tokens).depth; }
+function oracleTree(tokens: readonly (number | null)[]) {
+  const nodes: { value: number; left: number | null; right: number | null }[] = [];
+  if (tokens.length === 0) return nodes;
+  nodes.push({ value: tokens[0]!, left: null, right: null });
+  const queue = [0]; let cursor = 1;
+  for (let parent = 0; parent < queue.length && cursor < tokens.length; parent++) {
+    for (const side of ['left', 'right'] as const) {
+      if (cursor >= tokens.length) break;
+      const value = tokens[cursor++];
+      if (value !== null) {
+        const index = nodes.length;
+        nodes.push({ value: value!, left: null, right: null });
+        nodes[queue[parent]!]![side] = index;
+        queue.push(index);
+      }
+    }
+  }
+  return nodes;
+}
 export function expectedOutput<I extends ProblemId>(problemId: I, rawInput: ProblemInputMap[I]): Output {
   const input = parseProblemInput(problemId, rawInput) as ProblemInput;
   switch (problemId) {
+    case '9': {
+      const x = (input as PalindromeNumberInput).x;
+      if (x < 0) return { kind: 'boolean', value: false };
+      const digits = String(x);
+      let left = 0; let right = digits.length - 1;
+      while (left < right) if (digits[left++] !== digits[right--]) return { kind: 'boolean', value: false };
+      return { kind: 'boolean', value: true };
+    }
+    case '101': {
+      const nodes = oracleTree((input as TreeInput).root);
+      if (!nodes.length) return { kind: 'boolean', value: true };
+      const pairs: [number | null, number | null][] = [[nodes[0]!.left, nodes[0]!.right]];
+      for (let cursor = 0; cursor < pairs.length; cursor++) {
+        const [a, b] = pairs[cursor]!;
+        if (a === null || b === null) { if (a !== b) return { kind: 'boolean', value: false }; continue; }
+        if (nodes[a]!.value !== nodes[b]!.value) return { kind: 'boolean', value: false };
+        pairs.push([nodes[a]!.left, nodes[b]!.right], [nodes[a]!.right, nodes[b]!.left]);
+      }
+      return { kind: 'boolean', value: true };
+    }
+    case '112': {
+      const { root, targetSum } = input as PathSumInput;
+      const nodes = oracleTree(root);
+      if (!nodes.length) return { kind: 'boolean', value: false };
+      const pending: [number, number][] = [[0, nodes[0]!.value]];
+      while (pending.length) {
+        const [index, total] = pending.pop()!;
+        const node = nodes[index]!;
+        if (node.left === null && node.right === null && total === targetSum) return { kind: 'boolean', value: true };
+        if (node.left !== null) pending.push([node.left, total + nodes[node.left]!.value]);
+        if (node.right !== null) pending.push([node.right, total + nodes[node.right]!.value]);
+      }
+      return { kind: 'boolean', value: false };
+    }
     case '145': {
       // Two-stack traversal oracle, independent of the taught recursive Java solution.
       const tokens = (input as TreeInput).root;

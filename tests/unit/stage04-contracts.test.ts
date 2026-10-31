@@ -6,7 +6,7 @@ import {
 
 describe('shared problem contracts', () => {
   it('keeps the registered problem order and accepts every request shape', () => {
-    expect(PROBLEM_ORDER).toEqual(['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242', '88', '125', '169', '11', '209', '198', '153', '136', '746', '33', '392', '322', '724', '219', '560', '34', '202', '387', '69', '122', '144', '94', '268', '338', '145', '231', '383']);
+    expect(PROBLEM_ORDER).toEqual(['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242', '88', '125', '169', '11', '209', '198', '153', '136', '746', '33', '392', '322', '724', '219', '560', '34', '202', '387', '69', '122', '144', '94', '268', '338', '145', '231', '383', '9', '101', '112']);
     const requests = [
       ['704', '704-v1', { nums: [1], target: 1 }], ['283', '283-v1', { nums: [0] }],
       ['977', '977-v1', { nums: [-1, 2] }], ['1', '1-v1', { nums: [2, 7], target: 9 }],
@@ -43,6 +43,9 @@ describe('shared problem contracts', () => {
       ['145', '145-v1', { root: [1, null, 2, 3] }],
       ['231', '231-v1', { n: -2147483648 }],
       ['383', '383-v1', { ransomNote: 'aa', magazine: 'aab' }],
+      ['9', '9-v1', { x: 121 }],
+      ['101', '101-v1', { root: [1, 2, 2] }],
+      ['112', '112-v1', { root: [1, 2], targetSum: 3 }],
     ] as const;
     for (const [problemId, lessonVersion, input] of requests) expect(RunRequestSchema.safeParse({ problemId, lessonVersion, source: 'class Solution {}', mode: 'run', input }).success).toBe(true);
   });

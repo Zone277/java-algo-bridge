@@ -6,9 +6,9 @@ import {
 
 describe('145/231/383 input and judging contracts', () => {
   it('preserves the previous 40 topics and binds three new run variants', () => {
-    expect(PROBLEM_ORDER).toHaveLength(43);
+    expect(PROBLEM_ORDER).toHaveLength(46);
     expect(PROBLEM_ORDER.slice(37, 40)).toEqual(['94', '268', '338']);
-    expect(PROBLEM_ORDER.slice(-3)).toEqual(['145', '231', '383']);
+    expect(PROBLEM_ORDER.slice(40, 43)).toEqual(['145', '231', '383']);
     for (const [problemId, input] of [['145', { root: [1, null, 2, 3] }], ['231', { n: JAVA_INT_MIN }], ['383', { ransomNote: 'aa', magazine: 'aab' }]] as const) {
       expect(RunRequestSchema.safeParse({ problemId, lessonVersion: `${problemId}-v1`, source: 'class Solution {}', mode: 'run', input }).success).toBe(true);
       expect(RunRequestSchema.safeParse({ problemId, lessonVersion: `${problemId}-v1`, source: 'class Solution {}', mode: 'submit', input }).success).toBe(false);

@@ -57,6 +57,9 @@ public final class Adapter {
         case "145" -> run145(solution, instance, input, result);
         case "231" -> run231(solution, instance, input, result);
         case "383" -> run383(solution, instance, input, result);
+        case "9" -> run9(solution, instance, input, result);
+        case "101" -> run101(solution, instance, input, result);
+        case "112" -> run112(solution, instance, input, result);
         default -> throw new IllegalArgumentException("Unregistered problem");
       }
     } catch (Throwable error) {
@@ -277,6 +280,23 @@ public final class Adapter {
     TreeNode root = buildTree(input.getAsJsonArray("root"));
     Method method = method(solution, "maxDepth", int.class, "public int maxDepth(TreeNode root)", TreeNode.class);
     ok(result, intOutput((Integer) method.invoke(instance, root)));
+  }
+
+  private static void run9(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    Method method = method(solution, "isPalindrome", boolean.class, "public boolean isPalindrome(int x)", int.class);
+    ok(result, booleanOutput((Boolean) method.invoke(instance, input.get("x").getAsInt())));
+  }
+
+  private static void run101(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    TreeNode root = buildTree(input.getAsJsonArray("root"));
+    Method method = method(solution, "isSymmetric", boolean.class, "public boolean isSymmetric(TreeNode root)", TreeNode.class);
+    ok(result, booleanOutput((Boolean) method.invoke(instance, root)));
+  }
+
+  private static void run112(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    TreeNode root = buildTree(input.getAsJsonArray("root"));
+    Method method = method(solution, "hasPathSum", boolean.class, "public boolean hasPathSum(TreeNode root, int targetSum)", TreeNode.class, int.class);
+    ok(result, booleanOutput((Boolean) method.invoke(instance, root, input.get("targetSum").getAsInt())));
   }
 
   private static void run70(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {

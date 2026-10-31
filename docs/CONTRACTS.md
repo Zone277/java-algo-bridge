@@ -264,3 +264,13 @@ ReferenceTrace 的 `finalOutput` 使用同一 Output 联合但通道固定为 `r
 - 383：`RansomNoteInputSchema`严格输入`{ransomNote:string,magazine:string}`，两串各长1—10000、仅小写a-z。`public boolean canConstruct(String ransomNote,String magazine)`判断杂志中的每个字符最多使用一次时能否组成赎金信；参考用`int[26]`计数并逐字扣减，可信期望独立`Map`频次。重复字母按数量判断，不按出现顺序判断；演示最多30字符，真实判题接受本站全长。
 
 三题各至少8个有效用例、2个可编译错解、2个动态预测、3阶段引导、独立骨架及三级提示。参考状态模型的终态须与真实Java参考输出对照，同时单独核对中间不变量。工作agent仅拥有各自题号目录；共享契约、注册、Java Adapter、全局测试、文档和Git由主agent串行集成。
+
+## 三题续扩实施冻结（v1-extension-2026-10-31）
+
+保留前43题顺序、课程版本、进度和草稿键，末尾追加9、101、112（44—46）。课程与测试集版本分别是`<id>-v1`和`<id>-tests-v1`。三题输出均为现有结构化`boolean`；浏览器/API注册、RunRequest、Supervisor题号白名单及可信Adapter须一致。参考演示只处理预置参考算法，类型为`reference-model`；学生Java经受限一次性Docker内`javac`/`java`实际执行，结果来源为`student-java`，两条通道不互相替代。
+
+- 9：`PalindromeNumberInputSchema` / `PalindromeNumberInput`严格输入`{x:int}`，覆盖Java有符号32位全域。`public boolean isPalindrome(int x)`判断十进制数字序列是否回文；负数为false，0为true，非零末位0为false。参考Java只反转后一半数位，避免完整反转溢出；独立期望用十进制字符串双指针。
+- 101：复用`TreeInputSchema` / `TreeInput`的紧凑队列式层序`{root:(int|null)[]}`，本站最多1000节点、深度128、节点值-100—100；空树作为教学边界合法且对称。`public boolean isSymmetric(TreeNode root)`须同时比较镜像位置的值和null结构。参考Java递归交叉配对，独立期望用迭代配对队列；重复值节点保持不同稳定对象ID。
+- 112：`PathSumInputSchema` / `PathSumInput`严格输入`{root:(int|null)[],targetSum:int}`；树约束同101，目标-1000—1000。`public boolean hasPathSum(TreeNode root,int targetSum)`仅在某条完整根到叶路径和等于目标时返回true，空树false；中间非叶节点的相同和不算命中。参考Java递归递减剩余值，独立期望用迭代栈累加路径值，可包含负数。
+
+每题至少8个有效用例、2个可编译错解夹具及具名反例、2个动态预测、3阶段引导后真实Java提交、独立骨架、三级提示与中间状态不变量单测。参考模型终态须与真实Java参考解法差分检查。三名工作agent共享checkout，仅各写`packages/curriculum/problems/{9,101,112}/**`中的一个目录；公共文件、全局测试与Git由主agent独占。
