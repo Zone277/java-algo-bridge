@@ -60,6 +60,9 @@ public final class Adapter {
         case "9" -> run9(solution, instance, input, result);
         case "101" -> run101(solution, instance, input, result);
         case "112" -> run112(solution, instance, input, result);
+        case "58" -> run58(solution, instance, input, result);
+        case "66" -> run66(solution, instance, input, result);
+        case "110" -> run110(solution, instance, input, result);
         default -> throw new IllegalArgumentException("Unregistered problem");
       }
     } catch (Throwable error) {
@@ -297,6 +300,25 @@ public final class Adapter {
     TreeNode root = buildTree(input.getAsJsonArray("root"));
     Method method = method(solution, "hasPathSum", boolean.class, "public boolean hasPathSum(TreeNode root, int targetSum)", TreeNode.class, int.class);
     ok(result, booleanOutput((Boolean) method.invoke(instance, root, input.get("targetSum").getAsInt())));
+  }
+
+  private static void run58(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    Method method = method(solution, "lengthOfLastWord", int.class, "public int lengthOfLastWord(String s)", String.class);
+    ok(result, intOutput((Integer) method.invoke(instance, input.get("s").getAsString())));
+  }
+
+  private static void run66(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    Method method = method(solution, "plusOne", int[].class, "public int[] plusOne(int[] digits)", int[].class);
+    int[] digits = ints(input.getAsJsonArray("digits"));
+    int[] returned = (int[]) method.invoke(instance, (Object) digits);
+    if (returned == null || returned.length < digits.length || returned.length > digits.length + 1) wrong(result, "必须返回位数为原长度或原长度加一的非 null int[]");
+    else ok(result, intArrayOutput(returned));
+  }
+
+  private static void run110(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    TreeNode root = buildTree(input.getAsJsonArray("root"));
+    Method method = method(solution, "isBalanced", boolean.class, "public boolean isBalanced(TreeNode root)", TreeNode.class);
+    ok(result, booleanOutput((Boolean) method.invoke(instance, root)));
   }
 
   private static void run70(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {

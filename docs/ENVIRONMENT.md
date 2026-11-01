@@ -1,5 +1,9 @@
 # 本机环境与阻塞
 
+## 2026-11-01 续扩环境
+
+Windows/PowerShell；开始时`main`与`origin/main`均为`959426f6813e4d5d48382c071ea270e47988cd40`，工作区干净且`git worktree list`只有一个共享checkout。项目内Node24.20.0/npm11.19.0通过临时PATH使用，未改全局配置。Docker Desktop初始不可用；日志指出`run/sailor-ingest.sock`失效。核验Docker运行时目录仅含过期reparse point/socket、待停止进程均属于已安装Docker Desktop后，将`Docker/run`和`docker-secrets-engine`可逆移至同级`*-stale-20261101-210536`并重启现有应用。未重置Docker、删镜像或关闭安全保护。引擎恢复为29.7.2 Linux；`npm run runner:build`重建固定`java-algo-bridge-runner:21.0.12`镜像，ID`sha256:ad3e254f231bbdb7f92652cc3b1f27352120a39219f3136ccf3e99f998e08cd5`/amd64；基础JDK digest保持。最终验收与残留见[本批验收](EXTENSION_2026-11-01.md)。
+
 ## 2026-10-31 续扩环境
 
 Windows/PowerShell；开始时共享checkout干净，`main`与`origin/main`均为`854d686935a7437174b0b5566721597c0e465602`，`git worktree list`仅此一个工作目录。项目内Node24.20.0/npm11.19.0通过显式PATH使用，未改全局配置。Docker Desktop最初停止，启动时被上次残留的失效Unix socket阻断；只读日志先后定位`run/sailor-ingest.sock`和`docker-secrets-engine/engine.sock`。核验失效目录仅含reparse point/socket、停止崩溃的Docker Desktop进程后，将目录可逆改名为同级`*-stale-20261031-*`再启动，未重置应用、读取密钥或关闭安全保护。实际确认Engine29.7.2/linux/x86_64。固定`java-algo-bridge-runner:21.0.12`镜像以原有JDK digest重建成功，ID`sha256:77ad6e4dd5707322de352e9a77861bf95085db2c2f73c9534b1b6bad4d4031e1`/amd64。新三题真实Java专项及浏览器专项均PASS。完整`npm run verify`首次在`test:runner`探针出现`DOCKER_CHECK_TIMEOUT`，单独`npm run doctor`再测PASS，修复101参考演示的独立审查问题后，最终完整`npm run verify`退出0（621静态、193真实容器、55浏览器及shutdown均PASS）。独立残留检查项目容器、任务目录和回环端口均为0；过程与证据见[本批验收](EXTENSION_2026-10-31.md)。

@@ -123,3 +123,11 @@ Docker run、资源限制与安全说明：限制需要实际配置与环境验�
 - 112：[Path Sum](https://leetcode.com/problems/path-sum/)：只在完整的根到叶路径和等于目标时返回真；空树返回假。本站复用紧凑层序树输入，上限1000节点、深度128、节点值-100—100、`targetSum` -1000—1000。
 
 仅核对公开任务语义；中文题面、推导、Java参考解法、状态模型与测试均为本站原创，不宣称官方合作或通过官方隐藏测试。
+
+## 2026-11-01 新增公开来源
+
+- 58：[Length of Last Word](https://leetcode.com/problems/length-of-last-word/)：仅由英文字母和空格组成的字符串，返回最后一个单词长度；本站输入沿用公开长度上限10000。
+- 66：[Plus One](https://leetcode.com/problems/plus-one/)：十进制数字数组整体加一并返回数组；本站长度1—100，支持全9扩位。
+- 110：[Balanced Binary Tree](https://leetcode.com/problems/balanced-binary-tree/)：每个节点的左右子树高度差均不超过1；本站复用较紧的树输入上限（1000节点、深度128）。
+
+仅核对公开任务语义和边界；本站中文题面、推导、Java解法、状态演示与测试为原创，不宣称官方合作或通过官方隐藏测试。

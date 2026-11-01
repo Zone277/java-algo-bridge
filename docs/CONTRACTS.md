@@ -274,3 +274,13 @@ ReferenceTrace 的 `finalOutput` 使用同一 Output 联合但通道固定为 `r
 - 112：`PathSumInputSchema` / `PathSumInput`严格输入`{root:(int|null)[],targetSum:int}`；树约束同101，目标-1000—1000。`public boolean hasPathSum(TreeNode root,int targetSum)`仅在某条完整根到叶路径和等于目标时返回true，空树false；中间非叶节点的相同和不算命中。参考Java递归递减剩余值，独立期望用迭代栈累加路径值，可包含负数。
 
 每题至少8个有效用例、2个可编译错解夹具及具名反例、2个动态预测、3阶段引导后真实Java提交、独立骨架、三级提示与中间状态不变量单测。参考模型终态须与真实Java参考解法差分检查。三名工作agent共享checkout，仅各写`packages/curriculum/problems/{9,101,112}/**`中的一个目录；公共文件、全局测试与Git由主agent独占。
+
+## 三题续扩实施冻结（v1-extension-2026-11-01）
+
+保留前46题的顺序、课程版本与进度键，末尾追加58、66、110（47—49）。版本分别为`<id>-v1`与`<id>-tests-v1`，不改变既有输出类型。`RunRequest`、`Lesson`、浏览器/API注册、可信Java Adapter与Supervisor白名单必须一致。
+
+- 58：`LastWordInputSchema`严格输入`{s:string}`，长度1—10000，仅英文字母与普通空格，至少一个字母。`public int lengthOfLastWord(String s)`返回末尾单词的字符数，不计尾部空格；可信期望以`trim`和空格分组计算，参考Java从尾部逆扫。参考演示最多30字符，真实判题到10000。
+- 66：`PlusOneInputSchema`严格输入`{digits:int[]}`，长度1—100，每位0—9，多位数不得以0开头。`public int[] plusOne(int[] digits)`返回表示原数字加一的十进制数组，允许复用或新建数组；全9时输出位数加一。可信期望用`BigInt`加一并拆位，参考Java从低位传播进位。适配器拒绝null或位数不在原长度至原长度加一之间的结果；演示最多30位，真实判题支持100位。
+- 110：复用`TreeInputSchema`的紧凑队列层序`{root:(int|null)[]}`，本站最多1000个非null节点、深度128、节点值-100—100。`public boolean isBalanced(TreeNode root)`要求每个节点的左右子树高度差均不超过1，空树为true；仅检查根节点不足以通过。参考Java自底向上返回高度或-1哨兵；可信期望独立逐节点计算左右高度。演示最多30节点、深度8；稳定节点ID不由节点值推定。
+
+三题均至少8个有效测试、2个可编译错解夹具、2个动态预测、3阶段引导、独立骨架、三级提示和中间状态不变量测试。预置参考状态仅为`reference-model`教学演示；学生代码只在受限Docker内真实编译运行，以`student-java`结构化结果判定，打印文字、源码匹配及参考动画均不能判通过。三名工作agent只写各自课程目录，主agent独占公共文件与Git。

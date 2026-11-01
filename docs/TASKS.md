@@ -257,3 +257,15 @@ C最终独立审查PASS（仅阶段00文档）：发现合法大输入的结构�
 | `/root/course112` | `packages/curriculum/problems/112/**` | 13有效用例、2可编译错解、2动态预测、3段引导与根到叶剩余目标状态模型；局部2文件/9项PASS |
 
 三名agent已交付并释放目录。主agent独占`packages/contracts/**`、根配置与课程包导出、桥接/前后端注册、可信Java Adapter/Supervisor、全局测试、状态文档及Git。真实容器、浏览器、全量回归和清理证据见[本批验收](EXTENSION_2026-10-31.md)。
+
+## 三题续扩实际派工（2026-11-01）
+
+`git worktree list`确认只有一个共享checkout，没有自动隔离worktree。主agent先冻结`v1-extension-2026-11-01`的题号、版本、输入输出与独立期望，再用客户端真实`collaboration.spawn_agent`分配三个互斥目录；每份派工含目标、资料、契约版本、允许与禁止路径、局部验收命令和交付格式。
+
+| agent | 唯一允许写入路径 | 已交付 |
+|---|---|---|
+| `/root/course58` | `packages/curriculum/problems/58/**` | 12有效用例、2可编译错解、2动态预测、3段引导、逆扫状态模型；局部1文件/3项PASS |
+| `/root/course66` | `packages/curriculum/problems/66/**` | 15有效用例、2可编译错解、2动态预测、3段引导、进位状态模型；局部2文件/8项PASS |
+| `/root/course110` | `packages/curriculum/problems/110/**` | 12有效用例、2可编译错解、2动态预测、3段引导、高度哨兵状态模型；局部1文件/6项PASS |
+
+三名agent交付后释放目录。主agent独占`packages/contracts/**`、课程包导出、桥接及前后端注册、可信Java Adapter/Supervisor、全局测试、文档和Git。主agent修复集成lint问题；真实容器、浏览器与全量回归证据见[本批验收](EXTENSION_2026-11-01.md)。

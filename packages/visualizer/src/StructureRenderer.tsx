@@ -128,7 +128,7 @@ function WindowDiagram({ window }: { window: Extract<Structure, { kind: 'window'
     <h4>连续窗口 {window.id}</h4>
     <p data-testid="window-range">半开区间 [{window.left}, {window.rightExclusive})，长度 {window.rightExclusive - window.left}</p>
     {!window.text.length ? <p data-testid="empty-window-text">输入是空字符串。</p> : <ol aria-label={`字符串窗口 ${window.id}`} style={{ display: 'flex', gap: '.3rem', padding: 0, listStyle: 'none', flexWrap: 'wrap' }}>{Array.from(window.text).map((char, index) => <li key={index} data-text-index={index} style={{ border: '1px solid #7b8790', borderRadius: 5, padding: '.4rem', minWidth: '2.5rem', textAlign: 'center', background: index >= window.left && index < window.rightExclusive ? '#dcefe6' : '#edf0f3' }}><strong>{visibleChar(char)}</strong><small style={{ display: 'block' }}>{index}</small></li>)}</ol>}
-    <p>窗口成员：{window.members.length ? window.members.map(formatValue).join('、') : '空'}</p>
+    {window.members.length ? <p>窗口内不同字符（去重）：{window.members.map(formatValue).join('、')}</p> : window.left === window.rightExclusive ? <p>窗口为空。</p> : <p>窗口字符请看上方逐位置显示。</p>}
   </section>;
 }
 

@@ -32,6 +32,13 @@ import { lesson101, demoInputs as inputs101 } from '@jab/curriculum/101';
 import { buildReferenceTrace as trace101, predictionAt as predict101 } from '@jab/curriculum/101/model';
 import { lesson112, demoInputs as inputs112 } from '@jab/curriculum/112';
 import { buildReferenceTrace as trace112, predictionAt as predict112 } from '@jab/curriculum/112/model';
+import { lesson58, demoInputs as inputs58 } from '@jab/curriculum/58';
+import { buildReferenceTrace as trace58, predictionAt as predict58 } from '@jab/curriculum/58/model';
+import { lesson66, demoInputs as inputs66 } from '@jab/curriculum/66';
+import { buildReferenceTrace as trace66, predictionAt as predict66 } from '@jab/curriculum/66/model';
+import { lesson110, demoInputs as inputs110 } from '@jab/curriculum/110';
+import { buildReferenceTrace as trace110, predictionAt as predict110 } from '@jab/curriculum/110/model';
+import { LastWordInputSchema, PlusOneInputSchema } from '@jab/contracts';
 import { MissingNumberInputSchema, CountingBitsInputSchema } from '@jab/contracts';
 import { PowerOfTwoInputSchema, RansomNoteInputSchema, PalindromeNumberInputSchema, PathSumInputSchema } from '@jab/contracts';
 import { lesson724, demoInputs as inputs724 } from '@jab/curriculum/724';
@@ -163,4 +170,7 @@ export const lessonRuntimes: LessonRuntime[] = [
   { lesson: lesson9, demoInputs: inputs9, buildTrace: (input, id) => trace9(PalindromeNumberInputSchema.parse(input), id), predictionAt: predict9, defaultInput: inputs9[0]!.input, syntaxCheck: { checkpointId: '9-v1:syntax:check', prompt: 'Java 中 121 % 10 得到多少？', answer: { kind: 'int', value: 1 }, explanation: '% 取余数，得到最低位数字 1。' } },
   { lesson: lesson101, demoInputs: inputs101, buildTrace: (input, id) => trace101(TreeInputSchema.parse(input), id), predictionAt: predict101, defaultInput: inputs101[0]!.input, syntaxCheck: { checkpointId: '101-v1:syntax:check', prompt: '若 TreeNode root = null，表达式 root == null 为真时，布尔值可写成 1 还是 true？请输入 1 表示 true。', answer: { kind: 'int', value: 1 }, explanation: 'Java 的 boolean 使用 true/false，不能把整数 1 直接当作 true；本题用 1 作为填写选项。' } },
   { lesson: lesson112, demoInputs: inputs112, buildTrace: (input, id) => trace112(PathSumInputSchema.parse(input), id), predictionAt: predict112, defaultInput: inputs112[0]!.input, syntaxCheck: { checkpointId: '112-v1:syntax:check', prompt: '树根值 5、左孩子值 4，走到左孩子时路径和值是多少？', answer: { kind: 'int', value: 9 }, explanation: '从根到当前节点累加 5 + 4 = 9，只有到叶子才检查是否命中目标。' } },
+  { lesson: lesson58, demoInputs: inputs58, buildTrace: (input, id) => trace58(LastWordInputSchema.parse(input), id), predictionAt: predict58, defaultInput: inputs58[0]!.input, syntaxCheck: { checkpointId: '58-v1:syntax:check', prompt: 'String s = "Hi  "; s.length() 是多少？', answer: { kind: 'int', value: 4 }, explanation: 'String.length() 计入末尾两个空格，因此是 4；最后一个单词长度另算。' } },
+  { lesson: lesson66, demoInputs: inputs66, buildTrace: (input, id) => trace66(PlusOneInputSchema.parse(input), id), predictionAt: predict66, defaultInput: inputs66[0]!.input, syntaxCheck: { checkpointId: '66-v1:syntax:check', prompt: 'int[] digits = {9, 9}; digits.length 是多少？', answer: { kind: 'int', value: 2 }, explanation: '数组长度为 2；加一结果可能需要长度为 3 的新数组。' } },
+  { lesson: lesson110, demoInputs: inputs110, buildTrace: (input, id) => trace110(TreeInputSchema.parse(input), id), predictionAt: predict110, defaultInput: inputs110[0]!.input, syntaxCheck: { checkpointId: '110-v1:syntax:check', prompt: '空树按本题高度定义是多少？', answer: { kind: 'int', value: 0 }, explanation: '空树高度为 0；叶子节点高度为 1。' } },
 ];
