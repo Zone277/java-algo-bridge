@@ -269,3 +269,15 @@ C最终独立审查PASS（仅阶段00文档）：发现合法大输入的结构�
 | `/root/course110` | `packages/curriculum/problems/110/**` | 12有效用例、2可编译错解、2动态预测、3段引导、高度哨兵状态模型；局部1文件/6项PASS |
 
 三名agent交付后释放目录。主agent独占`packages/contracts/**`、课程包导出、桥接及前后端注册、可信Java Adapter/Supervisor、全局测试、文档和Git。主agent修复集成lint问题；真实容器、浏览器与全量回归证据见[本批验收](EXTENSION_2026-11-01.md)。
+
+## 三题续扩实际派工（2026-11-02）
+
+`git worktree list`确认主agent与工作agent共享同一个checkout，没有自动隔离worktree。主agent先冻结`v1-extension-2026-11-02`的题号、版本、输入输出、独立期望与文件禁区，再用客户端真实subagent能力分配三个互斥课程目录。
+
+| agent | 唯一允许写入路径 | 已交付 |
+|---|---|---|
+| `/root/course26` | `packages/curriculum/problems/26/**` | 15个发布用例、2个可编译错解、3段引导、动态预测与原地前缀状态模型；局部4文件/16项PASS |
+| `/root/course100` | `packages/curriculum/problems/100/**` | 13个发布用例、2个可编译错解、3段引导、动态预测与双树节点对状态模型；局部2文件/9项PASS |
+| `/root/course141` | `packages/curriculum/problems/141/**` | 13个发布用例、2个可编译错解、3段引导、动态预测与环形链表Floyd状态模型；局部1文件/6项PASS |
+
+主agent独占`packages/contracts/**`、课程包导出、桥接与前后端注册、可信Java Adapter/Supervisor、全局测试、状态文档和Git。三名agent交付后交换执行只读审查：课程反例审查发现100的schema元数据名不一致；前端审查发现恢复、播放器、环形回边和错解状态断言不足；执行契约审查未发现实现缺陷。主agent修复元数据并加固测试。完整真实验证见[本批验收](EXTENSION_2026-11-02.md)。

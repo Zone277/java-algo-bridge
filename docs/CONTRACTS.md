@@ -284,3 +284,13 @@ ReferenceTrace 的 `finalOutput` 使用同一 Output 联合但通道固定为 `r
 - 110：复用`TreeInputSchema`的紧凑队列层序`{root:(int|null)[]}`，本站最多1000个非null节点、深度128、节点值-100—100。`public boolean isBalanced(TreeNode root)`要求每个节点的左右子树高度差均不超过1，空树为true；仅检查根节点不足以通过。参考Java自底向上返回高度或-1哨兵；可信期望独立逐节点计算左右高度。演示最多30节点、深度8；稳定节点ID不由节点值推定。
 
 三题均至少8个有效测试、2个可编译错解夹具、2个动态预测、3阶段引导、独立骨架、三级提示和中间状态不变量测试。预置参考状态仅为`reference-model`教学演示；学生代码只在受限Docker内真实编译运行，以`student-java`结构化结果判定，打印文字、源码匹配及参考动画均不能判通过。三名工作agent只写各自课程目录，主agent独占公共文件与Git。
+
+## 三题续扩实施冻结（v1-extension-2026-11-02）
+
+保留前49题顺序、课程版本、草稿和进度键，末尾追加26、100、141（50—52）。版本分别为`<id>-v1`与`<id>-tests-v1`。三题复用既有页面、结构化输出、参考播放器和一次性受限Docker Java 21执行；`RunRequest`、`Lesson`、浏览器/API注册、可信Adapter及Supervisor白名单必须使用同一题号集合。
+
+- 26：`RemoveDuplicatesInputSchema`严格输入`{nums:int[]}`，长度1—10000、值-100—100且非降序。`public int removeDuplicates(int[] nums)`返回有效前缀长度`k`并原地写入去重值。可信Adapter同时读取返回值和同一个数组对象，拒绝`k<0`或`k>length`，仅把`nums[0..k)`转成结构化`int-array`参与判定；后缀不判。独立期望按相邻值生成唯一前缀，不根据学生打印或源码文本判断。
+- 100：`SameTreeInputSchema`严格输入`{p:(int|null)[],q:(int|null)[]}`，两棵树均采用紧凑队列式层序，每棵最多1000个非null节点、深度128、值-10000—10000。`public boolean isSameTree(TreeNode p,TreeNode q)`只有对应位置的null结构和值全部相同时返回true。可信Adapter分别构造两棵对象图；独立期望迭代比较节点对，参考Java递归比较左右子树。相同值不合并对象身份。
+- 141：`LinkedListCycleInputSchema`严格输入`{head:int[],pos:int}`，最多1000节点；空链只允许`pos=-1`，非空链允许`-1`或有效下标。可信Adapter按稳定对象身份构造节点，并在`pos>=0`时把尾节点`next`连接到原节点；学生方法签名只有`public boolean hasCycle(ListNode head)`，不得接收`pos`。结构化输出为`boolean`；独立期望沿可信下标图检测重复访问，参考Java使用Floyd快慢指针。
+
+参考trace继续固定为`reference-model`并携带输入哈希、参考源码哈希、稳定步骤ID和代码范围；学生结果固定来自`student-java`通道。每题至少8个发布用例、2个可编译错解、2个动态预测、3段引导、独立骨架、三级提示和中间不变量测试。工作agent仅写各自题号课程目录；公共契约、全局注册、可信Java、全局测试、状态和Git由主agent串行集成。

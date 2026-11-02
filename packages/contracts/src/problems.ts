@@ -6,9 +6,9 @@ export const JAVA_INT_MAX = 2147483647;
 const javaInt = z.number().int().min(JAVA_INT_MIN).max(JAVA_INT_MAX);
 const sorted = (values: readonly number[]) => values.every((value, index) => index === 0 || value >= values[index - 1]!);
 
-export const ProblemIdSchema = z.enum(['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242', '88', '125', '169', '11', '209', '198', '153', '136', '746', '33', '392', '322', '724', '219', '560', '34', '202', '387', '69', '122', '144', '94', '268', '338', '145', '231', '383', '9', '101', '112', '58', '66', '110']);
+export const ProblemIdSchema = z.enum(['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242', '88', '125', '169', '11', '209', '198', '153', '136', '746', '33', '392', '322', '724', '219', '560', '34', '202', '387', '69', '122', '144', '94', '268', '338', '145', '231', '383', '9', '101', '112', '58', '66', '110', '26', '100', '141']);
 export type ProblemId = z.infer<typeof ProblemIdSchema>;
-export const PROBLEM_ORDER = ['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242', '88', '125', '169', '11', '209', '198', '153', '136', '746', '33', '392', '322', '724', '219', '560', '34', '202', '387', '69', '122', '144', '94', '268', '338', '145', '231', '383', '9', '101', '112', '58', '66', '110'] as const satisfies readonly ProblemId[];
+export const PROBLEM_ORDER = ['704', '283', '977', '1', '20', '206', '21', '104', '70', '3', '35', '121', '217', '53', '167', '242', '88', '125', '169', '11', '209', '198', '153', '136', '746', '33', '392', '322', '724', '219', '560', '34', '202', '387', '69', '122', '144', '94', '268', '338', '145', '231', '383', '9', '101', '112', '58', '66', '110', '26', '100', '141'] as const satisfies readonly ProblemId[];
 export const PROBLEM_META = Object.freeze({
   '704': { order: 1, number: 704, lessonVersion: '704-v1', testSuiteVersion: '704-tests-v2', title: '二分查找', methodSignature: 'public int search(int[] nums, int target)' },
   '283': { order: 2, number: 283, lessonVersion: '283-v1', testSuiteVersion: '283-tests-v1', title: '移动零', methodSignature: 'public void moveZeroes(int[] nums)' },
@@ -59,6 +59,9 @@ export const PROBLEM_META = Object.freeze({
   '58': { order: 47, number: 58, lessonVersion: '58-v1', testSuiteVersion: '58-tests-v1', title: '最后一个单词的长度', methodSignature: 'public int lengthOfLastWord(String s)' },
   '66': { order: 48, number: 66, lessonVersion: '66-v1', testSuiteVersion: '66-tests-v1', title: '加一', methodSignature: 'public int[] plusOne(int[] digits)' },
   '110': { order: 49, number: 110, lessonVersion: '110-v1', testSuiteVersion: '110-tests-v1', title: '平衡二叉树', methodSignature: 'public boolean isBalanced(TreeNode root)' },
+  '26': { order: 50, number: 26, lessonVersion: '26-v1', testSuiteVersion: '26-tests-v1', title: '删除有序数组中的重复项', methodSignature: 'public int removeDuplicates(int[] nums)' },
+  '100': { order: 51, number: 100, lessonVersion: '100-v1', testSuiteVersion: '100-tests-v1', title: '相同的树', methodSignature: 'public boolean isSameTree(TreeNode p, TreeNode q)' },
+  '141': { order: 52, number: 141, lessonVersion: '141-v1', testSuiteVersion: '141-tests-v1', title: '环形链表', methodSignature: 'public boolean hasCycle(ListNode head)' },
 } satisfies Record<ProblemId, { order: number; number: number; lessonVersion: string; testSuiteVersion: string; title: string; methodSignature: string }>);
 
 export const BinarySearchInputSchema = z.strictObject({
@@ -102,13 +105,24 @@ function inspectCompactTree(tokens: readonly (number | null)[]) {
   }
   return { valid: cursor === end, depth: maxDepth, count };
 }
-export const TreeInputSchema = z.strictObject({ root: z.array(z.union([z.number().int().min(-100).max(100), z.null()])).max(2128) })
-  .superRefine(({ root }, ctx) => {
-    const result = inspectCompactTree(root);
-    if (!result.valid) ctx.addIssue({ code: 'custom', message: 'root 必须是可达节点组成的紧凑队列式层序序列；根不能为 null，且不能含孤立数据' });
-    if (result.count > 1000) ctx.addIssue({ code: 'custom', message: 'root 最多包含 1000 个非 null 节点' });
-    if (result.depth > 128) ctx.addIssue({ code: 'custom', message: 'root 深度最多为 128' });
-  });
+const compactTreeTokensSchema = z.array(z.union([z.number().int().min(-100).max(100), z.null()])).max(2128);
+const sameTreeTokensSchema = z.array(z.union([z.number().int().min(-10000).max(10000), z.null()])).max(2128);
+function validateCompactTree(tokens: readonly (number | null)[], field: string, ctx: z.RefinementCtx) {
+  const result = inspectCompactTree(tokens);
+  if (!result.valid) ctx.addIssue({ code: 'custom', path: [field], message: `${field} 必须是可达节点组成的紧凑队列式层序序列；根不能为 null，且不能含孤立数据` });
+  if (result.count > 1000) ctx.addIssue({ code: 'custom', path: [field], message: `${field} 最多包含 1000 个非 null 节点` });
+  if (result.depth > 128) ctx.addIssue({ code: 'custom', path: [field], message: `${field} 深度最多为 128` });
+}
+export const TreeInputSchema = z.strictObject({ root: compactTreeTokensSchema })
+  .superRefine(({ root }, ctx) => validateCompactTree(root, 'root', ctx));
+export const RemoveDuplicatesInputSchema = z.strictObject({ nums: z.array(z.number().int().min(-100).max(100)).min(1).max(10000) })
+  .refine(({ nums }) => sorted(nums), { message: 'nums 必须非降序，可包含重复值' });
+export const SameTreeInputSchema = z.strictObject({ p: sameTreeTokensSchema, q: sameTreeTokensSchema })
+  .superRefine(({ p, q }, ctx) => { validateCompactTree(p, 'p', ctx); validateCompactTree(q, 'q', ctx); });
+export const LinkedListCycleInputSchema = z.strictObject({
+  head: z.array(z.number().int().min(-100000).max(100000)).max(1000),
+  pos: z.number().int().min(-1).max(999),
+}).refine(({ head, pos }) => pos === -1 || pos < head.length, { path: ['pos'], message: 'pos 必须为 -1 或 head 的有效下标' });
 export const ClimbStairsInputSchema = z.strictObject({ n: z.number().int().min(1).max(45) });
 export const LongestSubstringInputSchema = z.strictObject({ s: z.string().max(10000).refine(value => [...value].every(char => char.codePointAt(0)! >= 0x20 && char.codePointAt(0)! <= 0x7e), 's 只能包含 U+0020—U+007E 的可打印 ASCII 字符') });
 export const SearchInsertInputSchema = BinarySearchInputSchema;
@@ -203,6 +217,7 @@ export const ProblemInputSchemas = Object.freeze({
   '145': TreeInputSchema, '231': PowerOfTwoInputSchema, '383': RansomNoteInputSchema,
   '9': PalindromeNumberInputSchema, '101': TreeInputSchema, '112': PathSumInputSchema,
   '58': LastWordInputSchema, '66': PlusOneInputSchema, '110': TreeInputSchema,
+  '26': RemoveDuplicatesInputSchema, '100': SameTreeInputSchema, '141': LinkedListCycleInputSchema,
   '34': SearchRangeInputSchema, '202': HappyNumberInputSchema, '387': FirstUniqueCharInputSchema,
   '724': PivotIndexInputSchema, '219': NearbyDuplicateInputSchema, '560': SubarraySumInputSchema,
   '704': BinarySearchInputSchema, '283': MoveZeroesInputSchema, '977': SortedSquaresInputSchema, '1': TwoSumInputSchema,
@@ -215,7 +230,7 @@ export const ProblemInputSchemas = Object.freeze({
   '33': RotatedSearchInputSchema, '392': IsSubsequenceInputSchema, '322': CoinChangeInputSchema,
   '153': RotatedMinimumInputSchema, '136': SingleNumberInputSchema, '746': MinCostStairsInputSchema,
 });
-export const ProblemInputSchema = z.union([BinarySearchInputSchema, MoveZeroesInputSchema, SortedSquaresInputSchema, TwoSumInputSchema, ValidParenthesesInputSchema, LinkedListInputSchema, MergeListsInputSchema, TreeInputSchema, ClimbStairsInputSchema, LongestSubstringInputSchema, MaxProfitInputSchema, MaximumSubarrayInputSchema, TwoSumSortedInputSchema, ValidAnagramInputSchema, MergeSortedArrayInputSchema, ValidPalindromeInputSchema, MajorityElementInputSchema, ContainerWaterInputSchema, MinimumSubarrayInputSchema, HouseRobberInputSchema, RotatedMinimumInputSchema, SingleNumberInputSchema, MinCostStairsInputSchema, RotatedSearchInputSchema, IsSubsequenceInputSchema, CoinChangeInputSchema, PivotIndexInputSchema, NearbyDuplicateInputSchema, SubarraySumInputSchema, SearchRangeInputSchema, HappyNumberInputSchema, FirstUniqueCharInputSchema, SqrtInputSchema, StockProfitIIInputSchema, MissingNumberInputSchema, CountingBitsInputSchema, PowerOfTwoInputSchema, RansomNoteInputSchema, PalindromeNumberInputSchema, PathSumInputSchema, LastWordInputSchema, PlusOneInputSchema]);
+export const ProblemInputSchema = z.union([BinarySearchInputSchema, MoveZeroesInputSchema, SortedSquaresInputSchema, TwoSumInputSchema, ValidParenthesesInputSchema, LinkedListInputSchema, MergeListsInputSchema, TreeInputSchema, ClimbStairsInputSchema, LongestSubstringInputSchema, MaxProfitInputSchema, MaximumSubarrayInputSchema, TwoSumSortedInputSchema, ValidAnagramInputSchema, MergeSortedArrayInputSchema, ValidPalindromeInputSchema, MajorityElementInputSchema, ContainerWaterInputSchema, MinimumSubarrayInputSchema, HouseRobberInputSchema, RotatedMinimumInputSchema, SingleNumberInputSchema, MinCostStairsInputSchema, RotatedSearchInputSchema, IsSubsequenceInputSchema, CoinChangeInputSchema, PivotIndexInputSchema, NearbyDuplicateInputSchema, SubarraySumInputSchema, SearchRangeInputSchema, HappyNumberInputSchema, FirstUniqueCharInputSchema, SqrtInputSchema, StockProfitIIInputSchema, MissingNumberInputSchema, CountingBitsInputSchema, PowerOfTwoInputSchema, RansomNoteInputSchema, PalindromeNumberInputSchema, PathSumInputSchema, LastWordInputSchema, PlusOneInputSchema, RemoveDuplicatesInputSchema, SameTreeInputSchema, LinkedListCycleInputSchema]);
 export type BinarySearchInput = z.infer<typeof BinarySearchInputSchema>;
 export type MoveZeroesInput = z.infer<typeof MoveZeroesInputSchema>;
 export type SortedSquaresInput = z.infer<typeof SortedSquaresInputSchema>;
@@ -259,12 +274,16 @@ export type PalindromeNumberInput = z.infer<typeof PalindromeNumberInputSchema>;
 export type PathSumInput = z.infer<typeof PathSumInputSchema>;
 export type LastWordInput = z.infer<typeof LastWordInputSchema>;
 export type PlusOneInput = z.infer<typeof PlusOneInputSchema>;
+export type RemoveDuplicatesInput = z.infer<typeof RemoveDuplicatesInputSchema>;
+export type SameTreeInput = z.infer<typeof SameTreeInputSchema>;
+export type LinkedListCycleInput = z.infer<typeof LinkedListCycleInputSchema>;
 export type ProblemInputMap = {
   '69': SqrtInput; '122': StockProfitIIInput; '144': TreeInput;
   '94': TreeInput; '268': MissingNumberInput; '338': CountingBitsInput;
   '145': TreeInput; '231': PowerOfTwoInput; '383': RansomNoteInput;
   '9': PalindromeNumberInput; '101': TreeInput; '112': PathSumInput;
   '58': LastWordInput; '66': PlusOneInput; '110': TreeInput;
+  '26': RemoveDuplicatesInput; '100': SameTreeInput; '141': LinkedListCycleInput;
   '34': SearchRangeInput; '202': HappyNumberInput; '387': FirstUniqueCharInput;
   '724': PivotIndexInput; '219': NearbyDuplicateInput; '560': SubarraySumInput;
   '33': RotatedSearchInput; '392': IsSubsequenceInput; '322': CoinChangeInput;
@@ -346,6 +365,30 @@ function oracleTree(tokens: readonly (number | null)[]) {
 export function expectedOutput<I extends ProblemId>(problemId: I, rawInput: ProblemInputMap[I]): Output {
   const input = parseProblemInput(problemId, rawInput) as ProblemInput;
   switch (problemId) {
+    case '26': {
+      const values: number[] = [];
+      for (const value of (input as RemoveDuplicatesInput).nums) if (values.length === 0 || values.at(-1) !== value) values.push(value);
+      return { kind: 'int-array', values };
+    }
+    case '100': {
+      const item = input as SameTreeInput;
+      const left = oracleTree(item.p); const right = oracleTree(item.q);
+      const pairs: [number | null, number | null][] = [[left.length ? 0 : null, right.length ? 0 : null]];
+      for (let cursor = 0; cursor < pairs.length; cursor++) {
+        const [a, b] = pairs[cursor]!;
+        if (a === null || b === null) { if (a !== b) return { kind: 'boolean', value: false }; continue; }
+        if (left[a]!.value !== right[b]!.value) return { kind: 'boolean', value: false };
+        pairs.push([left[a]!.left, right[b]!.left], [left[a]!.right, right[b]!.right]);
+      }
+      return { kind: 'boolean', value: true };
+    }
+    case '141': {
+      const item = input as LinkedListCycleInput;
+      const next = item.head.map((_, index) => index + 1 < item.head.length ? index + 1 : item.pos);
+      const seen = new Set<number>(); let current = item.head.length ? 0 : -1;
+      while (current !== -1) { if (seen.has(current)) return { kind: 'boolean', value: true }; seen.add(current); current = next[current] ?? -1; }
+      return { kind: 'boolean', value: false };
+    }
     case '58': {
       const words = (input as LastWordInput).s.trim().split(/ +/);
       return { kind: 'int', value: words[words.length - 1]!.length };

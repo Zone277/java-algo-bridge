@@ -77,6 +77,8 @@ const providedTypes: Partial<Record<ProblemId, { testId: string; title: string; 
   '21': { testId: 'listnode-definition', title: 'ListNode', source: LIST_NODE_SOURCE, note: '平台提供此类，请勿重复声明。合并结果需要复用输入节点；哑节点不能成为返回链的一部分。' },
   '104': { testId: 'treenode-definition', title: 'TreeNode', source: TREE_NODE_SOURCE, note: '平台根据层序输入构造树并提供此类，请勿重复声明。树节点对象与递归调用栈帧是两类身份。' },
   '144': { testId: 'treenode-definition', title: 'TreeNode', source: TREE_NODE_SOURCE, note: '平台根据紧凑层序输入构造树并提供此类；前序遍历返回值列表，节点对象身份与值分开。' },
+  '100': { testId: 'treenode-definition', title: 'TreeNode', source: TREE_NODE_SOURCE, note: '平台分别构造 p 与 q 两棵树并提供此类；相同数值的节点仍是不同对象，必须同时比较结构和值。' },
+  '141': { testId: 'listnode-definition', title: 'ListNode', source: LIST_NODE_SOURCE, note: '平台按输入构造链表，pos 只用于可信适配器连接尾节点，不会作为方法参数传入。变量引用与对象 next 字段分别展示。' },
 };
 
 type Loaded = { progress: Progress; storageAllowed: boolean; legacy: string | null; note: string };

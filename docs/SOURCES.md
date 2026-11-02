@@ -131,3 +131,11 @@ Docker run、资源限制与安全说明：限制需要实际配置与环境验�
 - 110：[Balanced Binary Tree](https://leetcode.com/problems/balanced-binary-tree/)：每个节点的左右子树高度差均不超过1；本站复用较紧的树输入上限（1000节点、深度128）。
 
 仅核对公开任务语义和边界；本站中文题面、推导、Java解法、状态演示与测试为原创，不宣称官方合作或通过官方隐藏测试。
+
+## 2026-11-02 新增公开来源
+
+- 26：[Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/)：有序数组原地写入唯一值前缀并返回长度，返回长度后的数组内容不参与答案；本站将长度上限收紧为10000。
+- 100：[Same Tree](https://leetcode.com/problems/same-tree/)：只有两棵树结构相同且每个对应节点值相同时返回true；本站分别构造两个对象图并保留null位置语义。
+- 141：[Linked List Cycle](https://leetcode.com/problems/linked-list-cycle/)：判断沿`next`能否再次到达已访问节点；`pos`只描述测试输入中尾节点连接位置，不是学生方法参数。本站节点上限为1000。
+
+仅核对公开任务语义与边界；课程题面、示例、Java参考解法、状态模型和测试均为本站原创，不宣称官方合作或通过官方隐藏测试。

@@ -119,6 +119,14 @@ Docker CLI 29.7.2 可调用，但 daemon 返回 `Docker Desktop is unable to sta
 
 本批固定 runner 镜像实际构建 ID 为 `sha256:11dbca74efe1222b7fb23e0e33dde77102c2108e72c9148ec43d3bbd31cfcff2`，linux/amd64；JDK 基础 digest、Gson 与资源限制保持。实际端口、真实执行、浏览器与清理验收见 `EXTENSION_2026-10-18.md`，其中未运行项明确标记 NOT_RUN。GitHub 采用现有凭据存储，凭据不进入项目文件；本轮用户已明确授权提交并推送。
 
+## 三题续扩本机环境（2026-11-02）
+
+Windows/PowerShell，单一共享checkout，`main`与`origin/main`初始同为`c0cef502cfccdb94938f53831a70fd0177860490`。最终系统PATH为Node22.13.1/npm10.9.2，不满足项目固定版本；未改全局配置，而是以临时npm缓存提供Node24.20.0/npm11.19.0，doctor组合检查PASS，完整verify由固定Node24.20.0执行。Docker Desktop 4.90.0、Engine 29.7.2、linux/amd64。前后端继续绑定127.0.0.1，学生Java只在一次性受限容器执行。
+
+Docker Desktop初始停止，启动日志显示两个陈旧AF_UNIX运行时入口阻断启动。核验路径均位于Docker本机数据根且为重解析点后，采用可逆改名保留而非删除：`C:\Users\50199\AppData\Local\Docker\run-stale-20261102-101951`、`C:\Users\50199\AppData\Local\docker-secrets-engine-stale-20261102-102216`和第二次失败启动产生的`C:\Users\50199\AppData\Local\Docker\run-stale-20261102-102523`。随后Engine恢复；未重置Docker、未修改全局配置或安全保护。
+
+固定镜像`java-algo-bridge-runner:21.0.12`重建成功，Image ID `sha256:d1636999e717fefffbbf61ae20e16dfca6b8d7caefa9fc72d2d13c6b57aec89f`；Temurin 21.0.12固定digest、Gson校验和、禁网/非root/只读根/cap-drop/no-new-privileges及资源限制沿用。完整验证和最终资源残留见[本批验收](EXTENSION_2026-11-02.md)。
+
 ## 续扩环境检查（2026-10-20）
 
 Windows / PowerShell，main 初始干净，基线 27f3dca1ec4df5c8f2a32da3463fb92121936b4e，远程 Zone277/java-algo-bridge；fetch 成功。项目 Node24.20.0/npm11.19.0；Docker Desktop 原先未运行，通过现有桌面入口启动后 Engine29.7.2/linux/x86_64 恢复，未修改全局设置。原生 agent 共享单 checkout，按三个课程目录划分权限。

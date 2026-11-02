@@ -63,6 +63,9 @@ public final class Adapter {
         case "58" -> run58(solution, instance, input, result);
         case "66" -> run66(solution, instance, input, result);
         case "110" -> run110(solution, instance, input, result);
+        case "26" -> run26(solution, instance, input, result);
+        case "100" -> run100(solution, instance, input, result);
+        case "141" -> run141(solution, instance, input, result);
         default -> throw new IllegalArgumentException("Unregistered problem");
       }
     } catch (Throwable error) {
@@ -319,6 +322,31 @@ public final class Adapter {
     TreeNode root = buildTree(input.getAsJsonArray("root"));
     Method method = method(solution, "isBalanced", boolean.class, "public boolean isBalanced(TreeNode root)", TreeNode.class);
     ok(result, booleanOutput((Boolean) method.invoke(instance, root)));
+  }
+
+  private static void run26(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    int[] nums = ints(input.getAsJsonArray("nums"));
+    Method method = method(solution, "removeDuplicates", int.class, "public int removeDuplicates(int[] nums)", int[].class);
+    int length = (Integer) method.invoke(instance, (Object) nums);
+    if (length < 0 || length > nums.length) wrong(result, "返回长度 k 必须在 0 到 nums.length 之间");
+    else ok(result, intArrayOutput(Arrays.copyOf(nums, length)));
+  }
+
+  private static void run100(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    TreeNode p = buildTree(input.getAsJsonArray("p"));
+    TreeNode q = buildTree(input.getAsJsonArray("q"));
+    Method method = method(solution, "isSameTree", boolean.class, "public boolean isSameTree(TreeNode p, TreeNode q)", TreeNode.class, TreeNode.class);
+    ok(result, booleanOutput((Boolean) method.invoke(instance, p, q)));
+  }
+
+  private static void run141(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    List<ListNode> originals = new ArrayList<>();
+    IdentityHashMap<ListNode, String> identities = new IdentityHashMap<>();
+    ListNode head = buildList(input.getAsJsonArray("head"), "h", originals, identities);
+    int pos = input.get("pos").getAsInt();
+    if (pos >= 0) originals.get(originals.size() - 1).next = originals.get(pos);
+    Method method = method(solution, "hasCycle", boolean.class, "public boolean hasCycle(ListNode head)", ListNode.class);
+    ok(result, booleanOutput((Boolean) method.invoke(instance, head)));
   }
 
   private static void run70(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
