@@ -44,7 +44,13 @@ import { lesson100, demoInputs as inputs100 } from '@jab/curriculum/100';
 import { buildReferenceTrace as trace100, predictionAt as predict100 } from '@jab/curriculum/100/model';
 import { lesson141, demoInputs as inputs141 } from '@jab/curriculum/141';
 import { buildReferenceTrace as trace141, predictionAt as predict141 } from '@jab/curriculum/141/model';
-import { LastWordInputSchema, PlusOneInputSchema, RemoveDuplicatesInputSchema, SameTreeInputSchema, LinkedListCycleInputSchema } from '@jab/contracts';
+import { lesson27, demoInputs as inputs27 } from '@jab/curriculum/27';
+import { buildReferenceTrace as trace27, predictionAt as predict27 } from '@jab/curriculum/27/model';
+import { lesson111, demoInputs as inputs111 } from '@jab/curriculum/111';
+import { buildReferenceTrace as trace111, predictionAt as predict111 } from '@jab/curriculum/111/model';
+import { lesson205, demoInputs as inputs205 } from '@jab/curriculum/205';
+import { buildReferenceTrace as trace205, predictionAt as predict205 } from '@jab/curriculum/205/model';
+import { LastWordInputSchema, PlusOneInputSchema, RemoveDuplicatesInputSchema, SameTreeInputSchema, LinkedListCycleInputSchema, RemoveElementInputSchema, IsomorphicStringsInputSchema } from '@jab/contracts';
 import { MissingNumberInputSchema, CountingBitsInputSchema } from '@jab/contracts';
 import { PowerOfTwoInputSchema, RansomNoteInputSchema, PalindromeNumberInputSchema, PathSumInputSchema } from '@jab/contracts';
 import { lesson724, demoInputs as inputs724 } from '@jab/curriculum/724';
@@ -182,4 +188,7 @@ export const lessonRuntimes: LessonRuntime[] = [
   { lesson: lesson26, demoInputs: inputs26, buildTrace: (input, id) => trace26(RemoveDuplicatesInputSchema.parse(input), id), predictionAt: predict26, defaultInput: inputs26[0]!.input, syntaxCheck: { checkpointId: '26-v1:syntax:check', prompt: 'int[] nums = {1, 1, 2}; nums.length 是多少？', answer: { kind: 'int', value: 3 }, explanation: '数组长度包含重复项，仍为 3；去重后的有效前缀长度另由方法返回。' } },
   { lesson: lesson100, demoInputs: inputs100, buildTrace: (input, id) => trace100(SameTreeInputSchema.parse(input), id), predictionAt: predict100, defaultInput: inputs100[0]!.input, syntaxCheck: { checkpointId: '100-v1:syntax:check', prompt: '两个 TreeNode 变量的 val 都是 5，能据此断定两棵树相同吗？请输入 0 表示不能。', answer: { kind: 'int', value: 0 }, explanation: '还必须逐个比较左右引用形成的结构；相同值也可能属于不同节点对象。' } },
   { lesson: lesson141, demoInputs: inputs141, buildTrace: (input, id) => trace141(LinkedListCycleInputSchema.parse(input), id), predictionAt: predict141, defaultInput: inputs141[0]!.input, syntaxCheck: { checkpointId: '141-v1:syntax:check', prompt: 'Java 调用 hasCycle(head) 时，形参 head 得到的是同一引用值的副本。请输入 1 表示正确。', answer: { kind: 'int', value: 1 }, explanation: 'Java 参数按值传递；对引用类型，复制的是引用值，而非复制整条链表。' } },
+  { lesson: lesson27, demoInputs: inputs27, buildTrace: (input, id) => trace27(RemoveElementInputSchema.parse(input), id), predictionAt: predict27, defaultInput: inputs27[0]!.input, syntaxCheck: { checkpointId: '27-v1:syntax:check', prompt: 'int[] nums = {3, 2, 2, 3}; nums.length 是多少？', answer: { kind: 'int', value: 4 }, explanation: '数组有4个位置；返回的k只规定判题读取的有效前缀长度。' } },
+  { lesson: lesson111, demoInputs: inputs111, buildTrace: (input, id) => trace111(TreeInputSchema.parse(input), id), predictionAt: predict111, defaultInput: inputs111[0]!.input, syntaxCheck: { checkpointId: '111-v1:syntax:check', prompt: '单节点树的根既没有左孩子也没有右孩子，最小深度是多少？', answer: { kind: 'int', value: 1 }, explanation: '根节点本身就是叶节点，路径包含一个节点。' } },
+  { lesson: lesson205, demoInputs: inputs205, buildTrace: (input, id) => trace205(IsomorphicStringsInputSchema.parse(input), id), predictionAt: predict205, defaultInput: inputs205[0]!.input, syntaxCheck: { checkpointId: '205-v1:syntax:check', prompt: 'String s = "egg"; s.charAt(1) 得到哪个字符？', answer: { kind: 'text', value: 'g' }, explanation: 'charAt 使用从0开始的下标，下标1对应第二个字符g。' } },
 ];

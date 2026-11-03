@@ -294,3 +294,13 @@ ReferenceTrace 的 `finalOutput` 使用同一 Output 联合但通道固定为 `r
 - 141：`LinkedListCycleInputSchema`严格输入`{head:int[],pos:int}`，最多1000节点；空链只允许`pos=-1`，非空链允许`-1`或有效下标。可信Adapter按稳定对象身份构造节点，并在`pos>=0`时把尾节点`next`连接到原节点；学生方法签名只有`public boolean hasCycle(ListNode head)`，不得接收`pos`。结构化输出为`boolean`；独立期望沿可信下标图检测重复访问，参考Java使用Floyd快慢指针。
 
 参考trace继续固定为`reference-model`并携带输入哈希、参考源码哈希、稳定步骤ID和代码范围；学生结果固定来自`student-java`通道。每题至少8个发布用例、2个可编译错解、2个动态预测、3段引导、独立骨架、三级提示和中间不变量测试。工作agent仅写各自题号课程目录；公共契约、全局注册、可信Java、全局测试、状态和Git由主agent串行集成。
+
+## 三题续扩实施冻结（v1-extension-2026-11-03）
+
+保留前52题的顺序、版本、草稿与进度键，末尾追加27、111、205（53—55）。版本分别为`<id>-v1`和`<id>-tests-v1`。三题沿用既有结构化结果、参考播放器、课程工作台和一次性受限Docker Java 21执行；不增加依赖、页面系统或AI API。
+
+- 27：`RemoveElementInputSchema`严格输入`{nums:int[],val:int}`；数组长度0—10000，元素和值域均为-100—100。`public int removeElement(int[] nums,int val)`返回有效前缀长度k。可信Adapter序列化原数组前k项并拒绝越界k；判定要求前缀恰好包含原输入中所有不等于val的元素，按多重集合比较，允许任意顺序。独立期望用稳定过滤输出，仅作为规范化expected与参考模型对照。
+- 111：复用`TreeInputSchema`的紧凑队列层序`{root:(int|null)[]}`；空树合法。`public int minDepth(TreeNode root)`返回根到最近叶节点的节点数；空树0，单节点1。独立期望用BFS取得第一个叶节点；参考实现递归时必须单独处理只有一个非空孩子的节点。
+- 205：`IsomorphicStringsInputSchema`严格输入等长、非空、长度1—10000的可打印ASCII字符串`s`和`t`。`public boolean isIsomorphic(String s,String t)`要求字符映射双向一一对应；参考可用两个`int[128]`比较最近出现位置，独立期望用两个Map验证正反映射。
+
+每题至少8个发布用例、2个可编译错解、2个动态预测、3阶段引导、独立骨架、三级提示和中间不变量测试。参考终态须与真实Java参考解法及独立期望对照。三个工作agent仅写各自题号目录；共享契约、注册、可信Adapter/Supervisor、全局测试、文档与Git由主agent串行集成。

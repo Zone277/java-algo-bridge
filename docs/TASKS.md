@@ -281,3 +281,15 @@ C最终独立审查PASS（仅阶段00文档）：发现合法大输入的结构�
 | `/root/course141` | `packages/curriculum/problems/141/**` | 13个发布用例、2个可编译错解、3段引导、动态预测与环形链表Floyd状态模型；局部1文件/6项PASS |
 
 主agent独占`packages/contracts/**`、课程包导出、桥接与前后端注册、可信Java Adapter/Supervisor、全局测试、状态文档和Git。三名agent交付后交换执行只读审查：课程反例审查发现100的schema元数据名不一致；前端审查发现恢复、播放器、环形回边和错解状态断言不足；执行契约审查未发现实现缺陷。主agent修复元数据并加固测试。完整真实验证见[本批验收](EXTENSION_2026-11-02.md)。
+
+## 三题续扩实际派工（2026-11-03）
+
+`git worktree list`确认只有一个共享checkout，没有自动隔离worktree。主agent先冻结题号、版本、输入、判定语义和文件禁区，再通过客户端真实subagent能力并行分配三个互斥课程目录。
+
+| agent | 唯一允许写入路径 | 已交付 |
+|---|---|---|
+| `/root/course27_batch21` | `packages/curriculum/problems/27/**` | 15个发布用例、2个可编译错解、3段引导、动态预测和稳定过滤状态模型；局部2文件/9项PASS |
+| `/root/course111_batch21` | `packages/curriculum/problems/111/**` | 12个发布用例、2个可编译错解、3段引导、动态预测和最小叶深度递归模型；局部2文件/9项PASS |
+| `/root/course205_batch21` | `packages/curriculum/problems/205/**` | 14个发布用例、2个可编译错解、3段引导、动态预测和双数组最近位置模型；局部2文件/5项PASS |
+
+主agent独占公共契约、课程包导出、桥接与前后端注册、可信Java Adapter/Supervisor、全局测试、文档和Git。三名agent交付后交换只读反例审查，分别发现111单节点叶子说明、205稀疏数组渲染术语和27负数k真实回归覆盖问题；主agent均已修复并添加断言。完整真实验证见[本批验收](EXTENSION_2026-11-03.md)。

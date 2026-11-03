@@ -109,7 +109,13 @@
     "./100": "./problems/100/index.ts",
     "./100/model": "./problems/100/model.ts",
     "./141": "./problems/141/index.ts",
-    "./141/model": "./problems/141/model.ts"
+    "./141/model": "./problems/141/model.ts",
+    "./27": "./problems/27/index.ts",
+    "./27/model": "./problems/27/model.ts",
+    "./111": "./problems/111/index.ts",
+    "./111/model": "./problems/111/model.ts",
+    "./205": "./problems/205/index.ts",
+    "./205/model": "./problems/205/model.ts"
   },
   "dependencies": {
     "@jab/contracts": "0.1.0"

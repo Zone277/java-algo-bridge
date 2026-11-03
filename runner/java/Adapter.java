@@ -66,6 +66,9 @@ public final class Adapter {
         case "26" -> run26(solution, instance, input, result);
         case "100" -> run100(solution, instance, input, result);
         case "141" -> run141(solution, instance, input, result);
+        case "27" -> run27(solution, instance, input, result);
+        case "111" -> run111(solution, instance, input, result);
+        case "205" -> run205(solution, instance, input, result);
         default -> throw new IllegalArgumentException("Unregistered problem");
       }
     } catch (Throwable error) {
@@ -347,6 +350,25 @@ public final class Adapter {
     if (pos >= 0) originals.get(originals.size() - 1).next = originals.get(pos);
     Method method = method(solution, "hasCycle", boolean.class, "public boolean hasCycle(ListNode head)", ListNode.class);
     ok(result, booleanOutput((Boolean) method.invoke(instance, head)));
+  }
+
+  private static void run27(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    int[] nums = ints(input.getAsJsonArray("nums"));
+    Method method = method(solution, "removeElement", int.class, "public int removeElement(int[] nums, int val)", int[].class, int.class);
+    int length = (Integer) method.invoke(instance, nums, input.get("val").getAsInt());
+    if (length < 0 || length > nums.length) wrong(result, "返回长度 k 必须在 0 到 nums.length 之间");
+    else ok(result, intArrayOutput(Arrays.copyOf(nums, length)));
+  }
+
+  private static void run111(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    TreeNode root = buildTree(input.getAsJsonArray("root"));
+    Method method = method(solution, "minDepth", int.class, "public int minDepth(TreeNode root)", TreeNode.class);
+    ok(result, intOutput((Integer) method.invoke(instance, root)));
+  }
+
+  private static void run205(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    Method method = method(solution, "isIsomorphic", boolean.class, "public boolean isIsomorphic(String s, String t)", String.class, String.class);
+    ok(result, booleanOutput((Boolean) method.invoke(instance, input.get("s").getAsString(), input.get("t").getAsString())));
   }
 
   private static void run70(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {

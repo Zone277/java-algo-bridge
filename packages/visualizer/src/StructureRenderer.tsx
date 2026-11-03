@@ -53,6 +53,11 @@ function ArrayDiagram({ array, closedInterval }: { array: Extract<Structure, { k
 }
 
 function MapDiagram({ map }: { map: Extract<Structure, { kind: 'map' }> }) {
+  if (map.presentation === 'sparse-array') return <section className="structure-diagram" data-testid={`structure-map-${map.id}`}>
+    <h4>int[128] 非零槽稀疏视图 {map.id}</h4>
+    <p>这是固定长度数组的教学视图，只省略值为 0 的槽；参考 Java 使用数组，不是 Map。</p>
+    {!map.entries.length ? <p>所有槽当前都是 0，稀疏视图为空。</p> : <table aria-label={`稀疏数组 ${map.id}`}><thead><tr><th>字符</th><th>数组下标</th><th>槽值</th></tr></thead><tbody>{map.entries.map((entry, index) => <tr key={`${entry.key.kind}-${formatValue(entry.key)}-${index}`}><td>{formatValue(entry.key)}</td><td>{entry.key.kind === 'char' ? entry.key.value.charCodeAt(0) : '—'}</td><td>{formatValue(entry.value)}</td></tr>)}</tbody></table>}
+  </section>;
   return <section className="structure-diagram" data-testid={`structure-map-${map.id}`}>
     <h4>映射 {map.id}</h4>
     {!map.entries.length ? <p>映射为空，尚未记录键值。</p> : <table aria-label={`映射 ${map.id}`}><thead><tr><th>键</th><th>值</th></tr></thead><tbody>{map.entries.map((entry, index) => <tr key={`${entry.key.kind}-${formatValue(entry.key)}-${index}`}><td>{formatValue(entry.key)}</td><td>{formatValue(entry.value)}</td></tr>)}</tbody></table>}

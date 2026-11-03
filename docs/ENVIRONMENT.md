@@ -1,5 +1,11 @@
 # 本机环境与阻塞
 
+## 2026-11-03 续扩环境
+
+Windows/PowerShell；开始时`main`与`origin/main`均为`688acf778570ea29d2ea12751c182d0dba09589b`，工作区干净，`git worktree list`只有一个共享checkout。系统PATH仍是Node22.13.1/npm10.9.2；本批所有项目命令通过临时工具入口使用Node24.20.0/npm11.19.0，没有修改全局配置或安装新依赖。
+
+Docker Desktop初始受过期运行时socket阻断。只读日志和路径核验后，将Docker自有目录可逆改名为`C:\Users\50199\AppData\Local\Docker\run-stale-20261103-104900`、`C:\Users\50199\AppData\Local\docker-secrets-engine-stale-20261103-105100`及`C:\Users\50199\AppData\Local\Docker\run-stale-20261103-105300`，未删除这些备份、重置Docker、读取密钥或关闭安全保护。Engine恢复为29.7.2/linux/x86_64/cgroup2；`npm run runner:build`以既有固定基础镜像重建`java-algo-bridge-runner:21.0.12`，ID为`sha256:37a199205442528d2756a3e9b1c8521ddc44590e8901e4c70a771114e4432c2c`。最终完整验收退出0，项目容器、`jab-run-*`任务目录和回环端口监听均为0；详见[本批验收](EXTENSION_2026-11-03.md)。
+
 ## 2026-11-01 续扩环境
 
 Windows/PowerShell；开始时`main`与`origin/main`均为`959426f6813e4d5d48382c071ea270e47988cd40`，工作区干净且`git worktree list`只有一个共享checkout。项目内Node24.20.0/npm11.19.0通过临时PATH使用，未改全局配置。Docker Desktop初始不可用；日志指出`run/sailor-ingest.sock`失效。核验Docker运行时目录仅含过期reparse point/socket、待停止进程均属于已安装Docker Desktop后，将`Docker/run`和`docker-secrets-engine`可逆移至同级`*-stale-20261101-210536`并重启现有应用。未重置Docker、删镜像或关闭安全保护。引擎恢复为29.7.2 Linux；`npm run runner:build`重建固定`java-algo-bridge-runner:21.0.12`镜像，ID`sha256:ad3e254f231bbdb7f92652cc3b1f27352120a39219f3136ccf3e99f998e08cd5`/amd64；基础JDK digest保持。最终验收与残留见[本批验收](EXTENSION_2026-11-01.md)。

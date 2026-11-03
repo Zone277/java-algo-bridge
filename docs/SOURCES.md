@@ -139,3 +139,11 @@ Docker run、资源限制与安全说明：限制需要实际配置与环境验�
 - 141：[Linked List Cycle](https://leetcode.com/problems/linked-list-cycle/)：判断沿`next`能否再次到达已访问节点；`pos`只描述测试输入中尾节点连接位置，不是学生方法参数。本站节点上限为1000。
 
 仅核对公开任务语义与边界；课程题面、示例、Java参考解法、状态模型和测试均为本站原创，不宣称官方合作或通过官方隐藏测试。
+
+## 2026-11-03 新增公开来源
+
+- 27：[Remove Element](https://leetcode.com/problems/remove-element/)：原地移除指定值并返回有效前缀长度；有效前缀内保留元素的顺序可以不同。本站数组长度上限为10000。
+- 111：[Minimum Depth of Binary Tree](https://leetcode.com/problems/minimum-depth-of-binary-tree/)：返回根到最近叶节点的节点数；缺失孩子不是叶节点路径。本站复用1000节点、深度128的树输入边界。
+- 205：[Isomorphic Strings](https://leetcode.com/problems/isomorphic-strings/)：两个字符串具有一致的重复模式且字符映射双向唯一时返回true；本站限制为等长可打印ASCII字符串，长度1—10000。
+
+仅核对公开任务语义与边界；课程题面、示例、Java参考解法、状态模型和测试均为本站原创，不宣称官方合作或通过官方隐藏测试。

@@ -6,9 +6,9 @@ import {
 
 describe('26/100/141 input and judging contracts', () => {
   it('appends three versions without changing the first 49 courses', () => {
-    expect(PROBLEM_ORDER).toHaveLength(52);
+    expect(PROBLEM_ORDER.length).toBeGreaterThanOrEqual(52);
     expect(PROBLEM_ORDER.slice(0, 49)).toHaveLength(49);
-    expect(PROBLEM_ORDER.slice(49)).toEqual(['26', '100', '141']);
+    expect(PROBLEM_ORDER.slice(49, 52)).toEqual(['26', '100', '141']);
     for (const [id, input] of [
       ['26', { nums: [1, 1, 2] }],
       ['100', { p: [1], q: [1] }],
