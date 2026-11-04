@@ -293,3 +293,15 @@ C最终独立审查PASS（仅阶段00文档）：发现合法大输入的结构�
 | `/root/course205_batch21` | `packages/curriculum/problems/205/**` | 14个发布用例、2个可编译错解、3段引导、动态预测和双数组最近位置模型；局部2文件/5项PASS |
 
 主agent独占公共契约、课程包导出、桥接与前后端注册、可信Java Adapter/Supervisor、全局测试、文档和Git。三名agent交付后交换只读反例审查，分别发现111单节点叶子说明、205稀疏数组渲染术语和27负数k真实回归覆盖问题；主agent均已修复并添加断言。完整真实验证见[本批验收](EXTENSION_2026-11-03.md)。
+
+## 三题续扩实际派工（2026-11-04）
+
+`git worktree list`确认只有一个共享checkout，没有自动隔离worktree。主agent先冻结`v1-extension-2026-11-04`的题号、版本、输入、判定语义和写入禁区，再通过客户端真实subagent能力分配三个互斥课程目录。
+
+| agent | 唯一允许写入路径 | 已交付 |
+|---|---|---|
+| `/root/course13_batch22` | `packages/curriculum/problems/13/**` | 14个发布用例、2个可编译错解、3段引导、动态预测和相邻值罗马数字状态模型；局部2文件/5项PASS |
+| `/root/course203_batch22` | `packages/curriculum/problems/203/**` | 14个发布用例、2个可编译错解、3段引导、稳定对象ID与dummy过滤状态模型；局部2文件/9项PASS |
+| `/root/course349_batch22` | `packages/curriculum/problems/349/**` | 14个发布用例、2个可编译错解、3段引导、成员集/交集集状态模型；局部2文件/10项PASS |
+
+主agent独占公共契约、课程包导出、桥接与前后端注册、可信Java Adapter/Supervisor、全局测试、状态文档和Git。三名agent随后交换做只读反例审查：13发现阻断lint与步映射测试缺口，203发现空链预测提示虚构处理动作，349未发现实现缺陷；主agent修正并补回归。真实容器、浏览器和全量结果见[本批验收](EXTENSION_2026-11-04.md)。

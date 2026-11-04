@@ -69,6 +69,9 @@ public final class Adapter {
         case "27" -> run27(solution, instance, input, result);
         case "111" -> run111(solution, instance, input, result);
         case "205" -> run205(solution, instance, input, result);
+        case "13" -> run13(solution, instance, input, result);
+        case "203" -> run203(solution, instance, input, result);
+        case "349" -> run349(solution, instance, input, result);
         default -> throw new IllegalArgumentException("Unregistered problem");
       }
     } catch (Throwable error) {
@@ -84,6 +87,36 @@ public final class Adapter {
     int[] values = ints(input.getAsJsonArray("nums"));
     Method method = method(solution, "findMin", int.class, "public int findMin(int[] nums)", int[].class);
     ok(result, intOutput((Integer) method.invoke(instance, (Object) values)));
+  }
+
+  private static void run13(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    Method method = method(solution, "romanToInt", int.class, "public int romanToInt(String s)", String.class);
+    ok(result, intOutput((Integer) method.invoke(instance, input.get("s").getAsString())));
+  }
+
+  private static void run203(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    List<ListNode> originals = new ArrayList<>();
+    IdentityHashMap<ListNode, String> identities = new IdentityHashMap<>();
+    ListNode head = buildList(input.getAsJsonArray("head"), "h", originals, identities);
+    Method method = method(solution, "removeElements", ListNode.class, "public ListNode removeElements(ListNode head, int val)", ListNode.class, int.class);
+    ListNode returned = (ListNode) method.invoke(instance, head, input.get("val").getAsInt());
+    IdentityHashMap<ListNode, Boolean> seen = new IdentityHashMap<>();
+    JsonArray values = new JsonArray();
+    for (ListNode current = returned; current != null; current = current.next) {
+      if (seen.put(current, Boolean.TRUE) != null) { wrong(result, "返回链表不能成环"); return; }
+      if (values.size() >= originals.size()) { wrong(result, "返回链表长度不能超过输入链表长度"); return; }
+      values.add(current.val);
+    }
+    JsonObject output = new JsonObject(); output.addProperty("kind", "int-array"); output.add("values", values); ok(result, output);
+  }
+
+  private static void run349(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {
+    int[] nums1 = ints(input.getAsJsonArray("nums1"));
+    int[] nums2 = ints(input.getAsJsonArray("nums2"));
+    Method method = method(solution, "intersection", int[].class, "public int[] intersection(int[] nums1, int[] nums2)", int[].class, int[].class);
+    int[] returned = (int[]) method.invoke(instance, nums1, nums2);
+    if (returned == null || returned.length > Math.min(nums1.length, nums2.length)) wrong(result, "必须返回非 null 且长度不超过较短输入的 int[]");
+    else ok(result, intArrayOutput(returned));
   }
 
   private static void run136(Class<?> solution, Object instance, JsonObject input, JsonObject result) throws Exception {

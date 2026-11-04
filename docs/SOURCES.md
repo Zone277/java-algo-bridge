@@ -147,3 +147,11 @@ Docker run、资源限制与安全说明：限制需要实际配置与环境验�
 - 205：[Isomorphic Strings](https://leetcode.com/problems/isomorphic-strings/)：两个字符串具有一致的重复模式且字符映射双向唯一时返回true；本站限制为等长可打印ASCII字符串，长度1—10000。
 
 仅核对公开任务语义与边界；课程题面、示例、Java参考解法、状态模型和测试均为本站原创，不宣称官方合作或通过官方隐藏测试。
+
+## 2026-11-04 新增公开来源
+
+- 13：[Roman to Integer](https://leetcode.com/problems/roman-to-integer/)：把1—3999的规范罗马数字转换为整数，本站输入仅接受大写规范表示。
+- 203：[Remove Linked List Elements](https://leetcode.com/problems/remove-linked-list-elements/)：删除所有值等于目标值的链表节点并返回结果头；本站按无环值序列判定，不额外要求复用原节点。
+- 349：[Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays/)：返回两个数组的不同共同值，顺序不限；本站值域0—1000。
+
+仅使用公开题页核对任务语义和边界；中文题面、推导、示例、Java代码、状态模型与测试均为本站原创，不宣称官方合作或通过官方隐藏测试。

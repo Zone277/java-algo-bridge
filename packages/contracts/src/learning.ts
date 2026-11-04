@@ -3,7 +3,7 @@ import {
   PivotIndexInputSchema, NearbyDuplicateInputSchema, SubarraySumInputSchema,
   SearchRangeInputSchema, HappyNumberInputSchema, FirstUniqueCharInputSchema,
   SqrtInputSchema, StockProfitIIInputSchema,
-  MissingNumberInputSchema, CountingBitsInputSchema, PowerOfTwoInputSchema, RansomNoteInputSchema, PalindromeNumberInputSchema, PathSumInputSchema, LastWordInputSchema, PlusOneInputSchema, RemoveDuplicatesInputSchema, SameTreeInputSchema, LinkedListCycleInputSchema, RemoveElementInputSchema, IsomorphicStringsInputSchema,
+  MissingNumberInputSchema, CountingBitsInputSchema, PowerOfTwoInputSchema, RansomNoteInputSchema, PalindromeNumberInputSchema, PathSumInputSchema, LastWordInputSchema, PlusOneInputSchema, RemoveDuplicatesInputSchema, SameTreeInputSchema, LinkedListCycleInputSchema, RemoveElementInputSchema, IsomorphicStringsInputSchema, RomanToIntegerInputSchema, RemoveLinkedListElementsInputSchema, ArrayIntersectionInputSchema,
   BinarySearchInputSchema, BooleanOutputSchema, ClimbStairsInputSchema, ContainsDuplicateInputSchema, IntArrayOutputSchema, IntOutputSchema,
   LongestSubstringInputSchema, MaxProfitInputSchema, MaximumSubarrayInputSchema, MergeListsInputSchema, MoveZeroesInputSchema, OutputSchema, PROBLEM_META, ProblemIdSchema,
   SearchInsertInputSchema, MergeSortedArrayInputSchema, ValidPalindromeInputSchema, MajorityElementInputSchema,
@@ -173,6 +173,9 @@ export const LessonSchema = z.discriminatedUnion('id', [
   variant('27', 53, RemoveElementInputSchema, IntArrayOutputSchema),
   variant('111', 54, TreeInputSchema, IntOutputSchema),
   variant('205', 55, IsomorphicStringsInputSchema, BooleanOutputSchema),
+  variant('13', 56, RomanToIntegerInputSchema, IntOutputSchema),
+  variant('203', 57, RemoveLinkedListElementsInputSchema, IntArrayOutputSchema),
+  variant('349', 58, ArrayIntersectionInputSchema, IntArrayOutputSchema),
 ]).superRefine((lesson, ctx) => {
   const issue = (message: string) => ctx.addIssue({ code: 'custom', message });
   const meta = PROBLEM_META[lesson.id];

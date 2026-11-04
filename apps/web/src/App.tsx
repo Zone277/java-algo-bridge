@@ -80,6 +80,7 @@ const providedTypes: Partial<Record<ProblemId, { testId: string; title: string; 
   '144': { testId: 'treenode-definition', title: 'TreeNode', source: TREE_NODE_SOURCE, note: '平台根据紧凑层序输入构造树并提供此类；前序遍历返回值列表，节点对象身份与值分开。' },
   '100': { testId: 'treenode-definition', title: 'TreeNode', source: TREE_NODE_SOURCE, note: '平台分别构造 p 与 q 两棵树并提供此类；相同数值的节点仍是不同对象，必须同时比较结构和值。' },
   '141': { testId: 'listnode-definition', title: 'ListNode', source: LIST_NODE_SOURCE, note: '平台按输入构造链表，pos 只用于可信适配器连接尾节点，不会作为方法参数传入。变量引用与对象 next 字段分别展示。' },
+  '203': { testId: 'listnode-definition', title: 'ListNode', source: LIST_NODE_SOURCE, note: '平台按输入构造链表并提供此类。返回链按可达值序列判定；参考解法复用原节点，但其他无环且值序列正确的合法实现也可通过。' },
 };
 
 type Loaded = { progress: Progress; storageAllowed: boolean; legacy: string | null; note: string };

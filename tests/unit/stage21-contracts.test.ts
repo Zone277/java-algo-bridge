@@ -6,8 +6,8 @@ import {
 
 describe('27/111/205 input and judging contracts', () => {
   it('appends three versions while preserving the first 52 courses', () => {
-    expect(PROBLEM_ORDER).toHaveLength(55);
-    expect(PROBLEM_ORDER.slice(52)).toEqual(['27', '111', '205']);
+    expect(PROBLEM_ORDER.length).toBeGreaterThanOrEqual(55);
+    expect(PROBLEM_ORDER.slice(52, 55)).toEqual(['27', '111', '205']);
     for (const [id, input] of [
       ['27', { nums: [3, 2, 2, 3], val: 3 }],
       ['111', { root: [3, 9, 20, null, null, 15, 7] }],

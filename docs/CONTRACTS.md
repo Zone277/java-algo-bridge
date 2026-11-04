@@ -299,6 +299,16 @@ ReferenceTrace 的 `finalOutput` 使用同一 Output 联合但通道固定为 `r
 
 保留前52题的顺序、版本、草稿与进度键，末尾追加27、111、205（53—55）。版本分别为`<id>-v1`和`<id>-tests-v1`。三题沿用既有结构化结果、参考播放器、课程工作台和一次性受限Docker Java 21执行；不增加依赖、页面系统或AI API。
 
+## 2026-11-04 三题续扩契约
+
+保留前55题的顺序、版本、草稿与进度键，末尾追加13、203、349（56—58）。版本分别为`<id>-v1`和`<id>-tests-v1`，RunRequest、RunResult、ReferenceTrace与Progress继续使用现有判别联合和版本命名空间。
+
+- 13：`{s}`只接收1—3999的规范大写罗马数字；学生签名为`public int romanToInt(String s)`，结构化输出为int。
+- 203：`{head,val}`中head含0—10000个1—50的值，val为0—50；学生签名为`public ListNode removeElements(ListNode head, int val)`。可信Adapter有界遍历返回链、拒绝环和异常过长，输出int数组值序列；判定不强制复用原对象身份。
+- 349：两个非空数组各1—1000项且值域0—1000；学生签名为`public int[] intersection(int[] nums1, int[] nums2)`。判定要求唯一且完整的共同值集合，接受任意返回顺序。
+
+三题的可信期望分别使用独立的令牌累加、数组过滤和Set交集逻辑；参考状态模型不参与学生判定。submit仍只使用服务端注册用例，学生输出文本、参考动画或源码字符串都不能形成通过结果。
+
 - 27：`RemoveElementInputSchema`严格输入`{nums:int[],val:int}`；数组长度0—10000，元素和值域均为-100—100。`public int removeElement(int[] nums,int val)`返回有效前缀长度k。可信Adapter序列化原数组前k项并拒绝越界k；判定要求前缀恰好包含原输入中所有不等于val的元素，按多重集合比较，允许任意顺序。独立期望用稳定过滤输出，仅作为规范化expected与参考模型对照。
 - 111：复用`TreeInputSchema`的紧凑队列层序`{root:(int|null)[]}`；空树合法。`public int minDepth(TreeNode root)`返回根到最近叶节点的节点数；空树0，单节点1。独立期望用BFS取得第一个叶节点；参考实现递归时必须单独处理只有一个非空孩子的节点。
 - 205：`IsomorphicStringsInputSchema`严格输入等长、非空、长度1—10000的可打印ASCII字符串`s`和`t`。`public boolean isIsomorphic(String s,String t)`要求字符映射双向一一对应；参考可用两个`int[128]`比较最近出现位置，独立期望用两个Map验证正反映射。

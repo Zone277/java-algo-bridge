@@ -6,7 +6,7 @@ A local-first Java algorithm learning tool for Windows. It helps learners with b
 
 ## Highlights
 
-- Forty-nine progressively structured algorithm problems covering arrays, strings, hashing, stacks, linked lists, binary trees, dynamic programming, and sliding windows.
+- Fifty-eight progressively structured algorithm problems covering arrays, strings, hashing, stacks, linked lists, binary trees, dynamic programming, and sliding windows.
 - Eight short Java bridge lessons (J1–J8) covering syntax differences, arrays, collections, strings, references, and common data structures.
 - A complete learning path from syntax preparation and problem analysis to guided coding and independent practice.
 - State-based visualizations of built-in reference algorithms, showing how variables and data structures change step by step.
@@ -66,6 +66,15 @@ A local-first Java algorithm learning tool for Windows. It helps learners with b
 | 58 | Length of Last Word | `String.length()` and `charAt` | Skip trailing spaces, then count backward |
 | 66 | Plus One | `int[]`, carry, and new arrays | Propagate carry across trailing nines |
 | 110 | Balanced Binary Tree | `TreeNode` and recursive heights | Check every subtree for height balance |
+| 26 | Remove Duplicates from Sorted Array | In-place `int[]` updates and returned prefix length | Read/write pointers over a sorted unique prefix |
+| 100 | Same Tree | Two `TreeNode` references and paired recursion | Compare both structure and values at matching positions |
+| 141 | Linked List Cycle | `ListNode` identity, `next`, and short-circuiting | Floyd's slow and fast references |
+| 27 | Remove Element | In-place arrays and a returned valid length | Filtered prefix with multiple valid orders |
+| 111 | Minimum Depth of Binary Tree | Recursion and leaf detection | Nearest real leaf with one-child boundaries |
+| 205 | Isomorphic Strings | `String.charAt` and integer tables | Bidirectional one-to-one character mapping |
+| 13 | Roman to Integer | `String`, `charAt`, loop, and `switch` | Left-to-right values with subtractive pairs |
+| 203 | Remove Linked List Elements | `ListNode`, dummy node, and reference fields | Reconnect `next` while filtering nodes |
+| 349 | Intersection of Two Arrays | `HashSet<Integer>` and `int[]` results | Membership lookup and unique intersection |
 
 ## Requirements
 
@@ -116,8 +125,8 @@ The editor accepts a complete `Solution` class:
 - “Run Input” checks only the current input.
 - “Submit Local Tests” runs the problem's bundled local test suite.
 - A passing result means only that the solution passed this project's tests. It does not indicate acceptance by LeetCode or another external judge.
-- Problems 206 and 21 provide `ListNode`; problem 104 provides `TreeNode`. Student code should not redeclare these classes.
-- Linked-list problems validate original node identity and link structure, not only node values.
+- Problems 206, 21, 141, and 203 provide `ListNode`; tree problems provide `TreeNode`. Student code should not redeclare these classes.
+- Problems 206 and 21 validate original node identity and link structure. Problem 203 accepts any acyclic returned chain with the correct value sequence, including a valid implementation that allocates new nodes.
 - Problem 283 checks the modified input array; problem 1 accepts either valid index order; problem 104 uses compact level-order `null` semantics; problem 3 requires a contiguous substring.
 
 If Docker or the pinned runner image is unavailable, the application returns `RUNNER_UNAVAILABLE`. It never falls back to executing student Java source directly on the host.
@@ -175,4 +184,4 @@ This project is designed for single-user learning on a local machine and listens
 
 Each student task uses an isolated temporary directory and a disposable container. Containers have networking disabled, run as a non-root user, and limit CPU, memory, process count, output size, and execution time. Do not use global cleanup commands such as `docker system prune` to manage this project.
 
-The current course is limited to the sixteen problems listed above. Learning data is stored only in the current browser and is not synchronized after switching browsers, clearing site data, or reinstalling the operating system. Algorithm visualizations support only the built-in reference solutions and do not generate execution traces for arbitrary Java programs.
+The current course is limited to the fifty-eight problems listed above. Learning data is stored only in the current browser and is not synchronized after switching browsers, clearing site data, or reinstalling the operating system. Algorithm visualizations support only the built-in reference solutions and do not generate execution traces for arbitrary Java programs.

@@ -50,7 +50,13 @@ import { lesson111, demoInputs as inputs111 } from '@jab/curriculum/111';
 import { buildReferenceTrace as trace111, predictionAt as predict111 } from '@jab/curriculum/111/model';
 import { lesson205, demoInputs as inputs205 } from '@jab/curriculum/205';
 import { buildReferenceTrace as trace205, predictionAt as predict205 } from '@jab/curriculum/205/model';
-import { LastWordInputSchema, PlusOneInputSchema, RemoveDuplicatesInputSchema, SameTreeInputSchema, LinkedListCycleInputSchema, RemoveElementInputSchema, IsomorphicStringsInputSchema } from '@jab/contracts';
+import { lesson13, demoInputs as inputs13 } from '@jab/curriculum/13';
+import { buildReferenceTrace as trace13, predictionAt as predict13 } from '@jab/curriculum/13/model';
+import { lesson203, demoInputs as inputs203 } from '@jab/curriculum/203';
+import { buildReferenceTrace as trace203, predictionAt as predict203 } from '@jab/curriculum/203/model';
+import { lesson349, demoInputs as inputs349 } from '@jab/curriculum/349';
+import { buildReferenceTrace as trace349, predictionAt as predict349 } from '@jab/curriculum/349/model';
+import { LastWordInputSchema, PlusOneInputSchema, RemoveDuplicatesInputSchema, SameTreeInputSchema, LinkedListCycleInputSchema, RemoveElementInputSchema, IsomorphicStringsInputSchema, RomanToIntegerInputSchema, RemoveLinkedListElementsInputSchema, ArrayIntersectionInputSchema } from '@jab/contracts';
 import { MissingNumberInputSchema, CountingBitsInputSchema } from '@jab/contracts';
 import { PowerOfTwoInputSchema, RansomNoteInputSchema, PalindromeNumberInputSchema, PathSumInputSchema } from '@jab/contracts';
 import { lesson724, demoInputs as inputs724 } from '@jab/curriculum/724';
@@ -191,4 +197,7 @@ export const lessonRuntimes: LessonRuntime[] = [
   { lesson: lesson27, demoInputs: inputs27, buildTrace: (input, id) => trace27(RemoveElementInputSchema.parse(input), id), predictionAt: predict27, defaultInput: inputs27[0]!.input, syntaxCheck: { checkpointId: '27-v1:syntax:check', prompt: 'int[] nums = {3, 2, 2, 3}; nums.length 是多少？', answer: { kind: 'int', value: 4 }, explanation: '数组有4个位置；返回的k只规定判题读取的有效前缀长度。' } },
   { lesson: lesson111, demoInputs: inputs111, buildTrace: (input, id) => trace111(TreeInputSchema.parse(input), id), predictionAt: predict111, defaultInput: inputs111[0]!.input, syntaxCheck: { checkpointId: '111-v1:syntax:check', prompt: '单节点树的根既没有左孩子也没有右孩子，最小深度是多少？', answer: { kind: 'int', value: 1 }, explanation: '根节点本身就是叶节点，路径包含一个节点。' } },
   { lesson: lesson205, demoInputs: inputs205, buildTrace: (input, id) => trace205(IsomorphicStringsInputSchema.parse(input), id), predictionAt: predict205, defaultInput: inputs205[0]!.input, syntaxCheck: { checkpointId: '205-v1:syntax:check', prompt: 'String s = "egg"; s.charAt(1) 得到哪个字符？', answer: { kind: 'text', value: 'g' }, explanation: 'charAt 使用从0开始的下标，下标1对应第二个字符g。' } },
+  { lesson: lesson13, demoInputs: inputs13, buildTrace: (input, id) => trace13(RomanToIntegerInputSchema.parse(input), id), predictionAt: predict13, defaultInput: inputs13[0]!.input, syntaxCheck: { checkpointId: '13-v1:syntax:check', prompt: 'String s = "XIV"; s.charAt(1) 得到哪个字符？', answer: { kind: 'text', value: 'I' }, explanation: 'charAt 从0开始，下标1读取第二个字符 I；比较 I 和右侧 V 决定减去 1。' } },
+  { lesson: lesson203, demoInputs: inputs203, buildTrace: (input, id) => trace203(RemoveLinkedListElementsInputSchema.parse(input), id), predictionAt: predict203, defaultInput: inputs203[0]!.input, syntaxCheck: { checkpointId: '203-v1:syntax:check', prompt: 'prev 指向 h0，执行 prev.next = prev.next.next 后，prev 变量仍指向哪个对象？', answer: { kind: 'text', value: 'h0' }, explanation: '这条语句修改 h0 的 next 字段，不会移动 prev 变量的绑定。' } },
+  { lesson: lesson349, demoInputs: inputs349, buildTrace: (input, id) => trace349(ArrayIntersectionInputSchema.parse(input), id), predictionAt: predict349, defaultInput: inputs349[0]!.input, syntaxCheck: { checkpointId: '349-v1:syntax:check', prompt: 'HashSet<Integer> 中已有 2，再执行 add(2) 后 size 是多少？', answer: { kind: 'int', value: 1 }, explanation: 'Set 只保留不同值，重复加入 2 不会增加元素数量。' } },
 ];

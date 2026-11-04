@@ -1,5 +1,11 @@
 # 本机环境与阻塞
 
+## 2026-11-04 续扩环境
+
+Windows/PowerShell；开始时`main`与`origin/main`均为`a6cacd4fa0bdedc1909d2947cbf1ddfb318b097a`，工作区干净，`git worktree list`只有一个共享checkout。系统PATH为Node22.13.1/npm10.9.2，本批全部项目命令通过进程级PATH或显式入口使用项目内Node24.20.0/npm11.19.0，未修改全局配置或安装新依赖。
+
+Docker Desktop初始受过期运行时socket阻断。只读日志和路径核验后，只停止安装目录内的Docker进程，并将Docker自有目录可逆改名为`C:\Users\50199\AppData\Local\Docker\run-stale-20261104-103548`、`C:\Users\50199\AppData\Local\docker-secrets-engine-stale-20261104-103713`和`C:\Users\50199\AppData\Local\Docker\run-stale-20261104-103903`；未删除备份、重置Docker、读取密钥或关闭安全保护。Engine恢复为29.7.2/linux/x86_64/cgroup2。固定基础JDK digest未变，`java-algo-bridge-runner:21.0.12`重建ID为`sha256:643603746d528327dddbe65ca80900cae24f095cab400112cceef8c8ab7fcfbd`/amd64。最终完整`npm run verify`退出0（758项静态、241项真实容器、67项浏览器及shutdown均PASS）；独立检查项目容器、`jab-run-*`任务目录和5173/3001监听均为0，详见[本批验收](EXTENSION_2026-11-04.md)。
+
 ## 2026-11-03 续扩环境
 
 Windows/PowerShell；开始时`main`与`origin/main`均为`688acf778570ea29d2ea12751c182d0dba09589b`，工作区干净，`git worktree list`只有一个共享checkout。系统PATH仍是Node22.13.1/npm10.9.2；本批所有项目命令通过临时工具入口使用Node24.20.0/npm11.19.0，没有修改全局配置或安装新依赖。
